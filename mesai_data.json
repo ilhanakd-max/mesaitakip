@@ -1,0 +1,33 @@
+{
+  "userInfo": {
+    "name": "İlhan Akdeniz"
+  },
+  "weeks": [
+    {
+      "id": 1,
+      "startDate": "2025-11-29",
+      "range": "29 Kas - 5 Ara",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 1,
+          "date": "2025-11-29",
+          "description": "Çocuk Tiyatrosu",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 2,
+          "date": "2025-11-30",
+          "description": "Çocuk Tiyatrosu",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    }
+  ],
+  "currentWeekId": 1,
+  "nextWeekId": 2,
+  "nextEntryId": 3,
+  "selectedYear": "2025"
+}
