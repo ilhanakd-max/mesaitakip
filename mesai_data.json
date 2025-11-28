@@ -5,43 +5,1689 @@
   "weeks": [
     {
       "id": 1,
-      "startDate": "2025-11-29",
-      "range": "29 Kas - 5 Ara",
-      "userName": "İlhan Akdeniz",
+      "startDate": "2025-02-21",
+      "range": "21-27 Şubat 2025",
+      "userName": "ilhan Akdeniz",
       "entries": [
         {
           "id": 1,
-          "date": "2025-11-29",
-          "description": "Çocuk Tiyatrosu",
+          "date": "2025-02-21",
+          "description": "Müzik kursları",
           "hours": 2.0,
           "isHoliday": false
         },
         {
           "id": 2,
-          "date": "2025-11-30",
-          "description": "Çocuk Tiyatrosu",
-          "hours": 0.0,
+          "date": "2025-02-22",
+          "description": "ÇYDD Genel Kurul - Bale Kurs",
+          "hours": 2.0,
           "isHoliday": false
         },
         {
           "id": 3,
-          "date": "2025-12-01",
-          "description": "test",
-          "hours": 5.0,
+          "date": "2025-02-23",
+          "description": "TSM Konseri",
+          "hours": 6.0,
           "isHoliday": false
         },
         {
           "id": 4,
-          "date": "2025-12-02",
-          "description": "test",
+          "date": "2025-02-24",
+          "description": "Müzik ve plates kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 5,
+          "date": "2025-02-25",
+          "description": "Müzik ve Tiyatro kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 6,
+          "date": "2025-02-26",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 7,
+          "date": "2025-02-27",
+          "description": "Müzik ve Halk dansları kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "startDate": "2025-02-14",
+      "range": "14-20 Şubat 2025",
+      "userName": "ilhan Akdeniz",
+      "entries": [
+        {
+          "id": 8,
+          "date": "2025-02-14",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 9,
+          "date": "2025-02-15",
+          "description": "Müzik ve bale kursları - Tiyatro gösteri",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 10,
+          "date": "2025-02-16",
+          "description": "Müzik ve Bale kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 11,
+          "date": "2025-02-17",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 12,
+          "date": "2025-02-18",
+          "description": "Müzik,Halk dansları ve tiyatro kurs",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 13,
+          "date": "2025-02-19",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 14,
+          "date": "2025-02-20",
+          "description": "Müzik ve Halk oyunları kurs",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "startDate": "2025-02-07",
+      "range": "7-13 Şubat 2025",
+      "userName": "ilhan Akdeniz",
+      "entries": [
+        {
+          "id": 15,
+          "date": "2025-02-07",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 16,
+          "date": "2025-02-08",
+          "description": "Bale ve müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 17,
+          "date": "2025-02-09",
+          "description": "Bale ve Müzik kursları - Tiyatro gösteri",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 18,
+          "date": "2025-02-10",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 19,
+          "date": "2025-02-11",
+          "description": "Müzik ve Tiyatro kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 20,
+          "date": "2025-02-12",
+          "description": "Kurslar - Tiyatro gösteri ",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 21,
+          "date": "2025-02-13",
+          "description": "Müzik ve Halk dansları kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "startDate": "2025-01-31",
+      "range": "31 Ocak-6 Şubat 2025",
+      "userName": "ilhan Akdeniz",
+      "entries": [
+        {
+          "id": 22,
+          "date": "2025-01-31",
+          "description": "Piyano kurs - Kent Konseyi genel kurul",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 23,
+          "date": "2025-02-01",
+          "description": "Bale - Gitar kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 24,
+          "date": "2025-02-02",
+          "description": "Bale ve Piyano kurs",
+          "hours": 1.0,
+          "isHoliday": false
+        },
+        {
+          "id": 25,
+          "date": "2025-02-03",
+          "description": "Piyano kursu",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 26,
+          "date": "2025-02-04",
+          "description": "Piyano ve Tiyatro kurs ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 27,
+          "date": "2025-02-05",
+          "description": "Piyano kurs",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 28,
+          "date": "2025-02-06",
+          "description": "Piyano kursu",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "startDate": "2025-02-28",
+      "range": "28 Şubat - 6 Mart 2025",
+      "userName": "ilhan Akdeniz",
+      "entries": [
+        {
+          "id": 29,
+          "date": "2025-02-28",
+          "description": "Müzik kursları",
+          "hours": 1.0,
+          "isHoliday": false
+        },
+        {
+          "id": 41,
+          "date": "2025-03-01",
+          "description": "Bale müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 43,
+          "date": "2025-03-03",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 44,
+          "date": "2025-03-04",
+          "description": "Müzik ve tiyatro kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 45,
+          "date": "2025-03-05",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 46,
+          "date": "2025-03-06",
+          "description": "Müzik ve Halk dansları kurs.",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "startDate": "2025-05-01",
+      "range": "1-7 Ekim",
+      "userName": "Ege ",
+      "entries": []
+    },
+    {
+      "id": 19,
+      "startDate": "2025-02-15",
+      "range": "15-21 Mart 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 21,
+      "startDate": "2025-02-01",
+      "range": "1-7 Şubat 2025",
+      "userName": "Serkan Akdeniz",
+      "entries": [
+        {
+          "id": 55,
+          "date": "2025-02-01",
+          "description": "deniz turu",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 56,
+          "date": "2025-02-02",
+          "description": "eşek adası turu",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 57,
+          "date": "2025-02-03",
+          "description": "deneme işi",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "startDate": "2025-02-01",
+      "range": "1-7 Şubat 2025",
+      "userName": "Deejay Master",
+      "entries": [
+        {
+          "id": 58,
+          "date": "2025-02-01",
+          "description": "Gece etkiliği",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 59,
+          "date": "2025-02-02",
+          "description": "Haftasonu etkinliği",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "startDate": "2025-02-08",
+      "range": "8-14 Şubat 2025",
+      "userName": "Deejay Master",
+      "entries": [
+        {
+          "id": 60,
+          "date": "2025-02-08",
+          "description": "Başka bir etkinlik",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 61,
+          "date": "2025-02-09",
+          "description": "Hafta sonu tiyatrosu",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "startDate": "2024-12-24",
+      "range": "24-30 Aralık 2024",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 62,
+          "date": "2024-12-24",
+          "description": "Tiyatro Kursu",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 63,
+          "date": "2024-12-25",
+          "description": "Piyano kursu ",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 64,
+          "date": "2024-12-26",
+          "description": "Piyano kurs",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 65,
+          "date": "2024-12-28",
+          "description": "Müzik kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 66,
+          "date": "2024-12-29",
+          "description": "Bale kursu",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 67,
+          "date": "2024-12-30",
+          "description": "Piyano kursu",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "startDate": "2025-02-28",
+      "range": "28 Şubat - 6 Mart 2025",
+      "userName": "Serkan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 26,
+      "startDate": "2025-03-08",
+      "range": "8-14 Mart 2025",
+      "userName": "Serkan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 27,
+      "startDate": "2025-03-07",
+      "range": "7-13 Mart 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 69,
+          "date": "2025-03-07",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 70,
+          "date": "2025-03-08",
+          "description": "Bale ve müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 72,
+          "date": "2025-03-10",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 73,
+          "date": "2025-03-11",
+          "description": "Müzik ve tiyatro kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 74,
+          "date": "2025-03-12",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 75,
+          "date": "2025-03-13",
+          "description": "Müzik ve halk dansları kurs",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 79,
+          "date": "2025-03-09",
+          "description": "Bale ve müzik kursları",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "startDate": "2025-03-07",
+      "range": "7-13 Mart 2025",
+      "userName": "Deneme Testoğlu",
+      "entries": [
+        {
+          "id": 83,
+          "date": "2025-03-07",
+          "description": "etkinlik kilise",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 84,
+          "date": "2025-03-09",
+          "description": "konser anfi",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "startDate": "2025-03-14",
+      "range": "14-20 Mart 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 85,
+          "date": "2025-03-14",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 86,
+          "date": "2025-03-15",
+          "description": "Bale kurs-Cocuk tiyatrosu ",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 87,
+          "date": "2025-03-16",
+          "description": "Bale ve müzik kursları , Tiyatro gösteri ",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 88,
+          "date": "2025-03-17",
+          "description": "Müzik kursu ",
+          "hours": 1.0,
+          "isHoliday": false
+        },
+        {
+          "id": 89,
+          "date": "2025-03-18",
+          "description": "Müzik ve tiyatro kursları ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 90,
+          "date": "2025-03-19",
+          "description": "Müzik kursu ",
+          "hours": 1.0,
+          "isHoliday": false
+        },
+        {
+          "id": 91,
+          "date": "2025-03-20",
+          "description": "Müzik kursu ve Halk dansları ",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "startDate": "2025-03-14",
+      "range": "14-20 Mart 2025",
+      "userName": "Serdar Ortaç",
+      "entries": [
+        {
+          "id": 97,
+          "date": "2025-03-14",
+          "description": "deneme mesaisi",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 98,
+          "date": "2025-03-16",
+          "description": "konser",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "startDate": "2025-03-21",
+      "range": "21-27 Mart 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 99,
+          "date": "2025-03-21",
+          "description": "Müzik kursları - Tiyatro gösteri ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 100,
+          "date": "2025-03-22",
+          "description": "Müzik ve bale kursları - CHP Salon hazırlık",
+          "hours": 8.0,
+          "isHoliday": false
+        },
+        {
+          "id": 101,
+          "date": "2025-03-23",
+          "description": "Bale ve Müzik Kyrsları - CHP Seçim",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 102,
+          "date": "2025-03-24",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 103,
+          "date": "2025-03-25",
+          "description": "Müzik kursları - Belediye Tiyatrosu gösteri",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 104,
+          "date": "2025-03-26",
+          "description": "Müzik kursları - Başkan Esnaf Toplantısı",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 105,
+          "date": "2025-03-27",
+          "description": "Müzik kursları - Halk dansları kurs",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "startDate": "2025-03-28",
+      "range": "28 Mart - 3 Nisan 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 106,
+          "date": "2025-03-28",
+          "description": "Müzik kursları ",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 107,
+          "date": "2025-03-29",
+          "description": "Bale ve müzik kursları ",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 110,
+          "date": "2025-04-03",
+          "description": "Müzik ve dans kursları ",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "startDate": "2025-04-04",
+      "range": "4-10 Nisan 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 111,
+          "date": "2025-04-05",
+          "description": "Bale ve müzik kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 112,
+          "date": "2025-04-06",
+          "description": "Bale ve müzik kursları",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 113,
+          "date": "2025-04-07",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 114,
+          "date": "2025-04-08",
+          "description": "Müzik, tiyatro ve dans kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 115,
+          "date": "2025-04-09",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 116,
+          "date": "2025-04-10",
+          "description": "Müzik ve Halk dansları Kursu",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "startDate": "2025-04-11",
+      "range": "11-17 Nisan 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 118,
+          "date": "2025-04-11",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 119,
+          "date": "2025-04-12",
+          "description": "Müzik ve Bale kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 120,
+          "date": "2025-04-13",
+          "description": "Bale ve müzik kursları",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 121,
+          "date": "2025-04-14",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 122,
+          "date": "2025-04-15",
+          "description": "Müzik, Dans ve Tiyatro kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 123,
+          "date": "2025-04-16",
+          "description": "Müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 125,
+          "date": "2025-04-17",
+          "description": "Müzik ve dans kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "startDate": "2025-04-18",
+      "range": "18-24 Nisan 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 126,
+          "date": "2025-04-18",
+          "description": "Bale ve müzik kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 127,
+          "date": "2025-04-19",
+          "description": "Bele ve müzik kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 128,
+          "date": "2025-04-20",
+          "description": "Bale ve müzik kursları ",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 129,
+          "date": "2025-04-21",
+          "description": "Müzik kursu",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 130,
+          "date": "2025-04-22",
+          "description": "Müzik, Halk danslari ve tiyatro kursları ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 131,
+          "date": "2025-04-23",
+          "description": "Plates ve müzik kurslar",
+          "hours": 1.0,
+          "isHoliday": false
+        },
+        {
+          "id": 132,
+          "date": "2025-04-24",
+          "description": "Müzik kursu ve Halk dansları kursu ",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "startDate": "2025-04-17",
+      "range": "17-23 Nisan 2025",
+      "userName": "Bashar Al Assad",
+      "entries": [
+        {
+          "id": 133,
+          "date": "2025-04-17",
+          "description": "Mesai test",
+          "hours": 7.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "startDate": "2025-04-25",
+      "range": "25 Nisan - 1 Mayıs",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 134,
+          "date": "2025-04-25",
+          "description": "Ege Ünv.Tiyatro Prova ",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 135,
+          "date": "2025-04-26",
+          "description": "Bale ve Müzik Kursları - Ege Unv.Tiyatro Göst.",
+          "hours": 11.0,
+          "isHoliday": false
+        },
+        {
+          "id": 136,
+          "date": "2025-04-27",
+          "description": "Bale ve müzik kursları - Çocuk tiyatro gösterileri",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 137,
+          "date": "2025-04-28",
+          "description": "Müzik kursları - Kent konseyi seminer",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 138,
+          "date": "2025-04-29",
+          "description": "Halk dansları - Tiyatro kurs",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 139,
+          "date": "2025-04-30",
+          "description": "Müzik kursları - Türk Halk Müziği koro provası ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 140,
+          "date": "2025-05-01",
+          "description": "Fen işleri tadilat  (1 Mayıs)",
+          "hours": 0.0,
+          "isHoliday": true
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "startDate": "2025-04-25",
+      "range": "25 Nisan - 1 Mayıs 2025",
+      "userName": "Egemen Akdeniz",
+      "entries": [
+        {
+          "id": 141,
+          "date": "2025-04-25",
+          "description": "deneme etkinlik",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 142,
+          "date": "2025-04-26",
+          "description": "baska etkinlik",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 143,
+          "date": "2025-04-27",
+          "description": "kurslar",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "startDate": "2025-05-02",
+      "range": "2-8 Mayıs",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 144,
+          "date": "2025-05-02",
+          "description": "Belediye THM Korosu konseri ",
+          "hours": 9.0,
+          "isHoliday": false
+        },
+        {
+          "id": 145,
+          "date": "2025-05-03",
+          "description": "Bale ve müzik kursları ",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 146,
+          "date": "2025-05-04",
+          "description": "Bale ve müzik kursları - Atatürk Lisesi prova ",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 147,
+          "date": "2025-05-05",
+          "description": "Müzik kursları ",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 148,
+          "date": "2025-05-06",
+          "description": "Müzik kursları ve Belediye tiyatrosu kurs",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 149,
+          "date": "2025-05-07",
+          "description": "Müzik kursları - Atatürk Lisesi Gösteri ",
+          "hours": 6.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "startDate": "2025-05-09",
+      "range": "9-15 Mayıs",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 150,
+          "date": "2025-05-09",
+          "description": "Müzik kursları, Bilgiç Koleji Yilsonu gösterisi ",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 151,
+          "date": "2025-05-10",
+          "description": "Bale ve Müzik kursları, Çocuktan al haberi Tiyatro gosterisi",
+          "hours": 12.0,
+          "isHoliday": false
+        },
+        {
+          "id": 152,
+          "date": "2025-05-11",
+          "description": "Bale ve müzik kursları ",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 153,
+          "date": "2025-05-12",
+          "description": "Müzik kursları, Belediye yıl sonu etkinlikleri prova",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 154,
+          "date": "2025-05-13",
+          "description": "Müzik ve tiyatro kursları ",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 155,
+          "date": "2025-05-14",
+          "description": "Müzik kursları ",
+          "hours": 3.0,
+          "isHoliday": false
+        },
+        {
+          "id": 156,
+          "date": "2025-05-15",
+          "description": "Müzik ve Halk dansları kursala",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "startDate": "2025-05-16",
+      "range": "16-22 Mayıs",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 157,
+          "date": "2025-05-16",
+          "description": "Bilgiç Koleji gösteri",
+          "hours": 8.0,
+          "isHoliday": false
+        },
+        {
+          "id": 158,
+          "date": "2025-05-17",
+          "description": "Belediye kursları genel prova",
+          "hours": 9.0,
+          "isHoliday": false
+        },
+        {
+          "id": 159,
+          "date": "2025-05-18",
+          "description": "Bale ve müzik kursları",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 160,
+          "date": "2025-05-20",
+          "description": "Müzik kursları, Belediye tiyatro kursu",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 161,
+          "date": "2025-05-21",
+          "description": "Belediye Tiyatro prova",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 162,
+          "date": "2025-05-22",
+          "description": "Belediye yıl sonu etkinlik prova",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 183,
+          "date": "2025-05-19",
+          "description": "Salon temizlik",
+          "hours": 0.0,
+          "isHoliday": true
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "startDate": "2025-05-23",
+      "range": "23-29 Mayıs",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 176,
+          "date": "2025-05-23",
+          "description": "Atatürk İlköğretim Okulu Tiyatro gösterisi",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 177,
+          "date": "2025-05-24",
+          "description": "Bale ve Müzik kursları",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 178,
+          "date": "2025-05-25",
+          "description": "Bale ve Müzik Kursları",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 179,
+          "date": "2025-05-26",
+          "description": "Belediye Tiyatrosu prova",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 180,
+          "date": "2025-05-27",
+          "description": "Müzik, Halk Dansları ve Belediye tiyatrosu ",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 181,
+          "date": "2025-05-28",
+          "description": "Belediye tiyatrosu prova",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 182,
+          "date": "2025-05-29",
+          "description": "Müzik ve Halk Dansları kursları",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "startDate": "2025-05-30",
+      "range": "30 Mayıs - 5 Haziran",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 184,
+          "date": "2025-06-01",
+          "description": "Belediye yıl sonu gösterisi",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 185,
+          "date": "2025-05-30",
+          "description": "Belediye yıl sonu prova",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 186,
+          "date": "2025-05-31",
+          "description": "Namık Kemal okulu tiyatro gösterisi",
+          "hours": 10.0,
+          "isHoliday": false
+        },
+        {
+          "id": 187,
+          "date": "2025-06-04",
+          "description": "Çeşme Belediye Spor Topl.",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "startDate": "2025-06-06",
+      "range": "6-12 Haziran 2025",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 52,
+      "startDate": "2025-06-13",
+      "range": "13-19 Haziran",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 194,
+          "date": "2025-06-15",
+          "description": "Konut Yapı Kooperatifi Genel Kurulu",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "startDate": "2025-06-20",
+      "range": "20-26 Haziran",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 54,
+      "startDate": "2025-06-27",
+      "range": "27 Haziran - 3 Temmuz",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 195,
+          "date": "2025-06-29",
+          "description": "Çakader Konser Prova",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "startDate": "2025-06-27",
+      "range": "27 Haziran - 3 Temmuz",
+      "userName": "Gönül Aktaş",
+      "entries": [
+        {
+          "id": 197,
+          "date": "2025-06-28",
+          "description": "Mavi balonu gösteri",
+          "hours": 9.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "startDate": "2025-06-07",
+      "range": "7-13 Haziran",
+      "userName": "Gönül Aktaş",
+      "entries": [
+        {
+          "id": 199,
+          "date": "2025-06-07",
+          "description": "Mavi balonu gösteri",
+          "hours": 10.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "startDate": "2025-07-04",
+      "range": "4-10 Temmuz",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 200,
+          "date": "2025-07-06",
+          "description": "Disk Emeklisen Aziz Nesin ve Cumhuriyet Söyleşi",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "startDate": "2025-07-25",
+      "range": "25-31 Temmuz",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 201,
+          "date": "2025-07-27",
+          "description": "Genç Engelliler Tiyatro gösterisi",
+          "hours": 0.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "startDate": "2025-08-01",
+      "range": "1-7 Ağustos",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 61,
+      "startDate": "2025-08-08",
+      "range": "8-14 Ağustos",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 202,
+          "date": "2025-08-09",
+          "description": "CHP Kadın Kolları toplantı. - Katolik Ayini",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 204,
+          "date": "2025-08-11",
+          "description": "Plates",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "startDate": "2025-08-15",
+      "range": "15-21 Ağustos",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 203,
+          "date": "2025-08-16",
+          "description": "Engelsiz Hayat Tiyatro Gösterisi",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 205,
+          "date": "2025-08-18",
+          "description": "Plates",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "startDate": "2025-08-22",
+      "range": "22-28 Ağustos",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 206,
+          "date": "2025-08-22",
+          "description": "Standup Gösterisi",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 207,
+          "date": "2025-08-27",
+          "description": "Çeşme Spor Genel Kurul",
+          "hours": 4.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "startDate": "2025-08-29",
+      "range": "29 Ağustos - 4 Eylül",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 208,
+          "date": "2025-08-30",
+          "description": "Hristiyan vatandalar ayin töreni",
+          "hours": 0.0,
+          "isHoliday": true
+        },
+        {
+          "id": 209,
+          "date": "2025-08-31",
+          "description": "Disk Emeklisen Söyleşi programı",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 211,
+          "date": "2025-09-02",
+          "description": "Penguenler Adası Tiyatro gösterisi",
+          "hours": 3.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "startDate": "2025-09-05",
+      "range": "5-11 Eylül",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 66,
+      "startDate": "2025-09-13",
+      "range": "13-19 Eylül",
+      "userName": "İlhan Akdeniz",
+      "entries": []
+    },
+    {
+      "id": 67,
+      "startDate": "2025-09-20",
+      "range": "20-26 Eylül",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 212,
+          "date": "2025-09-20",
+          "description": "İyi parti kongre toplantisi",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 213,
+          "date": "2025-09-25",
+          "description": "Neşet Ertaş anma Lonseri",
+          "hours": 8.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "startDate": "2025-09-27",
+      "range": "27 Eylül - 3 Ekim",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 214,
+          "date": "2025-09-27",
+          "description": "CHP Kongre",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 215,
+          "date": "2025-10-03",
+          "description": "Alaçatı Ilıca Kült.Snt.Dern. Tiyatro Prova",
+          "hours": 6.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "startDate": "2025-10-04",
+      "range": "4-10 Ekim",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 216,
+          "date": "2025-10-04",
+          "description": "Masal Kabere Tiyatro Gösterisi",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 217,
+          "date": "2025-10-10",
+          "description": "DEV-SEN Kongre",
+          "hours": 6.0,
+          "isHoliday": false
+        },
+        {
+          "id": 218,
+          "date": "2025-10-06",
+          "description": "Müzik kursları ve tiyatro kursu",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 219,
+          "date": "2025-10-07",
+          "description": "Bağlama kursu",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 220,
+          "date": "2025-10-08",
+          "description": "Bağlama kursu",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 221,
+          "date": "2025-10-09",
+          "description": "Müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "startDate": "2025-10-11",
+      "range": "11-17 Ekim",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 223,
+          "date": "2025-10-11",
+          "description": "Müzik ve Bale kursları",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 224,
+          "date": "2025-10-12",
+          "description": "Müzik ve Bale kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 225,
+          "date": "2025-10-13",
+          "description": "Müzik ve Tiyatro kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 227,
+          "date": "2025-10-15",
+          "description": "Bağlama kursu",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 229,
+          "date": "2025-10-17",
+          "description": "Müzik kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "startDate": "2025-10-18",
+      "range": "18-24 Ekim",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 230,
+          "date": "2025-10-18",
+          "description": "Bale ve müzik kursları",
+          "hours": 8.0,
+          "isHoliday": false
+        },
+        {
+          "id": 232,
+          "date": "2025-10-20",
+          "description": "Müzik ve tiyatro kursları",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 233,
+          "date": "2025-10-21",
+          "description": "Müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 234,
+          "date": "2025-10-22",
+          "description": "Müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 235,
+          "date": "2025-10-23",
+          "description": "Müzik müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        },
+        {
+          "id": 236,
+          "date": "2025-10-24",
+          "description": "Müzik kursları",
+          "hours": 4.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "startDate": "2025-10-25",
+      "range": "25-31 Ekim",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 237,
+          "date": "2025-10-26",
+          "description": "Kurslar ve Kuromi Çocuk tiyatro gösteri",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 238,
+          "date": "2025-10-27",
+          "description": "Müzik kursları ve Kent Enstitüsü Tiyatro çalışması",
+          "hours": 5.0,
+          "isHoliday": false
+        },
+        {
+          "id": 239,
+          "date": "2025-10-29",
+          "description": "Sinema gösterimi",
+          "hours": 0.0,
+          "isHoliday": true
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "startDate": "2025-11-22",
+      "range": "22-28 Kasım",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 243,
+          "date": "2025-11-24",
+          "description": "Öğretmenler Günü",
+          "hours": 6.0,
+          "isHoliday": false
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "startDate": "2025-11-29",
+      "range": "29 Kasım - 5 Aralık",
+      "userName": "İlhan Akdeniz",
+      "entries": [
+        {
+          "id": 248,
+          "date": "2025-11-29",
+          "description": "Çocuk Tiyatrosu gösteri ve kurslar",
+          "hours": 7.0,
+          "isHoliday": false
+        },
+        {
+          "id": 249,
+          "date": "2025-11-30",
+          "description": "Çocuk Tiyatro gösterisi ve kurslar",
+          "hours": 0.0,
+          "isHoliday": false
+        },
+        {
+          "id": 250,
+          "date": "2025-12-01",
+          "description": "Belediye tiyatro kurdu",
+          "hours": 2.0,
+          "isHoliday": false
+        },
+        {
+          "id": 251,
+          "date": "2025-12-05",
+          "description": "Kadın Hakları Günü Tiyatro Gösterisi",
           "hours": 2.0,
           "isHoliday": false
         }
       ]
     }
   ],
-  "currentWeekId": 1,
-  "nextWeekId": 2,
-  "nextEntryId": 5,
+  "currentWeekId": 74,
+  "nextWeekId": 75,
+  "nextEntryId": 252,
   "selectedYear": "2025"
 }
