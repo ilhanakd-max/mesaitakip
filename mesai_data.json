@@ -22,12 +22,19 @@
           "description": "Çocuk Tiyatrosu",
           "hours": 0.0,
           "isHoliday": false
+        },
+        {
+          "id": 3,
+          "date": "2025-12-01",
+          "description": "test",
+          "hours": 5.0,
+          "isHoliday": false
         }
       ]
     }
   ],
   "currentWeekId": 1,
   "nextWeekId": 2,
-  "nextEntryId": 3,
+  "nextEntryId": 4,
   "selectedYear": "2025"
 }
