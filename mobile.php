@@ -67,8 +67,9 @@ function formatTarih($date) {
     return "$gun $ay";
 }
 // Pazar günü kontrolü
-function isPazar($date_string) {
-    if (empty($date_string)) return ''; // Tarih boşsa Pazar değil
+// NEW: Sunday override option - added treat_as_normal parameter
+function isPazar($date_string, $treat_as_normal = false) {
+    if (empty($date_string) || $treat_as_normal) return ''; // Tarih boşsa veya normal günse Pazar değil
     try {
         $d = new DateTime($date_string);
         return $d->format('w') == 0 ? ' (Pazar)' : '';
@@ -99,8 +100,9 @@ function getKisaGun($date_string) {
 }
 
 // Raporlarda saat bilgisini formatlayan yardımcı fonksiyon
-function formatSaatForReport($tarih, $saat, $is_resmi_tatil) {
-    if (($saat === 0 || $saat === '0' || empty($saat)) && (isPazarBool($tarih) || $is_resmi_tatil)) {
+// NEW: Sunday override option - added treat_as_normal parameter
+function formatSaatForReport($tarih, $saat, $is_resmi_tatil, $treat_as_normal = false) {
+    if (($saat === 0 || $saat === '0' || empty($saat)) && ((isPazarBool($tarih) && !$treat_as_normal) || $is_resmi_tatil)) {
         return "";
     }
     return $saat . " saat";
@@ -111,6 +113,13 @@ $hafta_rapor_text = '';
 $admin_all_users_report = '';
 $admin_user_report = '';
 $db = getDb();
+// NEW: Sunday override option - Database migration
+try {
+    $db->exec("ALTER TABLE mesai_kayitlari ADD COLUMN treat_as_normal TINYINT(1) DEFAULT 0");
+} catch (PDOException $e) {
+    // Column might already exist, ignore error
+}
+
 // Hafta Aralığı Raporu Oluşturma (Raporlar Sayfası)
 if (isset($_POST['generate_week_report']) && checkLogin()) {
     $selected_week_id = $_POST['selected_week'];
@@ -133,14 +142,15 @@ if (isset($_POST['generate_week_report']) && checkLogin()) {
             $pazar_sayisi_calc = 0;
             $resmi_tatil_sayisi_calc = 0;
             foreach ($mesaiKayitlari as $item) {
+                $treat_as_normal = $item['treat_as_normal'] ?? 0;
                 $formattedTarih = formatTarih($item['tarih']);
-                $pazar_text = isPazar($item['tarih']);
-                $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil']);
+                $pazar_text = isPazar($item['tarih'], $treat_as_normal);
+                $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil'], $treat_as_normal);
                 $resmiTatil = $item['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '';
                 $hafta_rapor_text .= $formattedTarih . $pazar_text . " (" . $item['aciklama'] . $resmiTatil . ") " . $saatPart . "
 ";
                 $toplam_saat_calc += (float)$item['saat'];
-                if (isPazarBool($item['tarih'])) $pazar_sayisi_calc++;
+                if (isPazarBool($item['tarih']) && !$treat_as_normal) $pazar_sayisi_calc++;
                 if ($item['is_resmi_tatil']) $resmi_tatil_sayisi_calc++;
             }
             $hafta_rapor_text .= "
@@ -190,14 +200,15 @@ if (isset($_POST['generate_date_range_report']) && checkLogin()) {
             $pazar_sayisi = 0;
             $resmi_tatil_sayisi = 0;
             foreach ($kayitlar as $item) {
+                $treat_as_normal = $item['treat_as_normal'] ?? 0;
                 $formattedTarih = formatTarih($item['tarih']);
-                $pazar_text = isPazar($item['tarih']);
-                $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil']);
+                $pazar_text = isPazar($item['tarih'], $treat_as_normal);
+                $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil'], $treat_as_normal);
                 $resmiTatil = $item['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '';
                 $rapor_date_range_text .= $formattedTarih . $pazar_text . " (" . $item['aciklama'] . $resmiTatil . ") " . $saatPart . "
 ";
                 $toplam_saat += (float)$item['saat'];
-                if (isPazarBool($item['tarih'])) $pazar_sayisi++;
+                if (isPazarBool($item['tarih']) && !$treat_as_normal) $pazar_sayisi++;
                 if ($item['is_resmi_tatil']) $resmi_tatil_sayisi++;
             }
             $rapor_date_range_text .= "
@@ -221,7 +232,7 @@ if (isAdmin() && isset($_POST['admin_generate_all'])) {
         $message = "Başlangıç tarihi, bitiş tarihinden sonra olamaz!";
     } else {
         $stmt = $db->prepare("
-            SELECT h.hafta_araligi, h.calisan_adi, m.tarih, m.aciklama, m.saat, m.is_resmi_tatil
+            SELECT h.hafta_araligi, h.calisan_adi, m.tarih, m.aciklama, m.saat, m.is_resmi_tatil, m.treat_as_normal
             FROM kullanicilar k
             LEFT JOIN haftalar h ON h.user_id = k.id
             LEFT JOIN mesai_kayitlari m ON m.hafta_id = h.id
@@ -258,13 +269,14 @@ Kullanıcı Toplam Mesai Saati: " . $total_hours . " saat, Pazar Mesai Sayısı:
 ";
                 }
                 if ($record['tarih']) {
-                    $saatPart = formatSaatForReport($record['tarih'], $record['saat'], $record['is_resmi_tatil']);
+                    $treat_as_normal = $record['treat_as_normal'] ?? 0;
+                    $saatPart = formatSaatForReport($record['tarih'], $record['saat'], $record['is_resmi_tatil'], $treat_as_normal);
                     $resmiTatil = $record['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '';
-                    $line = formatTarih($record['tarih']) . isPazar($record['tarih']) . " (" . $record['aciklama'] . $resmiTatil . ") " . $saatPart . " - " . $record['hafta_araligi'] . "
+                    $line = formatTarih($record['tarih']) . isPazar($record['tarih'], $treat_as_normal) . " (" . $record['aciklama'] . $resmiTatil . ") " . $saatPart . " - " . $record['hafta_araligi'] . "
 ";
                     $admin_all_users_report .= $line;
                     $total_hours += (float)$record['saat'];
-                    if (isPazarBool($record['tarih'])) $total_pazar++;
+                    if (isPazarBool($record['tarih']) && !$treat_as_normal) $total_pazar++;
                     if ($record['is_resmi_tatil']) $total_resmi_tatil++;
                 }
             }
@@ -403,7 +415,7 @@ if (isAdmin() && isset($_POST['admin_user_date_range'])) {
         $message = "Başlangıç tarihi, bitiş tarihinden sonra olamaz!";
     } else {
         $stmt = $db->prepare("
-            SELECT h.hafta_araligi, h.calisan_adi, m.tarih, m.aciklama, m.saat, m.is_resmi_tatil
+            SELECT h.hafta_araligi, h.calisan_adi, m.tarih, m.aciklama, m.saat, m.is_resmi_tatil, m.treat_as_normal
             FROM kullanicilar k
             LEFT JOIN haftalar h ON h.user_id = k.id
             LEFT JOIN mesai_kayitlari m ON m.hafta_id = h.id
@@ -424,13 +436,14 @@ if (isAdmin() && isset($_POST['admin_user_date_range'])) {
             $resmi_tatil_count = 0;
             foreach ($records as $record) {
                 if ($record['tarih']) {
-                    $saatPart = formatSaatForReport($record['tarih'], $record['saat'], $record['is_resmi_tatil']);
+                    $treat_as_normal = $record['treat_as_normal'] ?? 0;
+                    $saatPart = formatSaatForReport($record['tarih'], $record['saat'], $record['is_resmi_tatil'], $treat_as_normal);
                     $resmiTatil = $record['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '';
-                    $line = formatTarih($record['tarih']) . isPazar($record['tarih']) . " (" . $record['aciklama'] . $resmiTatil . ") " . $saatPart . "
+                    $line = formatTarih($record['tarih']) . isPazar($record['tarih'], $treat_as_normal) . " (" . $record['aciklama'] . $resmiTatil . ") " . $saatPart . "
 ";
                     $admin_user_report .= $line;
                     $total_hours += (float)$record['saat'];
-                    if (isPazarBool($record['tarih'])) {
+                    if (isPazarBool($record['tarih']) && !$treat_as_normal) {
                         $pazar_count++;
                     }
                     if ($record['is_resmi_tatil']) {
@@ -563,6 +576,8 @@ if (isset($_POST['submit']) && checkLogin() && isset($_SESSION['current_week']))
     $aciklama = trim($_POST['aciklama']);
     $saat = trim($_POST['saat']); // Trim whitespace
     $is_resmi_tatil = isset($_POST['is_resmi_tatil']) ? 1 : 0;
+    // NEW: Sunday override option
+    $treat_as_normal = isset($_POST['treat_as_normal']) ? 1 : 0;
     $stmt = $db->prepare("SELECT hafta_baslangic FROM haftalar WHERE id = ? AND user_id = ?");
     $stmt->execute([$_SESSION['current_week'], $_SESSION['user_id']]);
     $hafta = $stmt->fetch();
@@ -579,9 +594,11 @@ if (isset($_POST['submit']) && checkLogin() && isset($_SESSION['current_week']))
             $message = "Açıklama alanı boş bırakılamaz!";
         } else {
             $is_pazar_day = isPazarBool($tarih);
+            // NEW: Sunday override option - treat_as_normal affects validation
+            $is_pazar_holiday = ($is_pazar_day && !$treat_as_normal);
             // Saat alanı boş bırakılamaz, Pazar günleri ve resmi tatiller hariç
             // Empty saat means empty string "", not "0". "0" is a valid entry.
-            if ($saat === '' && !$is_resmi_tatil && !$is_pazar_day) {
+            if ($saat === '' && !$is_resmi_tatil && !$is_pazar_holiday) {
                 $message = "Saat alanı (Pazar günleri ve resmi tatiller hariç) boş bırakılamaz!";
             }
             if (empty($message)) {
@@ -592,9 +609,11 @@ if (isset($_POST['submit']) && checkLogin() && isset($_SESSION['current_week']))
                 } else {
                     try {
                         // If it's Sunday or official holiday and hour is empty string, save hour as 0
-                        $saat_to_save = ($saat === '' && ($is_pazar_day || $is_resmi_tatil)) ? '0' : $saat;
-                        $stmt_insert = $db->prepare("INSERT INTO mesai_kayitlari (hafta_id, tarih, aciklama, saat, is_resmi_tatil) VALUES (?, ?, ?, ?, ?)");
-                        $stmt_insert->execute([$_SESSION['current_week'], $tarih, $aciklama, $saat_to_save, $is_resmi_tatil]);
+                        // NEW: Sunday override option - treat_as_normal affects Sunday check
+                        $is_pazar_holiday = ($is_pazar_day && !$treat_as_normal);
+                        $saat_to_save = ($saat === '' && ($is_pazar_holiday || $is_resmi_tatil)) ? '0' : $saat;
+                        $stmt_insert = $db->prepare("INSERT INTO mesai_kayitlari (hafta_id, tarih, aciklama, saat, is_resmi_tatil, treat_as_normal) VALUES (?, ?, ?, ?, ?, ?)");
+                        $stmt_insert->execute([$_SESSION['current_week'], $tarih, $aciklama, $saat_to_save, $is_resmi_tatil, $treat_as_normal]);
                         header('Location: ' . $_SERVER['PHP_SELF']);
                         exit;
                     } catch (PDOException $e) {
@@ -611,6 +630,8 @@ if (isset($_POST['edit']) && checkLogin() && isset($_SESSION['current_week'])) {
     $aciklama = trim($_POST['aciklama']);
     $saat = trim($_POST['saat']);
     $is_resmi_tatil = isset($_POST['is_resmi_tatil']) ? 1 : 0;
+    // NEW: Sunday override option
+    $treat_as_normal = isset($_POST['treat_as_normal']) ? 1 : 0;
     $stmt = $db->prepare("SELECT hafta_baslangic FROM haftalar WHERE id = ? AND user_id = ?");
     $stmt->execute([$_SESSION['current_week'], $_SESSION['user_id']]);
     $hafta = $stmt->fetch();
@@ -627,7 +648,9 @@ if (isset($_POST['edit']) && checkLogin() && isset($_SESSION['current_week'])) {
             $message = "Açıklama alanı boş bırakılamaz!";
         } else {
             $is_pazar_day = isPazarBool($tarih);
-            if ($saat === '' && !$is_resmi_tatil && !$is_pazar_day) {
+            // NEW: Sunday override option - treat_as_normal affects validation
+            $is_pazar_holiday = ($is_pazar_day && !$treat_as_normal);
+            if ($saat === '' && !$is_resmi_tatil && !$is_pazar_holiday) {
                 $message = "Saat alanı (Pazar günleri ve resmi tatiller hariç) boş bırakılamaz!";
             }
             if (empty($message)) {
@@ -638,13 +661,15 @@ if (isset($_POST['edit']) && checkLogin() && isset($_SESSION['current_week'])) {
                     $message = "Düzenlemeye çalıştığınız tarih için zaten başka bir kayıt mevcut!";
                 } else {
                     try {
-                        $saat_to_save = ($saat === '' && ($is_pazar_day || $is_resmi_tatil)) ? '0' : $saat;
-                        $stmt_update = $db->prepare("UPDATE mesai_kayitlari SET tarih = ?, aciklama = ?, saat = ?, is_resmi_tatil = ? WHERE id = ? AND hafta_id = ?");
+                        // NEW: Sunday override option - treat_as_normal affects Sunday check
+                        $is_pazar_holiday = ($is_pazar_day && !$treat_as_normal);
+                        $saat_to_save = ($saat === '' && ($is_pazar_holiday || $is_resmi_tatil)) ? '0' : $saat;
+                        $stmt_update = $db->prepare("UPDATE mesai_kayitlari SET tarih = ?, aciklama = ?, saat = ?, is_resmi_tatil = ?, treat_as_normal = ? WHERE id = ? AND hafta_id = ?");
                         // Ensure the update is for the user's record
                         $stmt_check_owner_edit = $db->prepare("SELECT mk.id FROM mesai_kayitlari mk JOIN haftalar h ON mk.hafta_id = h.id WHERE mk.id = ? AND h.user_id = ?");
                         $stmt_check_owner_edit->execute([$id, $_SESSION['user_id']]);
                         if ($stmt_check_owner_edit->fetch()) {
-                            $stmt_update->execute([$tarih, $aciklama, $saat_to_save, $is_resmi_tatil, $id, $_SESSION['current_week']]);
+                            $stmt_update->execute([$tarih, $aciklama, $saat_to_save, $is_resmi_tatil, $treat_as_normal, $id, $_SESSION['current_week']]);
                             header('Location: ' . $_SERVER['PHP_SELF']);
                             exit;
                         } else {
@@ -739,8 +764,9 @@ if ($currentWeek) {
         $stmt->execute([$_SESSION['current_week']]);
         $mesaiKayitlari = $stmt->fetchAll();
         foreach ($mesaiKayitlari as $item) {
+            $treat_as_normal = $item['treat_as_normal'] ?? 0;
             $toplam_saat += (float)$item['saat'];
-            if (isPazarBool($item['tarih'])) $pazar_sayisi++;
+            if (isPazarBool($item['tarih']) && !$treat_as_normal) $pazar_sayisi++;
             if ($item['is_resmi_tatil']) $resmi_tatil_sayisi++;
         }
     } catch (PDOException $e) {
@@ -760,14 +786,15 @@ if ($currentWeek && !empty($mesaiKayitlari)) {
     $pazar_sayisi_calc = 0;
     $resmi_tatil_sayisi_calc = 0;
     foreach ($mesaiKayitlari as $item) {
+        $treat_as_normal = $item['treat_as_normal'] ?? 0;
         $formattedTarih = formatTarih($item['tarih']);
-        $pazar_text = isPazar($item['tarih']);
-        $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil']);
+        $pazar_text = isPazar($item['tarih'], $treat_as_normal);
+        $saatPart = formatSaatForReport($item['tarih'], $item['saat'], $item['is_resmi_tatil'], $treat_as_normal);
         $resmiTatil = $item['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '';
         $rapor_text .= $formattedTarih . $pazar_text . " (" . $item['aciklama'] . $resmiTatil . ") " . $saatPart . "
 ";
         $toplam_saat_calc += (float)$item['saat'];
-        if (isPazarBool($item['tarih'])) $pazar_sayisi_calc++;
+        if (isPazarBool($item['tarih']) && !$treat_as_normal) $pazar_sayisi_calc++;
         if ($item['is_resmi_tatil']) $resmi_tatil_sayisi_calc++;
     }
     $rapor_text .= "
@@ -1503,6 +1530,11 @@ if ($show_confirm) {
                                         <input type="checkbox" name="is_resmi_tatil" class="form-check-input" id="isResmiTatil">
                                         <label class="form-check-label" for="isResmiTatil">Resmi Tatil Mesaisi</label>
                                     </div>
+                                    <!-- NEW: Sunday override option -->
+                                    <div class="form-check" id="treatAsNormalContainer" style="display: none;">
+                                        <input type="checkbox" name="treat_as_normal" class="form-check-input" id="treatAsNormal">
+                                        <label class="form-check-label" for="treatAsNormal">Pazar gününü normal hafta içi say</label>
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" name="submit" class="btn btn-primary">
@@ -1561,10 +1593,15 @@ if ($show_confirm) {
                                     </thead>
                                     <tbody>
                                         <?php foreach ($mesaiKayitlari as $item): ?>
-                                            <tr class="<?php echo $item['is_resmi_tatil'] ? 'resmi-tatil' : (isPazarBool($item['tarih']) ? 'pazar' : ''); ?> <?php echo ((float)$item['saat'] > 0 || ($item['saat'] === '0' && (isPazarBool($item['tarih']) || $item['is_resmi_tatil'])) ) ? 'soluk' : ''; ?>">
-                                                <td><?php echo htmlspecialchars(formatTarih($item['tarih']) . isPazar($item['tarih'])); ?></td>
+                                            <?php
+                                                // NEW: Sunday override option
+                                                $treat_as_normal = $item['treat_as_normal'] ?? 0;
+                                                $is_pazar_holiday = (isPazarBool($item['tarih']) && !$treat_as_normal);
+                                            ?>
+                                            <tr class="<?php echo $item['is_resmi_tatil'] ? 'resmi-tatil' : ($is_pazar_holiday ? 'pazar' : ''); ?> <?php echo ((float)$item['saat'] > 0 || ($item['saat'] === '0' && ($is_pazar_holiday || $item['is_resmi_tatil'])) ) ? 'soluk' : ''; ?>">
+                                                <td><?php echo htmlspecialchars(formatTarih($item['tarih']) . isPazar($item['tarih'], $treat_as_normal)); ?></td>
                                                 <td><?php echo htmlspecialchars($item['aciklama'] . ($item['is_resmi_tatil'] ? ' (Resmi Tatil Mesaisi)' : '')); ?></td>
-                                                <td><?php echo ((float)$item['saat'] > 0 || ($item['saat'] === '0' && (isPazarBool($item['tarih']) || $item['is_resmi_tatil'])) ) ? htmlspecialchars($item['saat']) . ' saat' : ''; ?></td>
+                                                <td><?php echo ((float)$item['saat'] > 0 || ($item['saat'] === '0' && ($is_pazar_holiday || $item['is_resmi_tatil'])) ) ? htmlspecialchars($item['saat']) . ' saat' : ''; ?></td>
                                                 <td class="edit-buttons">
                                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editModal<?php echo htmlspecialchars($item['id']); ?>">
                                                         <i class="fas fa-edit"></i>
@@ -1599,6 +1636,11 @@ if ($show_confirm) {
                                                                 <div class="form-check">
                                                                     <input type="checkbox" name="is_resmi_tatil" class="form-check-input" id="isResmiTatilEdit<?php echo htmlspecialchars($item['id']); ?>" <?php echo $item['is_resmi_tatil'] ? 'checked' : ''; ?>>
                                                                     <label class="form-check-label" for="isResmiTatilEdit<?php echo htmlspecialchars($item['id']); ?>">Resmi Tatil Mesaisi</label>
+                                                                </div>
+                                                                <!-- NEW: Sunday override option -->
+                                                                <div class="form-check" id="treatAsNormalContainerEdit<?php echo htmlspecialchars($item['id']); ?>" <?php echo isPazarBool($item['tarih']) ? '' : 'style="display: none;"'; ?>>
+                                                                    <input type="checkbox" name="treat_as_normal" class="form-check-input" id="treatAsNormalEdit<?php echo htmlspecialchars($item['id']); ?>" <?php echo ($item['treat_as_normal'] ?? 0) ? 'checked' : ''; ?>>
+                                                                    <label class="form-check-label" for="treatAsNormalEdit<?php echo htmlspecialchars($item['id']); ?>">Pazar gününü normal hafta içi say</label>
                                                                 </div>
                                                             </div>
                                                             <div class="modal-footer">
@@ -1712,6 +1754,26 @@ if ($show_confirm) {
                 toggleButton.innerHTML = isHidden ? '<i class="fas fa-times"></i> Düzenlemeyi Kapat' : '<i class="fas fa-edit"></i> Günleri Düzenle';
             }
         }
+        // NEW: Sunday override option - JS helper
+        function isSunday(dateStr) {
+            if (!dateStr) return false;
+            var d = new Date(dateStr + 'T00:00:00');
+            return d.getDay() === 0;
+        }
+
+        function updateSundayOverrideVisibility(dateStr, containerId) {
+            var container = document.getElementById(containerId);
+            if (container) {
+                if (isSunday(dateStr)) {
+                    container.style.display = 'block';
+                } else {
+                    container.style.display = 'none';
+                    var checkbox = container.querySelector('input[type="checkbox"]');
+                    if (checkbox) checkbox.checked = false;
+                }
+            }
+        }
+
         function updateWeekInterval(startDateInput, intervalInput) {
             var startDateStr = startDateInput.value;
             if (startDateStr) {
@@ -1789,11 +1851,21 @@ if ($show_confirm) {
                         tarihInput.value = selectedDate;
                         dayButtons.forEach(btn => btn.classList.remove('active'));
                         this.classList.add('active');
+                        // NEW: Sunday override option
+                        updateSundayOverrideVisibility(selectedDate, 'treatAsNormalContainer');
                         if (aciklamaInput) {
                             aciklamaInput.focus();
                         }
                     });
                 });
+                // NEW: Sunday override option - initial check
+                if (tarihInput.value) {
+                    updateSundayOverrideVisibility(tarihInput.value, 'treatAsNormalContainer');
+                }
+                tarihInput.addEventListener('change', function() {
+                    updateSundayOverrideVisibility(this.value, 'treatAsNormalContainer');
+                });
+
                 // Set initial active button based on the date input's current value
                 if (tarihInput.value && dayButtons.length > 0) {
                     let foundActive = false;
@@ -1815,6 +1887,18 @@ if ($show_confirm) {
                     // tarihInput.value = dayButtons[0].getAttribute('data-date');
                 }
             }
+            // NEW: Sunday override option - listeners for edit modals
+            document.querySelectorAll('[id^="editModal"]').forEach(modal => {
+                var dateInput = modal.querySelector('input[name="tarih"]');
+                var recordId = modal.id.replace('editModal', '');
+                var containerId = 'treatAsNormalContainerEdit' + recordId;
+                if (dateInput) {
+                    dateInput.addEventListener('change', function() {
+                        updateSundayOverrideVisibility(this.value, containerId);
+                    });
+                }
+            });
+
             var footer = document.querySelector('footer');
             if (footer) {
                 setTimeout(function() {
