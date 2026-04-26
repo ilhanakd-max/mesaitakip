@@ -10,26 +10,21 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app-loader" style="display: none;">
-        <div class="spinner-border text-primary" role="status"></div>
-    </div>
-
     <div class="container my-4">
-        <div id="alert-container"></div>
+        <div id="messageArea" class="alert alert-danger" style="display: none;"></div>
 
-        <!-- AUTH VIEW -->
-        <div id="auth-view" style="display: none;">
+        <div id="loginSection">
             <div class="card mb-3">
                 <div class="card-header">
-                    <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#helpPanelNonLogged">
+                    <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#helpPanelNonLogged" aria-expanded="false" aria-controls="helpPanelNonLogged">
                         <i class="fas fa-question-circle"></i> Yardım / Kullanıcı Kılavuzu
                     </button>
                 </div>
                 <div class="collapse" id="helpPanelNonLogged">
                     <div class="card-body">
                         <h5>Sistemin Kullanım Kılavuzu</h5>
-                        <p>Bu sistem, mesai kayıtlarınızı takip etmek ve yönetmek için tasarlanmıştır. Kayıt olmak için lütfen formu doldurun. Kayıt sırasında ad ve soyad bilgileriniz zorunludur.</p>
-                        <p>Admin kullanıcılar, diğer kullanıcıların işlemlerini yönetebilir; kullanıcı ekleyip silebilir, rapor alabilir.</p>
+                        <p>Bu sistem, mesai kayıtlarınızı takip etmek ve yönetmek için tasarlanmıştır. Kayıt olmak için lütfen formu doldurun. Kayıt sırasında ad ve soyad bilgileriniz zorunludur. Kayıt olduktan sonra, haftalık mesai planınız otomatik olarak kayıt sırasında girilen ad ve soyad ile oluşturulacaktır.</p>
+                        <p>Admin kullanıcılar, diğer kullanıcıların işlemlerini yönetebilir; kullanıcı ekleyip silebilir, rapor alabilir, DB yedeği alıp geri yükleyebilir ve hesap ayarlarını düzenleyebilir.</p>
                         <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#helpPanelNonLogged">Kapat</button>
                     </div>
                 </div>
@@ -39,47 +34,47 @@
                     <h2 class="text-center mb-4">Mesai Takip Sistemi</h2>
                     <ul class="nav nav-tabs" id="authTab" role="tablist">
                         <li class="nav-item">
-                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button">Giriş Yap</button>
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Giriş Yap</button>
                         </li>
                         <li class="nav-item">
-                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-pane" type="button">Kayıt Ol</button>
+                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Kayıt Ol</button>
                         </li>
                     </ul>
                     <div class="tab-content" id="authTabContent">
-                        <div class="tab-pane fade show active pt-3" id="login-pane" role="tabpanel">
-                            <form id="login-form">
+                        <div class="tab-pane fade show active pt-3" id="login" role="tabpanel">
+                            <form id="loginForm">
                                 <div class="mb-3">
                                     <label class="form-label">Kullanıcı Adı</label>
-                                    <input type="text" id="login-username" class="form-control" required>
+                                    <input type="text" name="username" id="loginUsername" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Şifre</label>
-                                    <input type="password" id="login-password" class="form-control" required>
+                                    <input type="password" name="password" id="loginPassword" class="form-control" required>
                                 </div>
                                 <div class="mb-3 form-check">
-                                    <input type="checkbox" id="rememberMe" class="form-check-input">
+                                    <input type="checkbox" name="remember" class="form-check-input" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Beni Hatırla</label>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Giriş Yap</button>
                             </form>
                         </div>
-                        <div class="tab-pane fade pt-3" id="register-pane" role="tabpanel">
-                            <form id="register-form">
+                        <div class="tab-pane fade pt-3" id="register" role="tabpanel">
+                            <form id="registerForm">
                                 <div class="mb-3">
                                     <label class="form-label">Ad ve Soyad</label>
-                                    <input type="text" id="reg-adsoyad" class="form-control" required>
+                                    <input type="text" name="reg_adsoyad" id="regAdsoyad" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Kullanıcı Adı</label>
-                                    <input type="text" id="reg-username" class="form-control" required>
+                                    <input type="text" name="reg_username" id="regUsername" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Şifre</label>
-                                    <input type="password" id="reg-password" class="form-control" required>
+                                    <input type="password" name="reg_password" id="regPassword" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Şifre Tekrar</label>
-                                    <input type="password" id="reg-confirm-password" class="form-control" required>
+                                    <input type="password" name="reg_confirm_password" id="regConfirmPassword" class="form-control" required>
                                     <small class="form-text text-muted">Şifrenizi lütfen unutmayın. Unutursanız, site yöneticisi ile iletişime geçiniz.</small>
                                 </div>
                                 <button type="submit" class="btn btn-success">Kayıt Ol</button>
@@ -90,354 +85,453 @@
             </div>
         </div>
 
-        <!-- MAIN VIEW -->
-        <div id="main-view" style="display: none;">
+        <div id="reportsSection" style="display: none;">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <a href="#" class="btn btn-outline-primary" onclick="showMainPage(); return false;">
+                            <i class="fas fa-home"></i> Ana Sayfa
+                        </a>
+                    </div>
+                    <h4 class="mb-3"><i class="fas fa-chart-bar"></i> Raporlar</h4>
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">Hafta Aralığı Raporu (Planlanan Mesailer)</div>
+                        <div class="card-body bg-light">
+                            <form id="weekReportForm" class="row g-2 align-items-end">
+                                <div class="col-md-10">
+                                    <label class="form-label">Hafta Seçin</label>
+                                    <select name="selected_week" id="reportWeekSelect" class="form-select" required>
+                                        <option value="">Seçiniz</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-file-alt"></i> Oluştur
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="weekReportResult" class="mt-3" style="display: none;">
+                                <textarea id="haftaRaporText" style="width:100%; height:200px;" readonly></textarea>
+                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('haftaRaporText').value)">
+                                    <i class="fas fa-copy"></i> Raporu Kopyala
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary text-white">Tarih Aralığı Raporu</div>
+                        <div class="card-body bg-light">
+                            <form id="dateRangeReportForm" class="row g-2 align-items-end">
+                                <div class="col-md-5">
+                                    <label class="form-label">Başlangıç Tarihi</label>
+                                    <input type="date" name="baslangic_tarihi" id="reportBaslangic" class="form-control" required>
+                                </div>
+                                <div class="col-md-5">
+                                    <label class="form-label">Bitiş Tarihi</label>
+                                    <input type="date" name="bitis_tarihi" id="reportBitis" class="form-control" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="fas fa-file-alt"></i> Oluştur
+                                    </button>
+                                </div>
+                            </form>
+                            <div id="dateRangeReportResult" class="mt-3" style="display: none;">
+                                <textarea id="raporDateRangeText" style="width:100%; height:200px;" readonly></textarea>
+                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('raporDateRangeText').value)">
+                                    <i class="fas fa-copy"></i> Raporu Kopyala
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="adminSection" style="display: none;">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <a href="#" class="btn btn-outline-primary" onclick="showMainPage(); return false;">
+                                <i class="fas fa-home"></i> Ana Sayfa
+                            </a>
+                            <span class="fw-bold" id="adminWelcome">Hoşgeldin </span>
+                        </div>
+                        <div class="d-flex gap-2 flex-column flex-md-row">
+                            <a href="#" class="btn btn-secondary" onclick="showMainPage(); return false;">
+                                <i class="fas fa-arrow-left"></i> Kullanıcı Arayüzüne Dön
+                            </a>
+                            <a href="#" class="btn btn-warning" onclick="showReportsPage(); return false;">
+                                <i class="fas fa-file-alt"></i> Raporlar
+                            </a>
+                            <a href="#" class="btn btn-danger" onclick="logout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Çıkış
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#dbBackupCollapse" aria-expanded="false" aria-controls="dbBackupCollapse">
+                            <h5 class="mb-0"><i class="fas fa-database"></i> Veritabanı Yedeği İşlemleri</h5>
+                        </button>
+                        <div class="collapse" id="dbBackupCollapse">
+                            <div class="card card-body">
+                                <div class="d-flex flex-column flex-md-row gap-2">
+                                    <button class="btn btn-success" onclick="exportDB()">
+                                        <i class="fas fa-download"></i> DB Yedeği Al
+                                    </button>
+                                    <form method="post" enctype="multipart/form-data" class="d-flex flex-column flex-md-row gap-2">
+                                        <input type="file" name="backup_file" class="form-control" required>
+                                        <button type="submit" name="restore_db" class="btn btn-warning" onclick="importDB(event)">
+                                            <i class="fas fa-upload"></i> Yedeği Geri Yükle
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5><i class="fas fa-user-shield"></i> Kullanıcı Listesi</h5>
+                    <div class="mb-2">
+                        <input type="text" id="userSearch" class="form-control" placeholder="Kullanıcı Ara">
+                    </div>
+                    <div class="table-responsive mb-3" style="max-height:300px; overflow-y:auto;">
+                        <table class="table table-hover" id="userTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Admin?</th>
+                                    <th>Durum</th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                    <h6>Kullanıcı Bazlı Rapor</h6>
+                    <div class="mb-2">
+                        <input type="text" id="userReportSearch" class="form-control" placeholder="Kullanıcı Ara">
+                    </div>
+                    <form id="adminUserReportForm" class="row g-2">
+                        <div class="col-md-4">
+                            <label class="form-label">Kullanıcı Seçin</label>
+                            <select name="selected_user" class="form-select" id="userReportSelect" required>
+                                <option value="">Seçiniz</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Başlangıç Tarihi</label>
+                            <input type="date" name="baslangic_tarihi_admin" id="adminBaslangic" class="form-control" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Bitiş Tarihi</label>
+                            <input type="date" name="bitis_tarihi_admin" id="adminBitis" class="form-control" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-file-alt"></i> Rapor Oluştur
+                            </button>
+                        </div>
+                    </form>
+                    <div id="adminUserReportResult" class="mt-3" style="display: none;">
+                        <h5>Kullanıcı Raporu</h5>
+                        <textarea id="adminUserReport" style="width:100%; height:200px;" readonly></textarea>
+                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('adminUserReport').value)">
+                            <i class="fas fa-copy"></i> Raporu Kopyala
+                        </button>
+                    </div>
+                    <h6 class="mt-4">Tüm Kullanıcılar için Tarih Aralığı Raporu</h6>
+                    <form id="adminAllUsersReportForm" class="row g-2">
+                        <div class="col-md-5">
+                            <label class="form-label">Başlangıç Tarihi</label>
+                            <input type="date" name="baslangic_tarihi" id="allUsersBaslangic" class="form-control" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Bitiş Tarihi</label>
+                            <input type="date" name="bitis_tarihi" id="allUsersBitis" class="form-control" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-file-alt"></i> Rapor Oluştur
+                            </button>
+                        </div>
+                    </form>
+                    <div id="adminAllUsersReportResult" class="mt-3" style="display: none;">
+                        <h5>Tüm Kullanıcılar Raporu</h5>
+                        <textarea id="adminAllUsersReport" style="width:100%; height:200px;" readonly></textarea>
+                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('adminAllUsersReport').value)">
+                            <i class="fas fa-copy"></i> Raporu Kopyala
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="mainSection" style="display: none;">
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-3">
                             <h5 class="mb-0 text-primary fw-bold">Mesai Takip Sistemi</h5>
-                            <span class="fw-bold">| Hoşgeldin <span id="display-name"></span></span>
+                            <span class="fw-bold" id="userWelcome">| Hoşgeldin </span>
                         </div>
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-expanded="false" aria-controls="mainMenu">
                             <i class="fas fa-bars"></i> Menü
                         </button>
                     </div>
                     <div class="collapse mb-3" id="mainMenu">
                         <div class="d-flex flex-column flex-md-row gap-2 justify-content-end">
-                            <button class="btn btn-outline-primary" onclick="showSection('home')">
+                            <a href="#" class="btn btn-outline-primary" onclick="showMainPage(); return false;">
                                 <i class="fas fa-home"></i> Ana Sayfa
-                            </button>
-                            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#wizardPanel">
+                            </a>
+                            <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#wizardPanel" aria-expanded="false" aria-controls="wizardPanel">
                                 <i class="fas fa-magic"></i> Kullanım Kılavuzu
                             </button>
-                            <button class="btn btn-warning" onclick="showSection('reports')">
+                            <a href="#" class="btn btn-warning" onclick="showReportsPage(); return false;">
                                 <i class="fas fa-file-alt"></i> Raporlar
-                            </button>
-                            <button class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#changePasswordPanel">
+                            </a>
+                            <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#changePasswordPanel" aria-expanded="false" aria-controls="changePasswordPanel">
                                 <i class="fas fa-key"></i> Şifre Değiştir
                             </button>
-                            <button class="btn btn-danger admin-only" onclick="showSection('admin')" style="display: none;">
+                            <a href="#" id="adminLink" class="btn btn-danger" style="display: none;" onclick="showAdminPage(); return false;">
                                 <i class="fas fa-user-shield"></i> Admin Paneli
-                            </button>
-                            <button class="btn btn-danger" onclick="logout()">
+                            </a>
+                            <a href="#" class="btn btn-danger" onclick="logout(); return false;">
                                 <i class="fas fa-sign-out-alt"></i> Çıkış
-                            </button>
+                            </a>
                         </div>
                     </div>
-                    <!-- Collapsible Panels -->
                     <div class="collapse mb-3" id="wizardPanel">
                         <div class="card card-body">
                             <h5>Adım Adım Kullanım Kılavuzu</h5>
-                            <h6>Adım 1: Hafta Seçimi</h6><p>Hafta seçim menüsünden mevcut haftalarınızı seçin veya yeni bir hafta oluşturun.</p>
-                            <h6>Adım 2: Gün Seçimi ve Mesai Kaydı</h6><p>Seçili haftanın günleri butonlar halinde gösterilir. Bir güne tıklayarak o güne ait tarihi otomatik doldurun.</p>
+                            <h6>Adım 1: Hafta Seçimi</h6>
+                            <p>Hafta seçim menüsünden mevcut haftalarınızı seçin veya yeni bir hafta oluşturun.</p>
+                            <h6>Adım 2: Gün Seçimi ve Mesai Kaydı</h6>
+                            <p>Seçili haftanın günleri butonlar halinde gösterilir. Bir güne tıklayarak o güne ait tarihi otomatik doldurun, ardından açıklama ve saat girerek "Kaydet" butonuna basın. Veri girilmiş günler daha sönük renkte görünecektir.</p>
+                            <h6>Adım 3: Rapor Oluşturma</h6>
+                            <p>Raporlar sayfasından istediğiniz tarih aralığı için rapor oluşturabilirsiniz.</p>
                             <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#wizardPanel">Kapat</button>
                         </div>
                     </div>
                     <div class="collapse mb-3" id="changePasswordPanel">
                         <div class="card card-body">
                             <h5><i class="fas fa-key"></i> Şifre Değiştir</h5>
-                            <form id="change-password-form">
-                                <div class="mb-2"><label class="form-label">Mevcut Şifre</label><input type="password" id="cur-pass" class="form-control" required></div>
-                                <div class="mb-2"><label class="form-label">Yeni Şifre</label><input type="password" id="new-pass" class="form-control" required></div>
-                                <div class="mb-2"><label class="form-label">Yeni Şifre (Tekrar)</label><input type="password" id="new-pass-confirm" class="form-control" required></div>
-                                <button type="submit" class="btn btn-warning w-100"><i class="fas fa-sync-alt"></i> Şifreyi Değiştir</button>
+                            <form id="changePasswordForm">
+                                <div class="mb-2">
+                                    <label class="form-label">Mevcut Şifre</label>
+                                    <input type="password" name="current_password" id="currentPassword" class="form-control" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Yeni Şifre</label>
+                                    <input type="password" name="new_password" id="newPassword" class="form-control" required>
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label">Yeni Şifre (Tekrar)</label>
+                                    <input type="password" name="confirm_new_password" id="confirmNewPassword" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-warning w-100">
+                                    <i class="fas fa-sync-alt"></i> Şifreyi Değiştir
+                                </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Home Section -->
-            <div id="home-section">
-                <div class="card mb-4">
-                    <div class="card-header"><h5>Yeni Hafta Oluştur</h5></div>
-                    <div class="card-body">
-                        <form id="create-week-form">
-                            <div class="row g-2 align-items-end">
-                                <div class="col-md-5">
-                                    <label class="form-label">Hafta Başlangıç Tarihi</label>
-                                    <input type="date" id="new-week-start" class="form-control" required>
-                                </div>
-                                <div class="col-md-5">
-                                    <label class="form-label">Hafta Aralığı (Örn: 1-7 Şubat)</label>
-                                    <input type="text" id="new-week-range" class="form-control" placeholder="Otomatik oluşur" readonly required>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-success w-100"><i class="fas fa-calendar-plus"></i> Oluştur</button>
-                                </div>
+            <div class="card mb-4">
+                <div class="card-header"><h5>Yeni Hafta Oluştur</h5></div>
+                <div class="card-body">
+                    <form id="createWeekForm">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-5">
+                                <label class="form-label">Hafta Başlangıç Tarihi</label>
+                                <input type="date" name="hafta_baslangic" id="haftaBaslangic" class="form-control" required>
                             </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="card mb-4">
-                    <div class="card-header"><h5>Planlanan Mesailer</h5></div>
-                    <div class="card-body">
-                        <div class="row g-2 mb-3 align-items-end">
-                            <div class="col-md-4">
-                                <label class="form-label">Yıl Seçimi</label>
-                                <select id="year-select" class="form-select"></select>
+                            <div class="col-md-5">
+                                <label class="form-label">Hafta Aralığı (Örn: 1-7 Şubat)</label>
+                                <input type="text" name="hafta_araligi" id="haftaAraligi" class="form-control" placeholder="Otomatik oluşur" readonly required>
                             </div>
-                            <div class="col-md-8">
-                                <label class="form-label">Hafta Seçimi</label>
-                                <div class="dropdown">
-                                    <button class="btn btn-primary dropdown-toggle w-100" type="button" id="weekDropdown" data-bs-toggle="dropdown">Hafta Seç</button>
-                                    <ul class="dropdown-menu w-100" id="week-list-dropdown"></ul>
-                                </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success w-100">
+                                    <i class="fas fa-calendar-plus"></i> Oluştur
+                                </button>
                             </div>
                         </div>
+                    </form>
+                </div>
+            </div>
 
-                        <div id="week-content" style="display: none;">
-                            <div class="mb-3">
-                                <label class="form-label">Gün Seçerek Veri Girişi Yapın:</label>
-                                <div class="d-flex flex-wrap gap-2" id="dayButtonContainer"></div>
-                            </div>
-                            <form id="add-record-form" class="row g-2">
-                                <div class="col-md-3">
-                                    <label class="form-label">Tarih</label>
-                                    <input type="date" id="record-date" class="form-control" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Açıklama</label>
-                                    <input type="text" id="record-desc" class="form-control" required placeholder="Yapılan iş...">
-                                </div>
-                                <div class="col-md-3">
-                                    <label class="form-label">Saat</label>
-                                    <input type="number" step="0.1" id="record-hour" class="form-control" placeholder="Örn: 8 veya 2.5">
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-check">
-                                        <input type="checkbox" id="record-holiday" class="form-check-input">
-                                        <label class="form-check-label" for="record-holiday">Resmi Tatil Mesaisi</label>
-                                    </div>
-                                    <div class="form-check" id="treatAsNormalContainer" style="display: none;">
-                                        <input type="checkbox" id="record-normal" class="form-check-input">
-                                        <label class="form-check-label" for="record-normal">Pazar gününü normal hafta içi say</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Kaydet</button>
-                                </div>
+            <div class="card mb-4">
+                <div class="card-header"><h5>Planlanan Mesailer</h5></div>
+                <div class="card-body">
+                    <div class="row g-2 mb-3 align-items-end">
+                        <div class="col-md-4">
+                            <form id="yearSelectForm">
+                                <label class="form-label">Yıl Seçimi</label>
+                                <select name="year" id="yearSelect" class="form-select">
+                                </select>
                             </form>
                         </div>
-                    </div>
-                </div>
-
-                <div id="records-table-container" class="card mb-4" style="display: none;">
-                    <div class="card-body">
-                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-                            <h3 id="current-week-title" class="mb-2 mb-md-0"></h3>
+                        <div class="col-md-8">
+                            <label class="form-label">Hafta Seçimi</label>
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-cog"></i> İşlemler
+                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="weekDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span id="selectedWeekText">Hafta Seç</span>
                                 </button>
-                                <ul class="dropdown-menu">
-                                    <li><button class="dropdown-item" onclick="openEditWeekModal()"><i class="fas fa-edit"></i> Haftayı Düzenle</button></li>
-                                    <li><button class="dropdown-item text-danger" onclick="confirmDeleteWeek()"><i class="fas fa-trash"></i> Haftayı Sil</button></li>
-                                    <li><button class="dropdown-item" onclick="toggleEditMode()"><i class="fas fa-edit"></i> Günleri Düzenle</button></li>
+                                <ul class="dropdown-menu" id="weekDropdownMenu" aria-labelledby="weekDropdown">
                                 </ul>
                             </div>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Tarih</th><th>Açıklama</th><th>Saat</th><th class="edit-header" style="display:none">İşlemler</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="records-body"></tbody>
-                                <tfoot id="records-footer"></tfoot>
-                            </table>
-                        </div>
-                        <button class="btn btn-warning mt-3" onclick="showSection('reports')"><i class="fas fa-file-alt"></i> Raporlar</button>
                     </div>
-                </div>
-            </div>
 
-            <!-- Reports Section -->
-            <div id="reports-section" style="display: none;">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <button class="btn btn-outline-primary" onclick="showSection('home')"><i class="fas fa-home"></i> Ana Sayfa</button>
-                        </div>
-                        <h4 class="mb-3">📊 Raporlar</h4>
-                        <div class="card mb-3">
-                            <div class="card-header bg-primary text-white">Hafta Aralığı Raporu (Planlanan Mesailer)</div>
-                            <div class="card-body bg-light">
-                                <form id="week-report-form" class="row g-2 align-items-end">
-                                    <div class="col-md-10">
-                                        <label class="form-label">Hafta Seçin</label>
-                                        <select id="report-week-select" class="form-select" required></select>
-                                    </div>
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary w-100"><i class="fas fa-file-alt"></i> Oluştur</button></div>
-                                </form>
-                                <div id="week-report-result" class="mt-3" style="display:none">
-                                    <textarea class="form-control" style="height:200px" readonly></textarea>
-                                    <button class="btn btn-success mt-2" onclick="copyReport('week-report-result')"><i class="fas fa-copy"></i> Raporu Kopyala</button>
-                                </div>
+                    <div id="weekDetailsSection" style="display: none;">
+                        <div class="mb-3">
+                            <label class="form-label">Gün Seçerek Veri Girişi Yapın:</label>
+                            <div class="d-flex flex-wrap gap-2" id="dayButtonContainer">
                             </div>
                         </div>
-                        <div class="card mb-3">
-                            <div class="card-header bg-primary text-white">Tarih Aralığı Raporu</div>
-                            <div class="card-body bg-light">
-                                <form id="range-report-form" class="row g-2 align-items-end">
-                                    <div class="col-md-5"><label class="form-label">Başlangıç Tarihi</label><input type="date" id="range-start" class="form-control" required></div>
-                                    <div class="col-md-5"><label class="form-label">Bitiş Tarihi</label><input type="date" id="range-end" class="form-control" required></div>
-                                    <div class="col-md-2"><button type="submit" class="btn btn-primary w-100"><i class="fas fa-file-alt"></i> Oluştur</button></div>
-                                </form>
-                                <div id="range-report-result" class="mt-3" style="display:none">
-                                    <textarea class="form-control" style="height:200px" readonly></textarea>
-                                    <button class="btn btn-success mt-2" onclick="copyReport('range-report-result')"><i class="fas fa-copy"></i> Raporu Kopyala</button>
-                                </div>
+                        <form id="addRecordForm" class="row g-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Tarih</label>
+                                <input type="date" name="tarih" id="mesaiTarihInput" class="form-control" required>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Admin Section -->
-            <div id="admin-section" style="display: none;">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-                            <button class="btn btn-outline-primary" onclick="showSection('home')"><i class="fas fa-home"></i> Ana Sayfa</button>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-secondary" onclick="showSection('home')">Kullanıcı Arayüzüne Dön</button>
-                                <button class="btn btn-warning" onclick="showSection('reports')">Raporlar</button>
-                            </div>
-                        </div>
-
-                        <!-- DB Backup Section -->
-                        <div class="mb-4">
-                            <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#dbBackupCollapse">
-                                <h5 class="mb-0"><i class="fas fa-database"></i> Veritabanı Yedeği İşlemleri</h5>
-                            </button>
-                            <div class="collapse" id="dbBackupCollapse">
-                                <div class="card card-body">
-                                    <div class="alert alert-info">Google Sheets altyapısında yedekleme işlemleri Google tarafından otomatik yapılmaktadır. Ancak verilerinizi Excel olarak indirebilirsiniz.</div>
-                                    <div class="d-flex flex-column flex-md-row gap-2">
-                                        <button class="btn btn-success" onclick="window.open('https://docs.google.com/spreadsheets/d/1pW64mHNZwFex0oW14i14Tf3XrRXSuAPITFeWKalIIZA/export?format=xlsx')">
-                                            <i class="fas fa-download"></i> DB Yedeği Al (Excel)
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h5><i class="fas fa-user-shield"></i> Kullanıcı Listesi</h5>
-                        <div class="mb-2"><input type="text" id="userSearch" class="form-control" placeholder="Kullanıcı Ara" onkeyup="filterUsers()"></div>
-                        <div class="table-responsive mb-3" style="max-height:300px; overflow-y:auto;">
-                            <table class="table table-hover" id="userTable">
-                                <thead>
-                                    <tr><th>ID</th><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Admin?</th><th>Durum</th><th>İşlemler</th></tr>
-                                </thead>
-                                <tbody id="admin-user-list"></tbody>
-                            </table>
-                        </div>
-
-                        <!-- User Based Report Section -->
-                        <h6 class="mt-4">Kullanıcı Bazlı Rapor</h6>
-                        <div class="mb-2">
-                            <input type="text" id="userReportSearch" class="form-control" placeholder="Kullanıcı Ara" onkeyup="filterUserSelect()">
-                        </div>
-                        <form id="admin-user-report-form" class="row g-2">
-                            <div class="col-md-4">
-                                <label class="form-label">Kullanıcı Seçin</label>
-                                <select id="admin-user-select" class="form-select" required>
-                                    <option value="">Seçiniz</option>
-                                </select>
+                            <div class="col-md-6">
+                                <label class="form-label">Açıklama</label>
+                                <input type="text" name="aciklama" id="mesaiAciklamaInput" class="form-control" required placeholder="Yapılan iş...">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Başlangıç Tarihi</label>
-                                <input type="date" id="admin-user-start" class="form-control" required>
+                                <label class="form-label">Saat</label>
+                                <input type="number" step="0.1" name="saat" id="mesaiSaatInput" class="form-control" placeholder="Örn: 8 veya 2.5">
                             </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Bitiş Tarihi</label>
-                                <input type="date" id="admin-user-end" class="form-control" required>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="is_resmi_tatil" class="form-check-input" id="isResmiTatil">
+                                    <label class="form-check-label" for="isResmiTatil">Resmi Tatil Mesaisi</label>
+                                </div>
+                                <div class="form-check" id="treatAsNormalContainer" style="display: none;">
+                                    <input type="checkbox" name="treat_as_normal" class="form-check-input" id="treatAsNormal">
+                                    <label class="form-check-label" for="treatAsNormal">Pazar gününü normal hafta içi say</label>
+                                </div>
                             </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <i class="fas fa-file-alt"></i> Rapor Oluştur
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i> Kaydet
                                 </button>
                             </div>
                         </form>
-                        <div id="admin-user-report-result" class="mt-3" style="display:none">
-                            <h5>Kullanıcı Raporu</h5>
-                            <textarea class="form-control" style="height:200px" readonly></textarea>
-                            <button class="btn btn-success mt-2" onclick="copyReport('admin-user-report-result')"><i class="fas fa-copy"></i> Raporu Kopyala</button>
-                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <h6 class="mt-4">Tüm Kullanıcılar için Tarih Aralığı Raporu</h6>
-                        <form id="admin-report-form" class="row g-2">
-                            <div class="col-md-5"><label class="form-label">Başlangıç Tarihi</label><input type="date" id="admin-start" class="form-control" required></div>
-                            <div class="col-md-5"><label class="form-label">Bitiş Tarihi</label><input type="date" id="admin-end" class="form-control" required></div>
-                            <div class="col-md-2 d-flex align-items-end"><button type="submit" class="btn btn-primary w-100">Rapor Oluştur</button></div>
-                        </form>
-                        <div id="admin-report-result" class="mt-3" style="display:none">
-                            <textarea class="form-control" style="height:200px" readonly></textarea>
-                            <button class="btn btn-success mt-2" onclick="copyReport('admin-report-result')"><i class="fas fa-copy"></i> Raporu Kopyala</button>
+            <div id="recordsSection" class="card mb-4" style="display: none;">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                        <h3 class="mb-2 mb-md-0" id="recordsTitle">
+                            Mesai Kayıtları
+                        </h3>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i> İşlemler
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="actionsDropdown">
+                                <li>
+                                    <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editWeekModal">
+                                        <i class="fas fa-edit"></i> Haftayı Düzenle
+                                    </button>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="confirmDeleteWeek(); return false;">
+                                        <i class="fas fa-trash"></i> Haftayı Sil
+                                    </a>
+                                </li>
+                                <li>
+                                    <button id="toggleEditButton" class="dropdown-item" type="button" onclick="toggleEditButtons()">
+                                        <i class="fas fa-edit"></i> Günleri Düzenle
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Tarih</th>
+                                    <th>Açıklama</th>
+                                    <th>Saat</th>
+                                    <th class="edit-header" style="display: none;">İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recordsTableBody">
+                            </tbody>
+                            <tfoot id="recordsSummary">
+                            </tfoot>
+                        </table>
+                    </div>
+                    <a href="#" class="btn btn-warning mt-3" onclick="showReportsPage(); return false;">
+                        <i class="fas fa-file-alt"></i> Raporlar
+                    </a>
+                </div>
+            </div>
+
+            <div id="noRecordsMessage" class="card mb-4" style="display: none;">
+                <div class="card-body">
+                    <p class="text-muted">Bu hafta için henüz mesai kaydı bulunmamaktadır. Yukarıdaki formdan veya gün butonlarını kullanarak ekleyebilirsiniz.</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal fade" id="editRecordModal" tabindex="-1">
+    <div class="modal fade" id="editWeekModal" tabindex="-1" aria-labelledby="editWeekModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="edit-record-form">
-                    <div class="modal-header"><h5>Kayıt Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                    <div class="modal-body">
-                        <input type="hidden" id="edit-rec-id">
-                        <div class="mb-2"><label class="form-label">Tarih</label><input type="date" id="edit-rec-date" class="form-control" required></div>
-                        <div class="mb-2"><label class="form-label">Açıklama</label><input type="text" id="edit-rec-desc" class="form-control" required></div>
-                        <div class="mb-2"><label class="form-label">Saat</label><input type="number" step="0.1" id="edit-rec-hour" class="form-control"></div>
-                        <div class="form-check"><input type="checkbox" id="edit-rec-holiday" class="form-check-input"><label class="form-check-label">Resmi Tatil Mesaisi</label></div>
-                        <div class="form-check" id="edit-treat-normal-container"><input type="checkbox" id="edit-rec-normal" class="form-check-input"><label class="form-check-label">Pazar gününü normal hafta içi say</label></div>
+                <form id="editWeekForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editWeekModalLabel">Hafta Düzenle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
                     </div>
-                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button><button type="submit" class="btn btn-primary">Kaydet</button></div>
+                    <div class="modal-body">
+                        <input type="hidden" name="week_id" id="editWeekId">
+                        <div class="mb-3">
+                            <label class="form-label">Hafta Başlangıç Tarihi</label>
+                            <input type="date" name="hafta_baslangic" id="editWeekStartDate" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hafta Aralığı</label>
+                            <input type="text" name="hafta_araligi" id="editWeekInterval" class="form-control" readonly required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="editWeekModal" tabindex="-1">
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="edit-week-form">
-                    <div class="modal-header"><h5>Haftayı Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                    <div class="modal-body">
-                        <div class="mb-3"><label class="form-label">Hafta Başlangıç Tarihi</label><input type="date" id="edit-week-start" class="form-control" required></div>
-                        <div class="mb-3"><label class="form-label">Hafta Aralığı</label><input type="text" id="edit-week-range" class="form-control" readonly required></div>
-                    </div>
-                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button><button type="submit" class="btn btn-primary">Kaydet</button></div>
-                </form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Onay</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="confirmModalMessage">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır, vazgeç</button>
+                    <button type="button" class="btn btn-danger" id="confirmYesBtn">Evet, sil</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="editUserModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="edit-user-form">
-                    <div class="modal-header"><h5>Kullanıcı Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                    <div class="modal-body">
-                        <input type="hidden" id="edit-user-id">
-                        <div class="mb-2"><label class="form-label">Yeni Kullanıcı Adı</label><input type="text" id="edit-user-username" class="form-control" required></div>
-                        <div class="mb-2"><label class="form-label">Yeni Ad ve Soyad</label><input type="text" id="edit-user-adsoyad" class="form-control" required></div>
-                        <div class="mb-2"><label class="form-label">Yeni Şifre (Boş bırakılırsa değişmez)</label><input type="password" id="edit-user-pass" class="form-control"></div>
-                    </div>
-                    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button><button type="submit" class="btn btn-primary">Kaydet</button></div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <footer>© <span id="footer-year"></span> İlhan Akdeniz - Tüm Hakları Saklıdır.</footer>
+    <footer>
+        © <span id="footerYear"></span> İlhan Akdeniz - Tüm Hakları Saklıdır.
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
