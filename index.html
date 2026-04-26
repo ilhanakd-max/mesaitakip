@@ -89,7 +89,7 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
+        
         .day-selector-btn.active {
             background-color: #007bff;
             color: white;
@@ -126,7 +126,7 @@
         .view-section.active { display: block; }
         .edit-buttons, .edit-header { display: none; }
         .dropdown-menu { max-height: 300px; overflow-y: auto; }
-
+        
         /* Loading overlay */
         #loadingOverlay {
             position: fixed;
@@ -237,7 +237,7 @@
                             <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış</button>
                         </div>
                     </div>
-
+                    
                     <div class="collapse mb-3" id="wizardPanel">
                         <div class="card card-body">
                             <h5>Adım Adım Kullanım Kılavuzu</h5>
@@ -245,7 +245,7 @@
                             <h6>Adım 2: Gün Seçimi ve Mesai Kaydı</h6><p>Güne tıklayıp tarihi otomatik doldurun, açıklama ve saat girip Kaydet'e basın.</p>
                         </div>
                     </div>
-
+                    
                     <div class="collapse mb-3" id="changePasswordPanel">
                         <div class="card card-body">
                             <h5>Şifre Değiştir</h5>
@@ -417,7 +417,7 @@
                             <tbody id="userTableBody"></tbody>
                         </table>
                     </div>
-
+                    
                     <h6 class="mt-4">Tüm Kullanıcılar Raporu</h6>
                     <div class="row g-2 align-items-end">
                         <div class="col-md-5"><input type="date" id="adminAllStart" class="form-control"></div>
@@ -500,7 +500,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        var API_URL = 'LUTFEN_BURAYA_WEB_APP_URL_YAZIN';
+        var API_URL = 'https://script.google.com/macros/s/AKfycbxoXTdtu8_ux5PcuJgzX3ig6TuQD-mqvfPS1EffsgyHIkDwGdgnRb8_ZQlnJBKfnGBD/exec'; 
         var currentUser = null;
         var currentWeek = null;
         var allWeeks = [];
@@ -514,7 +514,7 @@
             try {
                 let url = API_URL;
                 let options = { method: isPost ? 'POST' : 'GET' };
-
+                
                 if (isPost) {
                     options.body = JSON.stringify({ action: action, ...data });
                 } else {
@@ -615,7 +615,7 @@
             document.getElementById('recordEntrySection').style.display = 'block';
             document.getElementById('recordsTableSection').style.display = 'block';
             document.getElementById('currentWeekTitle').textContent = currentWeek.hafta_araligi + ' Mesai Kayıtları';
-
+            
             let res = await callApi('getRecords', { haftaId: currentWeek.id });
             if (res) {
                 renderDayButtons(res.records);
@@ -628,7 +628,7 @@
             container.innerHTML = '';
             let startDate = new Date(currentWeek.hafta_baslangic);
             let enteredDates = records.map(r => formatDateISO(r.tarih));
-
+            
             for (let i = 0; i < 7; i++) {
                 let d = new Date(startDate);
                 d.setDate(d.getDate() + i);
@@ -636,7 +636,7 @@
                 let isEntered = enteredDates.includes(iso);
                 let isSun = d.getDay() === 0;
                 let isSat = d.getDay() === 6;
-
+                
                 let btn = document.createElement('button');
                 btn.type = 'button';
                 btn.className = `btn day-selector-btn ${isEntered ? 'kayitli-gun' : 'btn-outline-primary'} ${(isSun || isSat) ? 'weekend' : ''}`;
@@ -749,7 +749,7 @@
         }
 
         // Helper Functions
-        function formatDateISO(date) {
+        function formatDateISO(date) { 
             let d = new Date(date);
             return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
         }
@@ -769,7 +769,7 @@
             let start = new Date(startInput.value);
             let end = new Date(start); end.setDate(end.getDate() + 6);
             let months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-            intervalInput.value = (start.getMonth() === end.getMonth()) ?
+            intervalInput.value = (start.getMonth() === end.getMonth()) ? 
                 `${start.getDate()}-${end.getDate()} ${months[start.getMonth()]}` :
                 `${start.getDate()} ${months[start.getMonth()]} - ${end.getDate()} ${months[end.getMonth()]}`;
         }
@@ -804,11 +804,11 @@
         editWeekForm.onsubmit = async (e) => {
             e.preventDefault();
             let res = await callApi('editWeek', { id: currentWeek.id, hafta_baslangic: editWeekStart.value, hafta_araligi: editWeekInterval.value }, true);
-            if (res) {
-                currentWeek.hafta_baslangic = editWeekStart.value;
+            if (res) { 
+                currentWeek.hafta_baslangic = editWeekStart.value; 
                 currentWeek.hafta_araligi = editWeekInterval.value;
-                bootstrap.Modal.getInstance(document.getElementById('editWeekModal')).hide();
-                loadDashboard();
+                bootstrap.Modal.getInstance(document.getElementById('editWeekModal')).hide(); 
+                loadDashboard(); 
             }
         };
         async function deleteRecord(id) { if (confirm('Silmek istediginize emin misiniz?')) { await callApi('deleteRecord', { recordId: id }, true); loadRecords(); } }
