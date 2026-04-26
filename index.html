@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mesai Takip Sistemi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #007bff, #28a745);
+            color: #343a40;
+            margin-bottom: 80px;
+            animation: fadeIn 1s ease-in;
+        }
+        .container {
+            max-width: 1000px;
+            padding: 20px;
+        }
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background: #fff;
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-out;
+        }
+        .card-header {
+            background: #007bff;
+            color: #fff;
+            border-radius: 15px 15px 0 0;
+            padding: 15px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+        .pazar {
+            background-color: #fff3cd !important;
+        }
+        .resmi-tatil {
+            background-color: #d1ecf1 !important;
+        }
+        .soluk {
+            background-color: #e9ecef !important;
+            opacity: 0.7;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 10px 5px;
+            font-size: 12px;
+            animation: slideUp 0.5s ease-in;
+            z-index: 1000;
+        }
+        .active-week {
+            background-color: #007bff;
+            color: #fff;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+        .day-selector-btn.active {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            border-color: #0056b3;
+        }
+        .day-selector-btn.kayitli-gun {
+             background-color: #f8f9fa;
+             color: #6c757d;
+             border-color: #dee2e6;
+             opacity: 0.7;
+        }
+        .day-selector-btn.weekend {
+            background-color: #fd7e14 !important;
+            color: white !important;
+            border-color: #dc650d !important;
+        }
+        .day-selector-btn.weekend.kayitli-gun {
+            background-color: #e06b12 !important;
+            opacity: 0.85;
+        }
+        .day-selector-btn.weekend.active {
+            background-color: #c95e0f !important;
+        }
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .day-selector-btn {
+                flex-grow: 1;
+                min-width: 100px;
+                margin-bottom: 5px !important;
+            }
+        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+        .edit-buttons, .edit-header { display: none; }
+        .dropdown-menu { max-height: 300px; overflow-y: auto; }
+
+        /* Loading overlay */
+        #loadingOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255,255,255,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay">
+        <div class="spinner-border text-primary" role="status"></div>
+    </div>
+
+    <div class="container my-4">
+        <div id="alertContainer"></div>
+
+        <!-- AUTH VIEW -->
+        <div id="authView" class="view-section active">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#helpPanelNonLogged">
+                        <i class="fas fa-question-circle"></i> Yardım / Kullanıcı Kılavuzu
+                    </button>
+                </div>
+                <div class="collapse" id="helpPanelNonLogged">
+                    <div class="card-body">
+                        <h5>Sistemin Kullanım Kılavuzu</h5>
+                        <p>Bu sistem, mesai kayıtlarınızı takip etmek ve yönetmek için tasarlanmıştır. Kayıt olmak için lütfen formu doldurun.</p>
+                        <p>Admin kullanıcılar, diğer kullanıcıların işlemlerini yönetebilir; kullanıcı ekleyip silebilir, rapor alabilir ve hesap ayarlarını düzenleyebilir.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Mesai Takip Sistemi</h2>
+                    <ul class="nav nav-tabs" id="authTab" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#loginPane" type="button">Giriş Yap</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#registerPane" type="button">Kayıt Ol</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="authTabContent">
+                        <div class="tab-pane fade show active pt-3" id="loginPane">
+                            <form id="loginForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Kullanıcı Adı</label>
+                                    <input type="text" id="loginUsername" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Şifre</label>
+                                    <input type="password" id="loginPassword" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Giriş Yap</button>
+                            </form>
+                        </div>
+                        <div class="tab-pane fade pt-3" id="registerPane">
+                            <form id="registerForm">
+                                <div class="mb-3">
+                                    <label class="form-label">Ad ve Soyad</label>
+                                    <input type="text" id="regAdSoyad" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Kullanıcı Adı</label>
+                                    <input type="text" id="regUsername" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Şifre</label>
+                                    <input type="password" id="regPassword" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Şifre Tekrar</label>
+                                    <input type="password" id="regConfirmPassword" class="form-control" required>
+                                </div>
+                                <button type="submit" class="btn btn-success">Kayıt Ol</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW -->
+        <div id="dashboardView" class="view-section">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <h5 class="mb-0 text-primary fw-bold">Mesai Takip Sistemi</h5>
+                            <span class="fw-bold">| Hoşgeldin <span class="user-display-name"></span></span>
+                        </div>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+                            <i class="fas fa-bars"></i> Menü
+                        </button>
+                    </div>
+                    <div class="collapse mb-3" id="mainMenu">
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-end">
+                            <button class="btn btn-outline-primary" onclick="showView('dashboard')"><i class="fas fa-home"></i> Ana Sayfa</button>
+                            <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#wizardPanel"><i class="fas fa-magic"></i> Kullanım Kılavuzu</button>
+                            <button class="btn btn-warning" onclick="showView('reports')"><i class="fas fa-file-alt"></i> Raporlar</button>
+                            <button class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#changePasswordPanel"><i class="fas fa-key"></i> Şifre Değiştir</button>
+                            <button class="btn btn-danger admin-only" onclick="showView('admin')"><i class="fas fa-user-shield"></i> Admin Paneli</button>
+                            <button class="btn btn-danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış</button>
+                        </div>
+                    </div>
+
+                    <div class="collapse mb-3" id="wizardPanel">
+                        <div class="card card-body">
+                            <h5>Adım Adım Kullanım Kılavuzu</h5>
+                            <h6>Adım 1: Hafta Seçimi</h6><p>Mevcut haftalarınızı seçin veya yeni bir hafta oluşturun.</p>
+                            <h6>Adım 2: Gün Seçimi ve Mesai Kaydı</h6><p>Güne tıklayıp tarihi otomatik doldurun, açıklama ve saat girip Kaydet'e basın.</p>
+                        </div>
+                    </div>
+
+                    <div class="collapse mb-3" id="changePasswordPanel">
+                        <div class="card card-body">
+                            <h5>Şifre Değiştir</h5>
+                            <form id="changePasswordForm">
+                                <div class="mb-2"><label>Mevcut Şifre</label><input type="password" id="curPass" class="form-control" required></div>
+                                <div class="mb-2"><label>Yeni Şifre</label><input type="password" id="newPass" class="form-control" required></div>
+                                <div class="mb-2"><label>Yeni Şifre (Tekrar)</label><input type="password" id="newPassConfirm" class="form-control" required></div>
+                                <button type="submit" class="btn btn-warning w-100">Şifreyi Değiştir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header"><h5>Yeni Hafta Oluştur</h5></div>
+                <div class="card-body">
+                    <form id="createWeekForm">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-md-5">
+                                <label class="form-label">Hafta Başlangıç Tarihi</label>
+                                <input type="date" id="newWeekStart" class="form-control" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label">Hafta Aralığı</label>
+                                <input type="text" id="newWeekInterval" class="form-control" readonly required placeholder="Otomatik oluşur">
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" class="btn btn-success w-100"><i class="fas fa-calendar-plus"></i> Oluştur</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header"><h5>Planlanan Mesailer</h5></div>
+                <div class="card-body">
+                    <div class="row g-2 mb-3 align-items-end">
+                        <div class="col-md-4">
+                            <label class="form-label">Yıl Seçimi</label>
+                            <select id="yearSelect" class="form-select"></select>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Hafta Seçimi</label>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="weekDropdownBtn" data-bs-toggle="dropdown">Hafta Seç</button>
+                                <ul class="dropdown-menu w-100" id="weekDropdownList"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="recordEntrySection" style="display:none;">
+                        <div class="mb-3">
+                            <label class="form-label">Gün Seçerek Veri Girişi Yapın:</label>
+                            <div class="d-flex flex-wrap gap-2" id="dayButtonContainer"></div>
+                        </div>
+                        <form id="mesaiForm" class="row g-2">
+                            <div class="col-md-3">
+                                <label class="form-label">Tarih</label>
+                                <input type="date" id="mesaiTarihInput" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Açıklama</label>
+                                <input type="text" id="mesaiAciklamaInput" class="form-control" required placeholder="Yapılan iş...">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Saat</label>
+                                <input type="number" step="0.1" id="mesaiSaatInput" class="form-control" placeholder="Örn: 8">
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" id="isResmiTatil" class="form-check-input">
+                                    <label class="form-check-label" for="isResmiTatil">Resmi Tatil Mesaisi</label>
+                                </div>
+                                <div class="form-check" id="treatAsNormalContainer" style="display: none;">
+                                    <input type="checkbox" id="treatAsNormal" class="form-check-input">
+                                    <label class="form-check-label" for="treatAsNormal">Pazar gününü normal hafta içi say</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Kaydet</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div id="recordsTableSection" class="card mb-4" style="display:none;">
+                <div class="card-body">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                        <h3 id="currentWeekTitle"></h3>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"><i class="fas fa-cog"></i> İşlemler</button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#editWeekModal"><i class="fas fa-edit"></i> Haftayı Düzenle</button></li>
+                                <li><button class="dropdown-item text-danger" onclick="confirmDeleteWeek()"><i class="fas fa-trash"></i> Haftayı Sil</button></li>
+                                <li><button class="dropdown-item" onclick="toggleEditButtons()"><i class="fas fa-edit"></i> Günleri Düzenle</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr><th>Tarih</th><th>Açıklama</th><th>Saat</th><th class="edit-header">İşlemler</th></tr>
+                            </thead>
+                            <tbody id="recordsTableBody"></tbody>
+                            <tfoot id="recordsTableFoot"></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REPORTS VIEW -->
+        <div id="reportsView" class="view-section">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <button class="btn btn-outline-primary mb-3" onclick="showView('dashboard')"><i class="fas fa-home"></i> Ana Sayfa</button>
+                    <h4>📊 Raporlar</h4>
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary">Hafta Aralığı Raporu</div>
+                        <div class="card-body bg-light">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-10">
+                                    <select id="reportWeekSelect" class="form-select"><option value="">Hafta Seçiniz</option></select>
+                                </div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary w-100" onclick="generateReport('week')">Oluştur</button>
+                                </div>
+                            </div>
+                            <div id="weekReportResult" class="mt-3" style="display:none;">
+                                <textarea class="form-control" rows="8" readonly></textarea>
+                                <button class="btn btn-success mt-2" onclick="copyText(this.previousElementSibling.value)">Kopyala</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header bg-primary">Tarih Aralığı Raporu</div>
+                        <div class="card-body bg-light">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-5"><label>Başlangıç</label><input type="date" id="repStart" class="form-control"></div>
+                                <div class="col-md-5"><label>Bitiş</label><input type="date" id="repEnd" class="form-control"></div>
+                                <div class="col-md-2"><button class="btn btn-primary w-100" onclick="generateReport('dateRange')">Oluştur</button></div>
+                            </div>
+                            <div id="dateRangeReportResult" class="mt-3" style="display:none;">
+                                <textarea class="form-control" rows="8" readonly></textarea>
+                                <button class="btn btn-success mt-2" onclick="copyText(this.previousElementSibling.value)">Kopyala</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN VIEW -->
+        <div id="adminView" class="view-section">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <button class="btn btn-outline-primary" onclick="showView('dashboard')"><i class="fas fa-home"></i> Ana Sayfa</button>
+                        <h5 class="mb-0">Admin Paneli</h5>
+                    </div>
+                    <h5>Kullanıcı Listesi</h5>
+                    <input type="text" id="userSearch" class="form-control mb-2" placeholder="Kullanıcı Ara...">
+                    <div class="table-responsive" style="max-height:300px;">
+                        <table class="table table-hover" id="userTable">
+                            <thead><tr><th>ID</th><th>Kullanıcı Adı</th><th>Ad Soyad</th><th>Admin?</th><th>Durum</th><th>İşlemler</th></tr></thead>
+                            <tbody id="userTableBody"></tbody>
+                        </table>
+                    </div>
+
+                    <h6 class="mt-4">Tüm Kullanıcılar Raporu</h6>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-5"><input type="date" id="adminAllStart" class="form-control"></div>
+                        <div class="col-md-5"><input type="date" id="adminAllEnd" class="form-control"></div>
+                        <div class="col-md-2"><button class="btn btn-primary w-100" onclick="generateReport('adminAll')">Oluştur</button></div>
+                    </div>
+                    <div id="adminReportResult" class="mt-3" style="display:none;">
+                        <textarea class="form-control" rows="10" readonly></textarea>
+                        <button class="btn btn-success mt-2" onclick="copyText(this.previousElementSibling.value)">Kopyala</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Record Modal -->
+    <div class="modal fade" id="editRecordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Kayıt Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <form id="editRecordForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="editId">
+                        <div class="mb-2"><label>Tarih</label><input type="date" id="editTarih" class="form-control" required></div>
+                        <div class="mb-2"><label>Açıklama</label><input type="text" id="editAciklama" class="form-control" required></div>
+                        <div class="mb-2"><label>Saat</label><input type="number" step="0.1" id="editSaat" class="form-control"></div>
+                        <div class="form-check">
+                            <input type="checkbox" id="editIsResmiTatil" class="form-check-input">
+                            <label class="form-check-label">Resmi Tatil Mesaisi</label>
+                        </div>
+                        <div class="form-check" id="editTreatAsNormalContainer" style="display:none;">
+                            <input type="checkbox" id="editTreatAsNormal" class="form-check-input">
+                            <label class="form-check-label">Pazar gününü normal hafta içi say</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Kullanıcı Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <form id="adminEditUserForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="adminEditUserId">
+                        <div class="mb-2"><label>Kullanıcı Adı</label><input type="text" id="adminEditUsername" class="form-control" required></div>
+                        <div class="mb-2"><label>Ad Soyad</label><input type="text" id="adminEditAdSoyad" class="form-control" required></div>
+                        <div class="mb-2"><label>Yeni Şifre (Boş bırakılabilir)</label><input type="password" id="adminEditPassword" class="form-control"></div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Kaydet</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Week Modal -->
+    <div class="modal fade" id="editWeekModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Hafta Düzenle</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <form id="editWeekForm">
+                    <div class="modal-body">
+                        <div class="mb-3"><label>Hafta Başlangıç Tarihi</label><input type="date" id="editWeekStart" class="form-control" required></div>
+                        <div class="mb-3"><label>Hafta Aralığı</label><input type="text" id="editWeekInterval" class="form-control" readonly required></div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary">Kaydet</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>© <span id="currentYearText"></span> İlhan Akdeniz - Tüm Hakları Saklıdır.</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var API_URL = 'LUTFEN_BURAYA_WEB_APP_URL_YAZIN';
+        var currentUser = null;
+        var currentWeek = null;
+        var allWeeks = [];
+        var currentYear = new Date().getFullYear();
+
+        document.getElementById('currentYearText').textContent = currentYear;
+
+        // API Helper
+        async function callApi(action, data = {}, isPost = false) {
+            showLoading(true);
+            try {
+                let url = API_URL;
+                let options = { method: isPost ? 'POST' : 'GET' };
+
+                if (isPost) {
+                    options.body = JSON.stringify({ action: action, ...data });
+                } else {
+                    let params = new URLSearchParams({ action: action, ...data });
+                    url += (url.indexOf('?') > -1 ? '&' : '?') + params.toString();
+                }
+
+                let response = await fetch(url);
+                let result = await response.json();
+                if (result.status === 'error') {
+                    showAlert(result.message, 'danger');
+                    return null;
+                }
+                return result.data || result;
+            } catch (error) {
+                showAlert('API Baglantı Hatası: ' + error, 'danger');
+                return null;
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(show) { document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none'; }
+        function showAlert(msg, type = 'info') {
+            let container = document.getElementById('alertContainer');
+            container.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show">${msg}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+            window.scrollTo(0,0);
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(viewId + 'View').classList.add('active');
+            if (viewId === 'dashboard') loadDashboard();
+            if (viewId === 'reports') loadReports();
+            if (viewId === 'admin') loadAdmin();
+        }
+
+        // Auth Logic
+        document.getElementById('loginForm').onsubmit = async (e) => {
+            e.preventDefault();
+            let res = await callApi('login', { username: loginUsername.value, password: loginPassword.value }, true);
+            if (res) { currentUser = res; loginSuccess(); }
+        };
+        document.getElementById('registerForm').onsubmit = async (e) => {
+            e.preventDefault();
+            if (regPassword.value !== regConfirmPassword.value) return showAlert('Sifreler eslesmiyor', 'warning');
+            let res = await callApi('register', { username: regUsername.value, password: regPassword.value, adsoyad: regAdSoyad.value }, true);
+            if (res) { currentUser = res; loginSuccess(); }
+        };
+        function loginSuccess() {
+            document.querySelectorAll('.user-display-name').forEach(el => el.textContent = currentUser.adsoyad);
+            document.querySelectorAll('.admin-only').forEach(el => el.style.display = currentUser.is_admin == 1 ? 'inline-block' : 'none');
+            showView('dashboard');
+        }
+        function logout() { currentUser = null; showView('auth'); }
+
+        // Dashboard Logic
+        async function loadDashboard(year = currentYear) {
+            let res = await callApi('getWeeks', { userId: currentUser.id, year: year });
+            if (res) {
+                allWeeks = res.weeks;
+                renderYearSelect(res.years, year);
+                renderWeekDropdown();
+                if (currentWeek) loadRecords();
+            }
+        }
+
+        function renderYearSelect(years, selectedYear) {
+            let select = document.getElementById('yearSelect');
+            select.innerHTML = '';
+            if (years.length === 0) years = [currentYear];
+            years.forEach(y => {
+                let opt = new Option(y, y);
+                if (y == selectedYear) opt.selected = true;
+                select.add(opt);
+            });
+            select.onchange = () => loadDashboard(select.value);
+        }
+
+        function renderWeekDropdown() {
+            let list = document.getElementById('weekDropdownList');
+            let btn = document.getElementById('weekDropdownBtn');
+            list.innerHTML = '';
+            if (allWeeks.length === 0) {
+                btn.textContent = 'Hafta Yok';
+                return;
+            }
+            allWeeks.forEach(w => {
+                let li = document.createElement('li');
+                li.innerHTML = `<a class="dropdown-item ${currentWeek && currentWeek.id == w.id ? 'active-week' : ''}" href="#">${w.hafta_araligi}</a>`;
+                li.onclick = () => { currentWeek = w; loadDashboard(); };
+                list.appendChild(li);
+            });
+            if (currentWeek) btn.textContent = currentWeek.hafta_araligi;
+        }
+
+        async function loadRecords() {
+            document.getElementById('recordEntrySection').style.display = 'block';
+            document.getElementById('recordsTableSection').style.display = 'block';
+            document.getElementById('currentWeekTitle').textContent = currentWeek.hafta_araligi + ' Mesai Kayıtları';
+
+            let res = await callApi('getRecords', { haftaId: currentWeek.id });
+            if (res) {
+                renderDayButtons(res.records);
+                renderRecordsTable(res.records);
+            }
+        }
+
+        function renderDayButtons(records) {
+            let container = document.getElementById('dayButtonContainer');
+            container.innerHTML = '';
+            let startDate = new Date(currentWeek.hafta_baslangic);
+            let enteredDates = records.map(r => formatDateISO(r.tarih));
+
+            for (let i = 0; i < 7; i++) {
+                let d = new Date(startDate);
+                d.setDate(d.getDate() + i);
+                let iso = formatDateISO(d);
+                let isEntered = enteredDates.includes(iso);
+                let isSun = d.getDay() === 0;
+                let isSat = d.getDay() === 6;
+
+                let btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `btn day-selector-btn ${isEntered ? 'kayitli-gun' : 'btn-outline-primary'} ${(isSun || isSat) ? 'weekend' : ''}`;
+                btn.textContent = getKisaGun(d) + ' ' + formatTarihTR(d);
+                btn.onclick = () => {
+                    mesaiTarihInput.value = iso;
+                    document.querySelectorAll('.day-selector-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateSundayOverride(iso, 'treatAsNormalContainer');
+                    mesaiAciklamaInput.focus();
+                };
+                container.appendChild(btn);
+            }
+        }
+
+        function renderRecordsTable(records) {
+            let tbody = document.getElementById('recordsTableBody');
+            let tfoot = document.getElementById('recordsTableFoot');
+            tbody.innerHTML = '';
+            let total = 0, pazar = 0, tatil = 0;
+
+            records.forEach(r => {
+                let isPaz = isSunday(r.tarih) && r.treat_as_normal != 1;
+                let tr = document.createElement('tr');
+                if (r.is_resmi_tatil == 1) tr.classList.add('resmi-tatil');
+                else if (isPaz) tr.classList.add('pazar');
+                if (parseFloat(r.saat) > 0 || (r.saat == 0 && (isPaz || r.is_resmi_tatil == 1))) tr.classList.add('soluk');
+
+                tr.innerHTML = `
+                    <td>${formatTarihTR(r.tarih)}${isPaz ? ' (Pazar)' : ''}</td>
+                    <td>${r.aciklama}${r.is_resmi_tatil == 1 ? ' (Resmi Tatil)' : ''}</td>
+                    <td>${(parseFloat(r.saat) > 0 || (r.saat == 0 && (isPaz || r.is_resmi_tatil == 1))) ? r.saat + ' saat' : ''}</td>
+                    <td class="edit-buttons">
+                        <button class="btn btn-sm btn-warning" onclick='openEditModal(${JSON.stringify(r)})'><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteRecord(${r.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+                total += parseFloat(r.saat);
+                if (isPaz) pazar++;
+                if (r.is_resmi_tatil == 1) tatil++;
+            });
+
+            tfoot.innerHTML = `
+                <tr class="table-primary"><td colspan="2"><strong>Toplam Mesai</strong></td><td colspan="2"><strong>${total} saat</strong></td></tr>
+                <tr class="table-warning"><td colspan="2"><strong>Pazar Mesai Sayısı</strong></td><td colspan="2"><strong>${pazar} adet</strong></td></tr>
+                ${tatil > 0 ? `<tr class="table-info"><td colspan="2"><strong>Resmi Tatil Mesaisi</strong></td><td colspan="2"><strong>${tatil} adet</strong></td></tr>` : ''}
+            `;
+        }
+
+        // Event Handlers
+        newWeekStart.onchange = () => updateWeekInterval(newWeekStart, newWeekInterval);
+        createWeekForm.onsubmit = async (e) => {
+            e.preventDefault();
+            let res = await callApi('createWeek', { hafta_baslangic: newWeekStart.value, hafta_araligi: newWeekInterval.value, adsoyad: currentUser.adsoyad, userId: currentUser.id }, true);
+            if (res) { currentWeek = {id: res.id, hafta_araligi: newWeekInterval.value, hafta_baslangic: newWeekStart.value}; loadDashboard(); }
+        };
+        mesaiForm.onsubmit = async (e) => {
+            e.preventDefault();
+            let data = { hafta_id: currentWeek.id, tarih: mesaiTarihInput.value, aciklama: mesaiAciklamaInput.value, saat: mesaiSaatInput.value || 0, is_resmi_tatil: isResmiTatil.checked, treat_as_normal: treatAsNormal.checked };
+            let res = await callApi('saveRecord', data, true);
+            if (res) loadRecords();
+        };
+
+        // Reports Logic
+        async function loadReports() {
+            let res = await callApi('getWeeks', { userId: currentUser.id });
+            if (res) {
+                let sel = document.getElementById('reportWeekSelect');
+                sel.innerHTML = '<option value="">Hafta Seçiniz</option>';
+                res.weeks.forEach(w => sel.add(new Option(w.hafta_araligi, w.id)));
+            }
+        }
+        async function generateReport(type) {
+            let params = { reportType: type, userId: currentUser.id };
+            if (type === 'week') params.weekId = reportWeekSelect.value;
+            else if (type === 'dateRange') { params.startDate = repStart.value; params.endDate = repEnd.value; }
+            else if (type === 'adminAll') { params.startDate = adminAllStart.value; params.endDate = adminAllEnd.value; }
+
+            let res = await callApi('generateReport', params);
+            if (res) {
+                let div = (type === 'week' ? weekReportResult : (type === 'dateRange' ? dateRangeReportResult : adminReportResult));
+                div.style.display = 'block';
+                div.querySelector('textarea').value = res.reportText;
+            }
+        }
+
+        // Admin Logic
+        async function loadAdmin() {
+            let res = await callApi('getUsers');
+            if (res) {
+                let tbody = document.getElementById('userTableBody');
+                tbody.innerHTML = '';
+                res.users.forEach(u => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${u.id}</td><td>${u.username}</td><td>${u.adsoyad}</td>
+                        <td>${u.is_admin == 1 ? '<span class="badge bg-primary">Admin</span>' : '<span class="badge bg-secondary">Kullanıcı</span>'}</td>
+                        <td>${u.is_banned == 1 ? '<span class="badge bg-danger">Banlı</span>' : '<span class="badge bg-success">Aktif</span>'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick='openUserEditModal(${JSON.stringify(u)})'><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteUser(${u.id})"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-secondary" onclick="toggleBan(${u.id})"><i class="fas fa-ban"></i></button>
+                            <button class="btn btn-sm btn-info" onclick="toggleAdmin(${u.id})"><i class="fas fa-user-shield"></i></button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Helper Functions
+        function formatDateISO(date) {
+            let d = new Date(date);
+            return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+        }
+        function formatTarihTR(date) {
+            let aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            let d = new Date(date);
+            return d.getDate() + ' ' + aylar[d.getMonth()];
+        }
+        function getKisaGun(date) { return ['PZR', 'PTS', 'SAL', 'ÇAR', 'PER', 'CUM', 'CTS'][new Date(date).getDay()]; }
+        function isSunday(date) { return new Date(date).getDay() === 0; }
+        function updateSundayOverride(date, containerId) {
+            let container = document.getElementById(containerId);
+            container.style.display = isSunday(date) ? 'block' : 'none';
+        }
+        function updateWeekInterval(startInput, intervalInput) {
+            if (!startInput.value) return;
+            let start = new Date(startInput.value);
+            let end = new Date(start); end.setDate(end.getDate() + 6);
+            let months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+            intervalInput.value = (start.getMonth() === end.getMonth()) ?
+                `${start.getDate()}-${end.getDate()} ${months[start.getMonth()]}` :
+                `${start.getDate()} ${months[start.getMonth()]} - ${end.getDate()} ${months[end.getMonth()]}`;
+        }
+        function toggleEditButtons() {
+            let showing = document.querySelector('.edit-buttons').style.display === 'table-cell';
+            document.querySelectorAll('.edit-buttons, .edit-header').forEach(el => el.style.display = showing ? 'none' : 'table-cell');
+        }
+        function copyText(txt) { navigator.clipboard.writeText(txt); alert('Kopyalandı!'); }
+
+        // Modal Openers
+        function openEditModal(record) {
+            editId.value = record.id;
+            editTarih.value = formatDateISO(record.tarih);
+            editAciklama.value = record.aciklama;
+            editSaat.value = record.saat;
+            editIsResmiTatil.checked = record.is_resmi_tatil == 1;
+            editTreatAsNormal.checked = record.treat_as_normal == 1;
+            updateSundayOverride(editTarih.value, 'editTreatAsNormalContainer');
+            new bootstrap.Modal(document.getElementById('editRecordModal')).show();
+        }
+        editRecordForm.onsubmit = async (e) => {
+            e.preventDefault();
+            let res = await callApi('editRecord', { id: editId.value, tarih: editTarih.value, aciklama: editAciklama.value, saat: editSaat.value, is_resmi_tatil: editIsResmiTatil.checked, treat_as_normal: editTreatAsNormal.checked }, true);
+            if (res) { bootstrap.Modal.getInstance(document.getElementById('editRecordModal')).hide(); loadRecords(); }
+        };
+
+        document.getElementById('editWeekModal').addEventListener('show.bs.modal', () => {
+            editWeekStart.value = formatDateISO(currentWeek.hafta_baslangic);
+            updateWeekInterval(editWeekStart, editWeekInterval);
+        });
+        editWeekStart.onchange = () => updateWeekInterval(editWeekStart, editWeekInterval);
+        editWeekForm.onsubmit = async (e) => {
+            e.preventDefault();
+            let res = await callApi('editWeek', { id: currentWeek.id, hafta_baslangic: editWeekStart.value, hafta_araligi: editWeekInterval.value }, true);
+            if (res) {
+                currentWeek.hafta_baslangic = editWeekStart.value;
+                currentWeek.hafta_araligi = editWeekInterval.value;
+                bootstrap.Modal.getInstance(document.getElementById('editWeekModal')).hide();
+                loadDashboard();
+            }
+        };
+        async function deleteRecord(id) { if (confirm('Silmek istediginize emin misiniz?')) { await callApi('deleteRecord', { recordId: id }, true); loadRecords(); } }
+        async function confirmDeleteWeek() { if (confirm('Haftayi ve tum kayitlari silmek istediginize emin misiniz?')) { await callApi('deleteWeek', { weekId: currentWeek.id }, true); currentWeek = null; loadDashboard(); } }
+
+        function openUserEditModal(u) {
+            adminEditUserId.value = u.id; adminEditUsername.value = u.username; adminEditAdSoyad.value = u.adsoyad; adminEditPassword.value = '';
+            new bootstrap.Modal(document.getElementById('editUserModal')).show();
+        }
+        adminEditUserForm.onsubmit = async (e) => {
+            e.preventDefault();
+            let res = await callApi('adminUpdateUser', { user_id: adminEditUserId.value, new_username: adminEditUsername.value, new_adsoyad: adminEditAdSoyad.value, new_password: adminEditPassword.value }, true);
+            if (res) { bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide(); loadAdmin(); }
+        };
+        async function deleteUser(id) { if (confirm('Kullaniciyi silmek istediginize emin misiniz?')) { await callApi('deleteUser', { user_id: id }, true); loadAdmin(); } }
+        async function toggleBan(id) { await callApi('toggleBan', { user_id: id }, true); loadAdmin(); }
+        async function toggleAdmin(id) { await callApi('toggleAdmin', { user_id: id }, true); loadAdmin(); }
+
+        userSearch.onkeyup = () => {
+            let filter = userSearch.value.toLowerCase();
+            document.querySelectorAll('#userTable tbody tr').forEach(tr => tr.style.display = tr.innerText.toLowerCase().includes(filter) ? '' : 'none');
+        };
+
+        changePasswordForm.onsubmit = async (e) => {
+            e.preventDefault();
+            if (newPass.value !== newPassConfirm.value) return showAlert('Yeni sifreler eslesmiyor', 'warning');
+            let res = await callApi('changePassword', { userId: currentUser.id, currentPassword: curPass.value, newPassword: newPass.value }, true);
+            if (res) { showAlert('Sifreniz basariyla guncellendi', 'success'); changePasswordForm.reset(); bootstrap.Collapse.getInstance(document.getElementById('changePasswordPanel')).hide(); }
+        };
+    </script>
+</body>
+</html>
