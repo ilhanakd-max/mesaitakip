@@ -522,7 +522,7 @@
                     url += (url.indexOf('?') > -1 ? '&' : '?') + params.toString();
                 }
 
-                let response = await fetch(url);
+                let response = await fetch(url, options);
                 let result = await response.json();
                 if (result.status === 'error') {
                     showAlert(result.message, 'danger');
@@ -577,8 +577,23 @@
             if (res) {
                 allWeeks = res.weeks;
                 renderYearSelect(res.years, year);
+
+                // If switching year or no week selected, auto-select first available week
+                if (allWeeks.length > 0) {
+                    if (!currentWeek || !allWeeks.find(w => w.id == currentWeek.id)) {
+                        currentWeek = allWeeks[0];
+                    }
+                } else {
+                    currentWeek = null;
+                }
+
                 renderWeekDropdown();
-                if (currentWeek) loadRecords();
+                if (currentWeek) {
+                    loadRecords();
+                } else {
+                    document.getElementById('recordEntrySection').style.display = 'none';
+                    document.getElementById('recordsTableSection').style.display = 'none';
+                }
             }
         }
 
@@ -605,7 +620,7 @@
             allWeeks.forEach(w => {
                 let li = document.createElement('li');
                 li.innerHTML = `<a class="dropdown-item ${currentWeek && currentWeek.id == w.id ? 'active-week' : ''}" href="#">${w.hafta_araligi}</a>`;
-                li.onclick = () => { currentWeek = w; loadDashboard(); };
+                li.onclick = () => { currentWeek = w; loadDashboard(document.getElementById('yearSelect').value); };
                 list.appendChild(li);
             });
             if (currentWeek) btn.textContent = currentWeek.hafta_araligi;
@@ -692,7 +707,10 @@
         createWeekForm.onsubmit = async (e) => {
             e.preventDefault();
             let res = await callApi('createWeek', { hafta_baslangic: newWeekStart.value, hafta_araligi: newWeekInterval.value, adsoyad: currentUser.adsoyad, userId: currentUser.id }, true);
-            if (res) { currentWeek = {id: res.id, hafta_araligi: newWeekInterval.value, hafta_baslangic: newWeekStart.value}; loadDashboard(); }
+            if (res) {
+                currentWeek = {id: res.id, hafta_araligi: newWeekInterval.value, hafta_baslangic: newWeekStart.value};
+                loadDashboard(new Date(newWeekStart.value).getFullYear());
+            }
         };
         mesaiForm.onsubmit = async (e) => {
             e.preventDefault();
@@ -808,11 +826,11 @@
                 currentWeek.hafta_baslangic = editWeekStart.value;
                 currentWeek.hafta_araligi = editWeekInterval.value;
                 bootstrap.Modal.getInstance(document.getElementById('editWeekModal')).hide();
-                loadDashboard();
+                loadDashboard(document.getElementById('yearSelect').value);
             }
         };
         async function deleteRecord(id) { if (confirm('Silmek istediginize emin misiniz?')) { await callApi('deleteRecord', { recordId: id }, true); loadRecords(); } }
-        async function confirmDeleteWeek() { if (confirm('Haftayi ve tum kayitlari silmek istediginize emin misiniz?')) { await callApi('deleteWeek', { weekId: currentWeek.id }, true); currentWeek = null; loadDashboard(); } }
+        async function confirmDeleteWeek() { if (confirm('Haftayi ve tum kayitlari silmek istediginize emin misiniz?')) { await callApi('deleteWeek', { weekId: currentWeek.id }, true); currentWeek = null; loadDashboard(document.getElementById('yearSelect').value); } }
 
         function openUserEditModal(u) {
             adminEditUserId.value = u.id; adminEditUsername.value = u.username; adminEditAdSoyad.value = u.adsoyad; adminEditPassword.value = '';

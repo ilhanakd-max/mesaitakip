@@ -3,10 +3,17 @@
  * Bu script Google Sheets dosyasina bagli olarak calisir.
  */
 
-var SPREADSHEET_ID = 'LUTFEN_BURAYA_SPREADSHEET_ID_YAZIN'; // Kurulum sirasinda guncellenecek
+var SPREADSHEET_ID = ''; // Opsiyonel: Eger script sheet'e bagli degilse buraya ID yazin
+
+function getSS() {
+  if (SPREADSHEET_ID) {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  }
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
 
 function getSheet(name) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ss = getSS();
   var sheet = ss.getSheetByName(name);
   if (!sheet) {
     sheet = ss.insertSheet(name);
@@ -41,12 +48,12 @@ function doGet(e) {
 
   try {
     if (action === 'getWeeks') {
-      var userId = e.parameter.userId;
+      var userId = String(e.parameter.userId);
       var year = e.parameter.year;
       var allWeeks = getData('haftalar');
       response.weeks = allWeeks.filter(function(w) {
         var date = new Date(w.hafta_baslangic);
-        return w.user_id == userId && (year ? date.getFullYear() == year : true);
+        return String(w.user_id) === userId && (year ? date.getFullYear() == year : true);
       }).sort(function(a, b) { return new Date(b.hafta_baslangic) - new Date(a.hafta_baslangic); });
 
       var years = [];
@@ -59,10 +66,10 @@ function doGet(e) {
       response.years = years.sort(function(a, b) { return b - a; });
     }
     else if (action === 'getRecords') {
-      var haftaId = e.parameter.haftaId;
+      var haftaId = String(e.parameter.haftaId);
       var allRecords = getData('mesai_kayitlari');
       response.records = allRecords.filter(function(r) {
-        return r.hafta_id == haftaId;
+        return String(r.hafta_id) === haftaId;
       }).sort(function(a, b) { return new Date(a.tarih) - new Date(b.tarih); });
     }
     else if (action === 'getUsers') {

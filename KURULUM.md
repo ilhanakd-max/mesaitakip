@@ -7,8 +7,8 @@ Bu uygulama PHP tabanlı bir sistemden, Google Sheets veritabanı kullanan moder
 1. Proje klasöründeki `mesaitakip_db.xlsx` dosyasını bilgisayarınıza indirin.
 2. Google Drive hesabınızı açın ve bu `.xlsx` dosyasını Drive'a yükleyin.
 3. Yüklediğiniz dosyaya sağ tıklayıp **Birlikte Aç > Google E-Tablolar** seçeneğini seçin.
-4. Açılan e-tabloda **Dosya > Google E-Tablo olarak kaydet** diyerek dosyayı Google Sheet formatına dönüştürün (Artık Drive'ınızda bir de Google Sheet ikonu olan dosya olmalı).
-5. Bu Google Sheet'in URL'sindeki ID kısmını kopyalayın (Örn: `https://docs.google.com/spreadsheets/d/ID_BURADA/edit` kısmındaki `ID_BURADA`).
+4. Açılan e-tabloda **Dosya > Google E-Tablo olarak kaydet** diyerek dosyayı Google Sheet formatına dönüştürün (**ÇOK ÖNEMLİ:** Drive'ınızda birisi .xlsx diğeri Google Sheet ikonu olan iki dosya olmalı. Uygulama Google Sheet olanla çalışır).
+5. Bu Google Sheet'in (XLSX olan değil!) URL'sindeki ID kısmını kopyalayın (Örn: `https://docs.google.com/spreadsheets/d/ID_BURADA/edit` kısmındaki `ID_BURADA`).
 
 ## 2. Backend Scriptini Hazırlama (Google Apps Script)
 
@@ -35,7 +35,11 @@ Bu uygulama PHP tabanlı bir sistemden, Google Sheets veritabanı kullanan moder
 * Uygulama tamamen istemci taraflı (Client-side) çalışmaktadır ve tüm verileriniz Google Sheets dosyanızda güvenle saklanmaktadır.
 * Mobil cihazlarınızdan erişmek için bu `index.html` dosyasını bir web sunucusuna (GitHub Pages, Netlify vb.) yükleyebilir veya doğrudan telefonunuza atıp tarayıcı ile açabilirsiniz.
 
-## Eski Veriler
-`mesaitakip_db.xlsx` dosyası orijinal veritabanındaki tüm verileri içermektedir. Google Sheets'e dönüştürdüğünüzde tüm eski kayıtlarınız ve kullanıcılarınız (djmaster, Ege vb.) hazır gelecektir.
+## ÖNEMLİ NOTLAR - Veriler Neden Görünmüyor Olabilir?
 
-**Not:** Güvenlik için Apps Script dağıtımını yaparken izinleri doğru verdiğinizden emin olun.
+1.  **XLSX vs Google Sheets:** Drive'a yüklediğiniz `.xlsx` dosyasını mutlaka "Google E-Tablo olarak kaydet" diyerek dönüştürmelisiniz. Uygulama ham `.xlsx` dosyasıyla konuşamaz.
+2.  **Kullanıcı Eşleşmesi:** Veriler `user_id` sütununa göre filtrelenir. Eğer yeni bir kullanıcı açarsanız eski verileri göremezsiniz. Mevcut kullanıcılarla (örn: `djmaster`) giriş yapmalısınız.
+3.  **Hafta Seçimi:** Giriş yaptığınızda veriler gelmiyorsa, sağ üstteki "Yıl Seçimi"nin doğru olduğundan emin olun.
+4.  **Şifreler:** Orijinal veritabanındaki şifreler şifrelenmiş (hashed) haldedir. Bu yeni sistemde şifreler düz metin olarak karşılaştırılır. Eğer giriş yapamazsanız, Google Sheets'teki `kullanicilar` sekmesine gidip kendi satırınızdaki `password` kısmını manuel olarak istediğiniz bir şifreyle (örn: `123456`) değiştirip tekrar giriş yapmayı deneyin.
+
+**Güvenlik Uyarısı:** Apps Script dağıtımını yaparken "Erişimi olanlar" kısmını **Herkes (Anyone)** seçtiğinizden emin olun, aksi takdirde uygulama veritabanına ulaşamaz.
