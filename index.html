@@ -308,6 +308,24 @@
                                 <button class="btn btn-warning" onclick="showSection('reports')">Raporlar</button>
                             </div>
                         </div>
+
+                        <!-- DB Backup Section -->
+                        <div class="mb-4">
+                            <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#dbBackupCollapse">
+                                <h5 class="mb-0"><i class="fas fa-database"></i> Veritabanı Yedeği İşlemleri</h5>
+                            </button>
+                            <div class="collapse" id="dbBackupCollapse">
+                                <div class="card card-body">
+                                    <div class="alert alert-info">Google Sheets altyapısında yedekleme işlemleri Google tarafından otomatik yapılmaktadır. Ancak verilerinizi Excel olarak indirebilirsiniz.</div>
+                                    <div class="d-flex flex-column flex-md-row gap-2">
+                                        <button class="btn btn-success" onclick="window.open('https://docs.google.com/spreadsheets/d/1pW64mHNZwFex0oW14i14Tf3XrRXSuAPITFeWKalIIZA/export?format=xlsx')">
+                                            <i class="fas fa-download"></i> DB Yedeği Al (Excel)
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <h5><i class="fas fa-user-shield"></i> Kullanıcı Listesi</h5>
                         <div class="mb-2"><input type="text" id="userSearch" class="form-control" placeholder="Kullanıcı Ara" onkeyup="filterUsers()"></div>
                         <div class="table-responsive mb-3" style="max-height:300px; overflow-y:auto;">
@@ -318,6 +336,39 @@
                                 <tbody id="admin-user-list"></tbody>
                             </table>
                         </div>
+
+                        <!-- User Based Report Section -->
+                        <h6 class="mt-4">Kullanıcı Bazlı Rapor</h6>
+                        <div class="mb-2">
+                            <input type="text" id="userReportSearch" class="form-control" placeholder="Kullanıcı Ara" onkeyup="filterUserSelect()">
+                        </div>
+                        <form id="admin-user-report-form" class="row g-2">
+                            <div class="col-md-4">
+                                <label class="form-label">Kullanıcı Seçin</label>
+                                <select id="admin-user-select" class="form-select" required>
+                                    <option value="">Seçiniz</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Başlangıç Tarihi</label>
+                                <input type="date" id="admin-user-start" class="form-control" required>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Bitiş Tarihi</label>
+                                <input type="date" id="admin-user-end" class="form-control" required>
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-file-alt"></i> Rapor Oluştur
+                                </button>
+                            </div>
+                        </form>
+                        <div id="admin-user-report-result" class="mt-3" style="display:none">
+                            <h5>Kullanıcı Raporu</h5>
+                            <textarea class="form-control" style="height:200px" readonly></textarea>
+                            <button class="btn btn-success mt-2" onclick="copyReport('admin-user-report-result')"><i class="fas fa-copy"></i> Raporu Kopyala</button>
+                        </div>
+
                         <h6 class="mt-4">Tüm Kullanıcılar için Tarih Aralığı Raporu</h6>
                         <form id="admin-report-form" class="row g-2">
                             <div class="col-md-5"><label class="form-label">Başlangıç Tarihi</label><input type="date" id="admin-start" class="form-control" required></div>
