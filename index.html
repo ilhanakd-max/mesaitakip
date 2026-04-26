@@ -15,7 +15,10 @@
             margin-bottom: 80px;
             animation: fadeIn 1s ease-in;
         }
-        .container { max-width: 1000px; padding: 20px; }
+        .container {
+            max-width: 1000px;
+            padding: 20px;
+        }
         .card {
             border-radius: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -56,13 +59,19 @@
             background-color: #c82333;
             transform: scale(1.05);
         }
-        .pazar { background-color: #fff3cd !important; }
-        .resmi-tatil { background-color: #d1ecf1 !important; }
+        .pazar {
+            background-color: #fff3cd !important;
+        }
+        .resmi-tatil {
+            background-color: #d1ecf1 !important;
+        }
         .soluk, .kayitli-gun-soluk {
             background-color: #e9ecef !important;
             opacity: 0.7;
         }
-        .table-hover tbody tr.soluk:hover { background-color: #dfe2e5 !important; }
+        .table-hover tbody tr.soluk:hover {
+            background-color: #dfe2e5 !important;
+        }
         footer {
             position: fixed;
             bottom: 0;
@@ -76,7 +85,10 @@
             animation: slideUp 0.5s ease-in;
             z-index: 1000;
         }
-        .active-week { background-color: #007bff !important; color: #fff !important; }
+        .active-week {
+            background-color: #007bff;
+            color: #fff;
+        }
         .table-hover tbody tr:hover {
             background-color: #f1f3f5;
             transition: background-color 0.3s ease;
@@ -91,10 +103,10 @@
             border-color: #0056b3;
         }
         .day-selector-btn.kayitli-gun {
-            background-color: #f8f9fa;
-            color: #6c757d;
-            border-color: #dee2e6;
-            opacity: 0.7;
+             background-color: #f8f9fa;
+             color: #6c757d;
+             border-color: #dee2e6;
+             opacity: 0.7;
         }
         .day-selector-btn.weekend {
             background-color: #fd7e14 !important;
@@ -105,7 +117,9 @@
             background-color: #e06b12 !important;
             opacity: 0.85;
         }
-        .day-selector-btn.weekend.active { background-color: #c95e0f !important; }
+        .day-selector-btn.weekend.active {
+            background-color: #c95e0f !important;
+        }
         @media (max-width: 768px) {
             .container { padding: 10px; }
             .btn { font-size: 0.9rem; padding: 10px 15px; }
@@ -119,27 +133,47 @@
                 min-width: 100px;
                 margin-bottom: 5px !important;
             }
-            #dayButtonContainer { justify-content: space-around; }
+            #dayButtonContainer {
+                 justify-content: space-around;
+            }
         }
         .edit-buttons, .edit-header { display: none; }
         .dropdown-menu { max-height: 200px; overflow-y: auto; }
-        .loader {
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
             border: 5px solid #f3f3f3;
             border-top: 5px solid #007bff;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 20px auto;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
-    <div class="container my-4" id="app">
-        <div id="messageArea"></div>
-        
-        <div id="loginSection">
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+    <div class="container my-4">
+        <div id="messageBox"></div>
+
+        <!-- Login/Register Section -->
+        <div id="authSection">
             <div class="card mb-3">
                 <div class="card-header">
                     <button class="btn btn-info w-100 text-start" type="button" data-bs-toggle="collapse" data-bs-target="#helpPanelNonLogged" aria-expanded="false" aria-controls="helpPanelNonLogged">
@@ -181,7 +215,7 @@
                                     <input type="checkbox" name="remember" class="form-check-input" id="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Beni Hatırla</label>
                                 </div>
-                                <button type="submit" name="login" class="btn btn-primary">Giriş Yap</button>
+                                <button type="submit" class="btn btn-primary">Giriş Yap</button>
                             </form>
                         </div>
                         <div class="tab-pane fade pt-3" id="register" role="tabpanel">
@@ -203,19 +237,20 @@
                                     <input type="password" name="reg_confirm_password" id="regConfirmPassword" class="form-control" required>
                                     <small class="form-text text-muted">Şifrenizi lütfen unutmayın. Unutursanız, site yöneticisi ile iletişime geçiniz.</small>
                                 </div>
-                                <button type="submit" name="register" class="btn btn-success">Kayıt Ol</button>
+                                <button type="submit" class="btn btn-success">Kayıt Ol</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div id="reportsSection" style="display:none;">
+
+        <!-- Reports Section -->
+        <div id="raporlarSection" style="display: none;">
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <a href="#" onclick="showMainSection()" class="btn btn-outline-primary">
+                        <a href="#" onclick="showMainSection(); return false;" class="btn btn-outline-primary">
                             <i class="fas fa-home"></i> Ana Sayfa
                         </a>
                     </div>
@@ -236,9 +271,9 @@
                                     </button>
                                 </div>
                             </form>
-                            <div id="haftaRaporArea" class="mt-3" style="display:none;">
+                            <div id="haftaRaporContainer" class="mt-3" style="display: none;">
                                 <textarea id="haftaRaporText" style="width:100%; height:200px;" readonly></textarea>
-                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard('haftaRaporText')">
+                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('haftaRaporText').value)">
                                     <i class="fas fa-copy"></i> Raporu Kopyala
                                 </button>
                             </div>
@@ -250,11 +285,11 @@
                             <form id="dateRangeReportForm" class="row g-2 align-items-end">
                                 <div class="col-md-5">
                                     <label class="form-label">Başlangıç Tarihi</label>
-                                    <input type="date" name="baslangic_tarihi" id="reportBaslangic" class="form-control" required>
+                                    <input type="date" name="baslangic_tarihi" id="reportBaslangicTarihi" class="form-control" required>
                                 </div>
                                 <div class="col-md-5">
                                     <label class="form-label">Bitiş Tarihi</label>
-                                    <input type="date" name="bitis_tarihi" id="reportBitis" class="form-control" required>
+                                    <input type="date" name="bitis_tarihi" id="reportBitisTarihi" class="form-control" required>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="submit" class="btn btn-primary w-100">
@@ -262,9 +297,9 @@
                                     </button>
                                 </div>
                             </form>
-                            <div id="dateRangeRaporArea" class="mt-3" style="display:none;">
+                            <div id="dateRangeRaporContainer" class="mt-3" style="display: none;">
                                 <textarea id="raporDateRangeText" style="width:100%; height:200px;" readonly></textarea>
-                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard('raporDateRangeText')">
+                                <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('raporDateRangeText').value)">
                                     <i class="fas fa-copy"></i> Raporu Kopyala
                                 </button>
                             </div>
@@ -273,25 +308,26 @@
                 </div>
             </div>
         </div>
-        
-        <div id="adminSection" style="display:none;">
+
+        <!-- Admin Section -->
+        <div id="adminSection" style="display: none;">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-3">
-                            <a href="#" onclick="showMainSection()" class="btn btn-outline-primary">
+                            <a href="#" onclick="showMainSection(); return false;" class="btn btn-outline-primary">
                                 <i class="fas fa-home"></i> Ana Sayfa
                             </a>
-                            <span class="fw-bold" id="adminWelcome">Hoşgeldin</span>
+                            <span class="fw-bold" id="adminWelcomeText">Hoşgeldin</span>
                         </div>
                         <div class="d-flex gap-2 flex-column flex-md-row">
-                            <a href="#" onclick="showMainSection()" class="btn btn-secondary">
+                            <a href="#" onclick="showMainSection(); return false;" class="btn btn-secondary">
                                 <i class="fas fa-arrow-left"></i> Kullanıcı Arayüzüne Dön
                             </a>
-                            <a href="#" onclick="showReportsSection()" class="btn btn-warning">
+                            <a href="#" onclick="showRaporlarSection(); return false;" class="btn btn-warning">
                                 <i class="fas fa-file-alt"></i> Raporlar
                             </a>
-                            <a href="#" onclick="logout()" class="btn btn-danger">
+                            <a href="#" onclick="logout(); return false;" class="btn btn-danger">
                                 <i class="fas fa-sign-out-alt"></i> Çıkış
                             </a>
                         </div>
@@ -312,24 +348,28 @@
                                     <th>İşlemler</th>
                                 </tr>
                             </thead>
-                            <tbody id="userTableBody"></tbody>
+                            <tbody id="userTableBody">
+                            </tbody>
                         </table>
                     </div>
                     <h6>Kullanıcı Bazlı Rapor</h6>
+                    <div class="mb-2">
+                        <input type="text" id="userReportSearch" class="form-control" placeholder="Kullanıcı Ara">
+                    </div>
                     <form id="adminUserReportForm" class="row g-2">
                         <div class="col-md-4">
                             <label class="form-label">Kullanıcı Seçin</label>
-                            <select name="selected_user" id="adminUserSelect" class="form-select" required>
+                            <select name="selected_user" id="userReportSelect" class="form-select" required>
                                 <option value="">Seçiniz</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Başlangıç Tarihi</label>
-                            <input type="date" name="baslangic_tarihi_admin" id="adminBaslangic" class="form-control" required>
+                            <input type="date" name="baslangic_tarihi_admin" id="adminReportBaslangic" class="form-control" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Bitiş Tarihi</label>
-                            <input type="date" name="bitis_tarihi_admin" id="adminBitis" class="form-control" required>
+                            <input type="date" name="bitis_tarihi_admin" id="adminReportBitis" class="form-control" required>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100">
@@ -337,10 +377,10 @@
                             </button>
                         </div>
                     </form>
-                    <div id="adminUserReportArea" class="mt-3" style="display:none;">
+                    <div id="adminUserReportContainer" class="mt-3" style="display: none;">
                         <h5>Kullanıcı Raporu</h5>
                         <textarea id="adminUserReport" style="width:100%; height:200px;" readonly></textarea>
-                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard('adminUserReport')">
+                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('adminUserReport').value)">
                             <i class="fas fa-copy"></i> Raporu Kopyala
                         </button>
                     </div>
@@ -348,11 +388,11 @@
                     <form id="adminAllUsersReportForm" class="row g-2">
                         <div class="col-md-5">
                             <label class="form-label">Başlangıç Tarihi</label>
-                            <input type="date" name="baslangic_tarihi" id="allUsersBaslangic" class="form-control" required>
+                            <input type="date" name="baslangic_tarihi" id="allUsersReportBaslangic" class="form-control" required>
                         </div>
                         <div class="col-md-5">
                             <label class="form-label">Bitiş Tarihi</label>
-                            <input type="date" name="bitis_tarihi" id="allUsersBitis" class="form-control" required>
+                            <input type="date" name="bitis_tarihi" id="allUsersReportBitis" class="form-control" required>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100">
@@ -360,44 +400,48 @@
                             </button>
                         </div>
                     </form>
-                    <div id="adminAllUsersReportArea" class="mt-3" style="display:none;">
+                    <div id="adminAllUsersReportContainer" class="mt-3" style="display: none;">
                         <h5>Tüm Kullanıcılar Raporu</h5>
                         <textarea id="adminAllUsersReport" style="width:100%; height:200px;" readonly></textarea>
-                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard('adminAllUsersReport')">
+                        <button type="button" class="btn btn-success mt-2" onclick="copyToClipboard(document.getElementById('adminAllUsersReport').value)">
                             <i class="fas fa-copy"></i> Raporu Kopyala
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div id="mainSection" style="display:none;">
+
+        <!-- Main User Section -->
+        <div id="mainSection" style="display: none;">
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-3">
                             <h5 class="mb-0 text-primary fw-bold">Mesai Takip Sistemi</h5>
-                            <span class="fw-bold" id="userWelcome">| Hoşgeldin</span>
+                            <span class="fw-bold" id="welcomeText">| Hoşgeldin</span>
                         </div>
                         <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu" aria-expanded="false" aria-controls="mainMenu">
                             <i class="fas fa-bars"></i> Menü
                         </button>
                     </div>
-                    <div class="collapse mb-3" id="mainMenu">
+                     <div class="collapse mb-3" id="mainMenu">
                         <div class="d-flex flex-column flex-md-row gap-2 justify-content-end">
+                            <a href="#" onclick="location.reload(); return false;" class="btn btn-outline-primary">
+                                <i class="fas fa-home"></i> Ana Sayfa
+                            </a>
                             <button class="btn btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#wizardPanel" aria-expanded="false" aria-controls="wizardPanel">
                                 <i class="fas fa-magic"></i> Kullanım Kılavuzu
                             </button>
-                            <a href="#" onclick="showReportsSection()" class="btn btn-warning">
+                            <a href="#" onclick="showRaporlarSection(); return false;" class="btn btn-warning">
                                 <i class="fas fa-file-alt"></i> Raporlar
                             </a>
                             <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#changePasswordPanel" aria-expanded="false" aria-controls="changePasswordPanel">
                                 <i class="fas fa-key"></i> Şifre Değiştir
                             </button>
-                            <a href="#" id="adminLink" class="btn btn-danger" style="display:none;">
+                            <a href="#" id="adminPanelLink" onclick="showAdminSection(); return false;" class="btn btn-danger" style="display: none;">
                                 <i class="fas fa-user-shield"></i> Admin Paneli
                             </a>
-                            <a href="#" onclick="logout()" class="btn btn-danger">
+                             <a href="#" onclick="logout(); return false;" class="btn btn-danger">
                                 <i class="fas fa-sign-out-alt"></i> Çıkış
                             </a>
                         </div>
@@ -408,7 +452,7 @@
                             <h6>Adım 1: Hafta Seçimi</h6>
                             <p>Hafta seçim menüsünden mevcut haftalarınızı seçin veya yeni bir hafta oluşturun.</p>
                             <h6>Adım 2: Gün Seçimi ve Mesai Kaydı</h6>
-                            <p>Seçili haftanın günleri butonlar halinde gösterilir. Bir güne tıklayarak o güne ait tarihi otomatik doldurun, ardından açıklama ve saat girerek "Kaydet" butonuna basın.</p>
+                            <p>Seçili haftanın günleri butonlar halinde gösterilir. Bir güne tıklayarak o güne ait tarihi otomatik doldurun, ardından açıklama ve saat girerek "Kaydet" butonuna basın. Veri girilmiş günler daha sönük renkte görünecektir.</p>
                             <h6>Adım 3: Rapor Oluşturma</h6>
                             <p>Raporlar sayfasından istediğiniz tarih aralığı için rapor oluşturabilirsiniz.</p>
                             <button type="button" class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#wizardPanel">Kapat</button>
@@ -438,7 +482,8 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- New Week Creation -->
             <div class="card mb-4">
                 <div class="card-header"><h5>Yeni Hafta Oluştur</h5></div>
                 <div class="card-body">
@@ -446,14 +491,14 @@
                         <div class="row g-2 align-items-end">
                             <div class="col-md-5">
                                 <label class="form-label">Hafta Başlangıç Tarihi</label>
-                                <input type="date" name="hafta_baslangic" id="newHaftaBaslangic" class="form-control" required>
+                                <input type="date" name="hafta_baslangic" id="newWeekBaslangic" class="form-control" required>
                             </div>
                             <div class="col-md-5">
-                                <label class="form-label">Hafta Aralığı</label>
-                                <input type="text" name="hafta_araligi" id="newHaftaAraligi" class="form-control" readonly required>
+                                <label class="form-label">Hafta Aralığı (Örn: 1-7 Şubat)</label>
+                                <input type="text" name="hafta_araligi" id="newWeekAraligi" class="form-control" placeholder="Otomatik oluşur" readonly required>
                             </div>
                             <div class="col-md-2">
-                                <button type="submit" name="create_week" class="btn btn-success w-100">
+                                <button type="submit" class="btn btn-success w-100">
                                     <i class="fas fa-calendar-plus"></i> Oluştur
                                 </button>
                             </div>
@@ -461,7 +506,8 @@
                     </form>
                 </div>
             </div>
-            
+
+            <!-- Week Selection and Records -->
             <div class="card mb-4">
                 <div class="card-header"><h5>Planlanan Mesailer</h5></div>
                 <div class="card-body">
@@ -469,25 +515,28 @@
                         <div class="col-md-4">
                             <form id="yearSelectForm">
                                 <label class="form-label">Yıl Seçimi</label>
-                                <select name="year" id="yearSelect" class="form-select">
+                                <select name="year" id="yearSelect" class="form-select" onchange="loadWeeks()">
                                 </select>
                             </form>
                         </div>
                         <div class="col-md-8">
                             <label class="form-label">Hafta Seçimi</label>
                             <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="weekDropdown" data-bs-toggle="dropdown" aria-expanded="false" disabled>
+                                <button class="btn btn-primary dropdown-toggle w-100" type="button" id="weekDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Hafta Seç
                                 </button>
-                                <ul class="dropdown-menu" aria-labelledby="weekDropdown" id="weekDropdownMenu"></ul>
+                                <ul class="dropdown-menu" aria-labelledby="weekDropdown" id="weekDropdownMenu">
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    
-                    <div id="mesaiInputArea" style="display:none;">
+
+                    <!-- Day Selection Buttons -->
+                    <div id="daySelectionArea" style="display: none;">
                         <div class="mb-3">
                             <label class="form-label">Gün Seçerek Veri Girişi Yapın:</label>
-                            <div class="d-flex flex-wrap gap-2" id="dayButtonContainer"></div>
+                            <div class="d-flex flex-wrap gap-2" id="dayButtonContainer">
+                            </div>
                         </div>
                         <form id="mesaiForm" class="row g-2">
                             <div class="col-md-3">
@@ -507,7 +556,7 @@
                                     <input type="checkbox" name="is_resmi_tatil" class="form-check-input" id="isResmiTatil">
                                     <label class="form-check-label" for="isResmiTatil">Resmi Tatil Mesaisi</label>
                                 </div>
-                                <div class="form-check" id="treatAsNormalContainer" style="display:none;">
+                                <div class="form-check" id="treatAsNormalContainer" style="display: none;">
                                     <input type="checkbox" name="treat_as_normal" class="form-check-input" id="treatAsNormal">
                                     <label class="form-check-label" for="treatAsNormal">Pazar gününü normal hafta içi say</label>
                                 </div>
@@ -516,1091 +565,1271 @@
                                 <button type="submit" name="submit" class="btn btn-primary">
                                     <i class="fas fa-plus"></i> Kaydet
                                 </button>
+                                <input type="hidden" name="record_id" id="recordIdInput">
+                                <button type="button" id="cancelEditBtn" class="btn btn-secondary" style="display: none;" onclick="cancelEdit()">
+                                    <i class="fas fa-times"></i> İptal
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-            
-            <div id="mesaiListArea" class="card mb-4" style="display:none;">
-                <div class="card-body">
-                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
-                        <h3 class="mb-2 mb-md-0" id="mesaiListTitle">Mesai Kayıtları</h3>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-cog"></i> İşlemler
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="actionsDropdown">
-                                <li>
-                                    <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editWeekModal">
-                                        <i class="fas fa-edit"></i> Haftayı Düzenle
-                                    </button>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item text-danger" href="#" onclick="confirmDeleteWeek()">
-                                        <i class="fas fa-trash"></i> Haftayı Sil
-                                    </a>
-                                </li>
-                                <li>
-                                    <button class="dropdown-item" onclick="toggleEditButtons()">
-                                        <i class="fas fa-edit"></i> Günleri Düzenle
-                                    </button>
-                                </li>
-                            </ul>
+
+            <!-- Records Table -->
+            <div id="recordsSection" style="display: none;">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-3">
+                            <h3 class="mb-2 mb-md-0" id="recordsHeader">Mesai Kayıtları</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="actionsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-cog"></i> İşlemler
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="actionsDropdown">
+                                    <li>
+                                        <button class="dropdown-item" type="button" data-bs-toggle="modal" data-bs-target="#editWeekModal">
+                                            <i class="fas fa-edit"></i> Haftayı Düzenle
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="#" id="deleteWeekLink">
+                                            <i class="fas fa-trash"></i> Haftayı Sil
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button id="toggleEditButton" class="dropdown-item" type="button" onclick="toggleEditButtons()">
+                                            <i class="fas fa-edit"></i> Günleri Düzenle
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Tarih</th>
+                                        <th>Açıklama</th>
+                                        <th>Saat</th>
+                                        <th class="edit-header">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recordsTableBody">
+                                </tbody>
+                                <tfoot id="recordsTableFoot">
+                                </tfoot>
+                            </table>
+                        </div>
+                        <a href="#" onclick="showRaporlarSection(); return false;" class="btn btn-warning mt-3">
+                            <i class="fas fa-file-alt"></i> Raporlar
+                        </a>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Tarih</th>
-                                    <th>Açıklama</th>
-                                    <th>Saat</th>
-                                    <th class="edit-header">İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody id="mesaiTableBody"></tbody>
-                            <tfoot id="mesaiTableFoot"></tfoot>
-                        </table>
-                    </div>
-                    <a href="#" onclick="showReportsSection()" class="btn btn-warning mt-3">
-                        <i class="fas fa-file-alt"></i> Raporlar
-                    </a>
                 </div>
             </div>
-            
-            <div id="noMesaiArea" class="card mb-4" style="display:none;">
+
+            <!-- No Records Message -->
+            <div id="noRecordsMessage" class="card mb-4" style="display: none;">
                 <div class="card-body">
                     <p class="text-muted">Bu hafta için henüz mesai kaydı bulunmamaktadır. Yukarıdaki formdan veya gün butonlarını kullanarak ekleyebilirsiniz.</p>
                 </div>
             </div>
         </div>
-        
-        <div id="confirmModal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
+    </div>
+
+    <!-- Edit Week Modal -->
+    <div class="modal fade" id="editWeekModal" tabindex="-1" aria-labelledby="editWeekModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editWeekForm">
                     <div class="modal-header">
-                        <h5 class="modal-title">Onay</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h5 class="modal-title" id="editWeekModalLabel">Hafta Düzenle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
                     </div>
                     <div class="modal-body">
-                        <p id="confirmMessage"></p>
+                        <input type="hidden" name="week_id" id="editWeekId">
+                        <div class="mb-3">
+                            <label class="form-label">Hafta Başlangıç Tarihi</label>
+                            <input type="date" name="hafta_baslangic" id="editWeekBaslangic" class="form-control edit-week-start-date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Hafta Aralığı</label>
+                            <input type="text" name="hafta_araligi" id="editWeekAraligi" class="form-control edit-week-interval" readonly required>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır, vazgeç</button>
-                        <button type="button" class="btn btn-danger" id="confirmYesBtn">Evet, sil</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" name="edit_week" class="btn btn-primary">Kaydet</button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-        
-        <div class="modal fade" id="editWeekModal" tabindex="-1" aria-labelledby="editWeekModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form id="editWeekForm">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="editWeekModalLabel">Hafta Düzenle</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
-                        </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="week_id" id="editWeekId">
-                            <div class="mb-3">
-                                <label class="form-label">Hafta Başlangıç Tarihi</label>
-                                <input type="date" name="hafta_baslangic" id="editHaftaBaslangic" class="form-control" required>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Hafta Aralığı</label>
-                                <input type="text" name="hafta_araligi" id="editHaftaAraligi" class="form-control" readonly required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <div id="editModalContainer"></div>
-        
-        <div class="modal fade edit-user-modal" id="editUserModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Kullanıcı Düzenle</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <form id="editUserForm">
-                        <div class="modal-body">
-                            <input type="hidden" name="user_id" id="editUserId">
-                            <div class="mb-2">
-                                <label class="form-label">Yeni Kullanıcı Adı</label>
-                                <input type="text" name="new_username" id="editUserUsername" class="form-control" required>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Yeni Ad ve Soyad</label>
-                                <input type="text" name="new_adsoyad" id="editUserAdsoyad" class="form-control" required>
-                            </div>
-                            <div class="mb-2">
-                                <label class="form-label">Yeni Şifre (Boş bırakılırsa değişmez)</label>
-                                <input type="password" name="new_password" id="editUserPassword" class="form-control">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
-                            <button type="submit" class="btn btn-primary">Kaydet</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            © <span id="footerYear"></span> İlhan Akdeniz - Tüm Hakları Saklıdır.
-        </footer>
     </div>
-    
-    <div class="loader" id="loader" style="display:none;"></div>
-    
+
+    <!-- Delete Week Confirmation Modal -->
+    <div class="modal fade" id="deleteWeekConfirmModal" tabindex="-1" aria-labelledby="deleteWeekConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteWeekConfirmModalLabel">Haftayı Sil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="deleteWeekMessage"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır, vazgeç</button>
+                    <button type="button" id="confirmDeleteWeekBtn" class="btn btn-danger">Evet, sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Record Confirmation Modal -->
+    <div class="modal fade" id="deleteRecordConfirmModal" tabindex="-1" aria-labelledby="deleteRecordConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteRecordConfirmModalLabel">Kaydı Sil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="deleteRecordMessage">Bu kaydı silmek istediğinize emin misiniz?</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hayır, vazgeç</button>
+                    <button type="button" id="confirmDeleteRecordBtn" class="btn btn-danger">Evet, sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal Template -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editUserForm">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editUserModalLabel">Kullanıcı Düzenle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="user_id" id="editUserId">
+                        <div class="mb-2">
+                            <label class="form-label">Yeni Kullanıcı Adı</label>
+                            <input type="text" name="new_username" id="editUserUsername" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Yeni Ad ve Soyad</label>
+                            <input type="text" name="new_adsoyad" id="editUserAdsoyad" class="form-control" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Yeni Şifre (Boş bırakılırsa değişmez)</label>
+                            <input type="password" name="new_password" id="editUserPassword" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © <span id="footerYear"></span> İlhan Akdeniz - Tüm Hakları Saklıdır.
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ================== GLOBAL DEĞİŞKENLER ==================
-        var currentUser = null;
-        var currentWeek = null;
-        var selectedYear = new Date().getFullYear();
-        var allWeeks = [];
-        var mesaiRecords = [];
-        var isEditMode = false;
-        
-        // ================== SAYFA DURUMU ==================
-        function showMessage(msg, type = 'danger') {
-            var html = '<div class="alert alert-' + type + '">' + msg + '</div>';
-            document.getElementById('messageArea').innerHTML = html;
-            setTimeout(function() {
-                document.getElementById('messageArea').innerHTML = '';
-            }, 10000);
+        // Configuration - Set this to your Google Apps Script Web App URL
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhZTk4g0085SczRqyC58-tJTyR_VwBtlSm7V00pW7sCRAzohsuXMhe8URKGFNV_ekjcg/exec';
+
+        // State
+        let currentUser = null;
+        let currentWeek = null;
+        let selectedYear = new Date().getFullYear();
+        let allWeeks = [];
+        let mesaiRecords = [];
+        let currentEditingRecordId = null;
+        let weekToDelete = null;
+        let recordToDelete = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
+            checkSession();
+            setupEventListeners();
+        });
+
+        // Session check
+        function checkSession() {
+            const savedUser = localStorage.getItem('mesaiUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showMainSection();
+                loadYears();
+            } else {
+                showAuthSection();
+            }
         }
-        
-        function showLoginSection() {
-            document.getElementById('loginSection').style.display = 'block';
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Login Form
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+            // Register Form
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+
+            // Change Password Form
+            document.getElementById('changePasswordForm').addEventListener('submit', handleChangePassword);
+
+            // Create Week Form
+            document.getElementById('createWeekForm').addEventListener('submit', handleCreateWeek);
+
+            // Mesai Form
+            document.getElementById('mesaiForm').addEventListener('submit', handleMesaiSubmit);
+
+            // Edit Week Form
+            document.getElementById('editWeekForm').addEventListener('submit', handleEditWeek);
+
+            // Edit User Form
+            document.getElementById('editUserForm').addEventListener('submit', handleEditUser);
+
+            // Week Report Form
+            document.getElementById('weekReportForm').addEventListener('submit', handleWeekReport);
+
+            // Date Range Report Form
+            document.getElementById('dateRangeReportForm').addEventListener('submit', handleDateRangeReport);
+
+            // Admin User Report Form
+            document.getElementById('adminUserReportForm').addEventListener('submit', handleAdminUserReport);
+
+            // Admin All Users Report Form
+            document.getElementById('adminAllUsersReportForm').addEventListener('submit', handleAdminAllUsersReport);
+
+            // Delete Week buttons
+            document.getElementById('deleteWeekLink').addEventListener('click', function(e) {
+                e.preventDefault();
+                showDeleteWeekConfirm();
+            });
+
+            document.getElementById('confirmDeleteWeekBtn').addEventListener('click', handleDeleteWeek);
+
+            // Delete Record buttons
+            document.getElementById('confirmDeleteRecordBtn').addEventListener('click', handleDeleteRecord);
+
+            // User search
+            document.getElementById('userSearch').addEventListener('keyup', function() {
+                filterUserTable(this.value);
+            });
+
+            // User report search
+            document.getElementById('userReportSearch').addEventListener('keyup', function() {
+                filterUserReportSelect(this.value);
+            });
+
+            // Week date change for new week
+            document.getElementById('newWeekBaslangic').addEventListener('change', function() {
+                updateWeekInterval(this, document.getElementById('newWeekAraligi'));
+            });
+
+            // Edit week date change
+            document.getElementById('editWeekBaslangic').addEventListener('change', function() {
+                updateWeekInterval(this, document.getElementById('editWeekAraligi'));
+            });
+
+            // Year select change
+            document.getElementById('yearSelect').addEventListener('change', function() {
+                selectedYear = parseInt(this.value);
+                loadWeeks();
+            });
+        }
+
+        // API Calls
+        async function apiCall(action, data = {}) {
+            showLoading(true);
+            try {
+                const response = await fetch(SCRIPT_URL + '?action=' + action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showLoading(false);
+                if (result.error) {
+                    showMessage(result.error, 'danger');
+                    return null;
+                }
+                return result;
+            } catch (error) {
+                showLoading(false);
+                showMessage('Bağlantı hatası: ' + error.message, 'danger');
+                return null;
+            }
+        }
+
+        // Login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            const result = await apiCall('login', { username, password });
+            if (result && result.success) {
+                currentUser = result.user;
+                localStorage.setItem('mesaiUser', JSON.stringify(currentUser));
+                if (remember) {
+                    localStorage.setItem('rememberUsername', username);
+                }
+                showMainSection();
+                loadYears();
+                showMessage('Giriş başarılı!', 'success');
+            }
+        }
+
+        // Register
+        async function handleRegister(e) {
+            e.preventDefault();
+            const adsoyad = document.getElementById('regAdsoyad').value;
+            const username = document.getElementById('regUsername').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm_password = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirm_password) {
+                showMessage('Parolalar eşleşmiyor!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('register', { username, password, adsoyad });
+            if (result && result.success) {
+                currentUser = result.user;
+                localStorage.setItem('mesaiUser', JSON.stringify(currentUser));
+                showMainSection();
+                loadYears();
+                showMessage('Kayıt başarılı!', 'success');
+            }
+        }
+
+        // Logout
+        async function logout() {
+            localStorage.removeItem('mesaiUser');
+            currentUser = null;
+            currentWeek = null;
+            showAuthSection();
+            showMessage('Çıkış yapıldı.', 'info');
+        }
+
+        // Change Password
+        async function handleChangePassword(e) {
+            e.preventDefault();
+            const current_password = document.getElementById('currentPassword').value;
+            const new_password = document.getElementById('newPassword').value;
+            const confirm_new_password = document.getElementById('confirmNewPassword').value;
+
+            if (new_password !== confirm_new_password) {
+                showMessage('Yeni şifreler eşleşmiyor!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('changePassword', {
+                user_id: currentUser.id,
+                current_password,
+                new_password
+            });
+            if (result && result.success) {
+                showMessage('Şifreniz başarıyla güncellendi!', 'success');
+                document.getElementById('changePasswordForm').reset();
+                bootstrap.Collapse.getOrCreateInstance(document.getElementById('changePasswordPanel')).hide();
+            }
+        }
+
+        // Load Years
+        async function loadYears() {
+            const result = await apiCall('getYears', { user_id: currentUser.id });
+            if (result && result.years) {
+                const yearSelect = document.getElementById('yearSelect');
+                yearSelect.innerHTML = '';
+                const currentYear = new Date().getFullYear();
+                const years = result.years.includes(currentYear) ? result.years : [...result.years, currentYear];
+                years.sort((a, b) => b - a);
+                years.forEach(y => {
+                    const option = document.createElement('option');
+                    option.value = y;
+                    option.textContent = y;
+                    if (y === selectedYear) option.selected = true;
+                    yearSelect.appendChild(option);
+                });
+                loadWeeks();
+            }
+        }
+
+        // Load Weeks
+        async function loadWeeks() {
+            const result = await apiCall('getWeeks', { user_id: currentUser.id, year: selectedYear });
+            if (result && result.weeks) {
+                allWeeks = result.weeks;
+                renderWeekDropdown();
+                loadReportWeeks();
+            }
+        }
+
+        // Render Week Dropdown
+        function renderWeekDropdown() {
+            const menu = document.getElementById('weekDropdownMenu');
+            const button = document.getElementById('weekDropdown');
+            menu.innerHTML = '';
+
+            if (allWeeks.length === 0) {
+                menu.innerHTML = '<li><span class="dropdown-item text-muted">Bu yıl için hafta bulunmamaktadır.</span></li>';
+                button.textContent = 'Hafta Seç';
+                hideDaySelection();
+                return;
+            }
+
+            allWeeks.forEach(week => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.className = 'dropdown-item';
+                a.href = '#';
+                a.textContent = week.hafta_araligi + (week.calisan_adi ? ' ' + week.calisan_adi : '');
+                if (currentWeek && currentWeek.id === week.id) {
+                    a.classList.add('active-week');
+                }
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectWeek(week);
+                });
+                li.appendChild(a);
+                menu.appendChild(li);
+            });
+
+            if (currentWeek) {
+                button.textContent = currentWeek.hafta_araligi + (currentWeek.calisan_adi ? ' ' + currentWeek.calisan_adi : '');
+            } else {
+                button.textContent = 'Hafta Seç';
+            }
+        }
+
+        // Select Week
+        async function selectWeek(week) {
+            currentWeek = week;
+            document.getElementById('weekDropdown').textContent = week.hafta_araligi + (week.calisan_adi ? ' ' + week.calisan_adi : '');
+            renderWeekDropdown();
+            await loadMesaiRecords();
+        }
+
+        // Load Mesai Records
+        async function loadMesaiRecords() {
+            if (!currentWeek) return;
+
+            const result = await apiCall('getMesaiRecords', { hafta_id: currentWeek.id });
+            if (result && result.records) {
+                mesaiRecords = result.records;
+                renderDayButtons();
+                renderRecordsTable();
+                showDaySelection();
+            }
+        }
+
+        // Render Day Buttons
+        function renderDayButtons() {
+            const container = document.getElementById('dayButtonContainer');
+            container.innerHTML = '';
+
+            if (!currentWeek) return;
+
+            const startDate = new Date(currentWeek.hafta_baslangic);
+            const mesaiDates = mesaiRecords.map(r => r.tarih);
+
+            for (let i = 0; i < 7; i++) {
+                const currentDay = new Date(startDate);
+                currentDay.setDate(startDate.getDate() + i);
+                const formattedDate = formatDateForInput(currentDay);
+                const displayText = getShortDayName(formattedDate) + ' ' + formatTarih(formattedDate);
+                const isEntered = mesaiDates.includes(formattedDate);
+                const gunNumarasi = currentDay.getDay();
+                const isWeekend = gunNumarasi === 0 || gunNumarasi === 6;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'btn day-selector-btn ' + (isEntered ? 'kayitli-gun' : 'btn-outline-primary');
+                if (isWeekend) btn.classList.add('weekend');
+                if (isEntered) btn.classList.add('kayitli-gun');
+                btn.setAttribute('data-date', formattedDate);
+                btn.textContent = displayText;
+                btn.addEventListener('click', () => selectDay(formattedDate));
+                container.appendChild(btn);
+            }
+        }
+
+        // Select Day
+        function selectDay(dateStr) {
+            document.getElementById('mesaiTarihInput').value = dateStr;
+            document.getElementById('mesaiAciklamaInput').value = '';
+            document.getElementById('mesaiSaatInput').value = '';
+            document.getElementById('isResmiTatil').checked = false;
+            document.getElementById('treatAsNormal').checked = false;
+            document.getElementById('recordIdInput').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            currentEditingRecordId = null;
+
+            // Update button states
+            document.querySelectorAll('.day-selector-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-date') === dateStr) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update Sunday override visibility
+            updateSundayOverrideVisibility(dateStr, 'treatAsNormalContainer');
+
+            // Focus on description
+            document.getElementById('mesaiAciklamaInput').focus();
+        }
+
+        // Render Records Table
+        function renderRecordsTable() {
+            const tbody = document.getElementById('recordsTableBody');
+            const tfoot = document.getElementById('recordsTableFoot');
+            const recordsSection = document.getElementById('recordsSection');
+            const noRecordsMessage = document.getElementById('noRecordsMessage');
+            const header = document.getElementById('recordsHeader');
+
+            tbody.innerHTML = '';
+
+            if (mesaiRecords.length === 0) {
+                recordsSection.style.display = 'none';
+                noRecordsMessage.style.display = 'block';
+                return;
+            }
+
+            recordsSection.style.display = 'block';
+            noRecordsMessage.style.display = 'none';
+            header.textContent = (currentWeek.hafta_araligi + (currentWeek.calisan_adi ? ' ' + currentWeek.calisan_adi : '')) + ' Mesai Kayıtları';
+
+            let toplamSaat = 0;
+            let pazarSayisi = 0;
+            let resmiTatilSayisi = 0;
+
+            mesaiRecords.forEach(item => {
+                const treat_as_normal = item.treat_as_normal || 0;
+                const isPazarBool = checkIsPazar(item.tarih);
+                const isPazarHoliday = isPazarBool && !treat_as_normal;
+
+                toplamSaat += parseFloat(item.saat || 0);
+                if (isPazarBool && !treat_as_normal) pazarSayisi++;
+                if (item.is_resmi_tatil) resmiTatilSayisi++;
+
+                const row = document.createElement('tr');
+                let rowClass = '';
+                if (item.is_resmi_tatil) rowClass = 'resmi-tatil';
+                else if (isPazarHoliday) rowClass = 'pazar';
+                if ((parseFloat(item.saat) > 0 || (item.saat === '0' && (isPazarHoliday || item.is_resmi_tatil)))) {
+                    rowClass += (rowClass ? ' ' : '') + 'soluk';
+                }
+                row.className = rowClass;
+
+                const pazarText = isPazarHoliday ? ' (Pazar)' : '';
+                const resmiTatilText = item.is_resmi_tatil ? ' (Resmi Tatil Mesaisi)' : '';
+                const saatText = (parseFloat(item.saat) > 0 || (item.saat === '0' && (isPazarHoliday || item.is_resmi_tatil)))
+                    ? item.saat + ' saat'
+                    : '';
+
+                row.innerHTML = `
+                    <td>${formatTarih(item.tarih)}${pazarText}</td>
+                    <td>${item.aciklama}${resmiTatilText}</td>
+                    <td>${saatText}</td>
+                    <td class="edit-buttons">
+                        <button type="button" class="btn btn-sm btn-warning" onclick="editRecord(${item.id})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-danger" onclick="showDeleteRecordConfirm(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            tfoot.innerHTML = `
+                <tr class="table-primary">
+                    <td colspan="2"><strong>Toplam Mesai</strong></td>
+                    <td colspan="2"><strong>${toplamSaat} saat</strong></td>
+                </tr>
+                <tr class="table-warning">
+                    <td colspan="2"><strong>Pazar Mesai Sayısı</strong></td>
+                    <td colspan="2"><strong>${pazarSayisi} adet</strong></td>
+                </tr>
+                ${resmiTatilSayisi > 0 ? `
+                <tr class="table-info">
+                    <td colspan="2"><strong>Resmi Tatil Mesaisi Sayısı</strong></td>
+                    <td colspan="2"><strong>${resmiTatilSayisi} adet</strong></td>
+                </tr>
+                ` : ''}
+            `;
+        }
+
+        // Create Week
+        async function handleCreateWeek(e) {
+            e.preventDefault();
+            const hafta_baslangic = document.getElementById('newWeekBaslangic').value;
+            const hafta_araligi = document.getElementById('newWeekAraligi').value;
+
+            const result = await apiCall('createWeek', {
+                user_id: currentUser.id,
+                hafta_baslangic,
+                hafta_araligi,
+                calisan_adi: currentUser.adsoyad
+            });
+
+            if (result && result.success) {
+                showMessage('Hafta başarıyla oluşturuldu!', 'success');
+                document.getElementById('createWeekForm').reset();
+                document.getElementById('newWeekAraligi').value = '';
+                await loadWeeks();
+                currentWeek = result.week;
+                renderWeekDropdown();
+                await loadMesaiRecords();
+            }
+        }
+
+        // Mesai Submit
+        async function handleMesaiSubmit(e) {
+            e.preventDefault();
+
+            const tarih = document.getElementById('mesaiTarihInput').value;
+            const aciklama = document.getElementById('mesaiAciklamaInput').value;
+            const saat = document.getElementById('mesaiSaatInput').value;
+            const is_resmi_tatil = document.getElementById('isResmiTatil').checked ? 1 : 0;
+            const treat_as_normal = document.getElementById('treatAsNormal').checked ? 1 : 0;
+            const record_id = document.getElementById('recordIdInput').value;
+
+            if (!aciklama) {
+                showMessage('Açıklama alanı boş bırakılamaz!', 'danger');
+                return;
+            }
+
+            // Validate date is within week
+            if (!currentWeek) {
+                showMessage('Lütfen bir hafta seçin!', 'danger');
+                return;
+            }
+
+            const weekStart = new Date(currentWeek.hafta_baslangic);
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            const enteredDate = new Date(tarih);
+
+            if (enteredDate < weekStart || enteredDate > weekEnd) {
+                showMessage('Seçili hafta dışındaki tarihler için kayıt yapılamaz!', 'danger');
+                return;
+            }
+
+            // Validate saat for non-holiday days
+            const isPazarBool = checkIsPazar(tarih);
+            const isPazarHoliday = isPazarBool && !treat_as_normal;
+
+            if (saat === '' && !is_resmi_tatil && !isPazarHoliday) {
+                showMessage('Saat alanı (Pazar günleri ve resmi tatiller hariç) boş bırakılamaz!', 'danger');
+                return;
+            }
+
+            const saatToSave = (saat === '' && (isPazarHoliday || is_resmi_tatil)) ? '0' : saat;
+
+            let result;
+            if (record_id) {
+                // Update existing record
+                result = await apiCall('updateMesaiRecord', {
+                    id: record_id,
+                    hafta_id: currentWeek.id,
+                    tarih,
+                    aciklama,
+                    saat: saatToSave,
+                    is_resmi_tatil,
+                    treat_as_normal
+                });
+            } else {
+                // Check for existing record on same date
+                const existingRecord = mesaiRecords.find(r => r.tarih === tarih);
+                if (existingRecord) {
+                    showMessage('Bu tarih için mesai verisi zaten girilmiş!', 'danger');
+                    return;
+                }
+
+                // Create new record
+                result = await apiCall('createMesaiRecord', {
+                    hafta_id: currentWeek.id,
+                    tarih,
+                    aciklama,
+                    saat: saatToSave,
+                    is_resmi_tatil,
+                    treat_as_normal
+                });
+            }
+
+            if (result && result.success) {
+                showMessage(record_id ? 'Kayıt başarıyla güncellendi!' : 'Kayıt başarıyla eklendi!', 'success');
+                document.getElementById('mesaiForm').reset();
+                document.getElementById('cancelEditBtn').style.display = 'none';
+                currentEditingRecordId = null;
+                await loadMesaiRecords();
+            }
+        }
+
+        // Edit Record
+        function editRecord(id) {
+            const record = mesaiRecords.find(r => r.id === id);
+            if (!record) return;
+
+            currentEditingRecordId = id;
+            document.getElementById('mesaiTarihInput').value = record.tarih;
+            document.getElementById('mesaiAciklamaInput').value = record.aciklama;
+            document.getElementById('mesaiSaatInput').value = record.saat;
+            document.getElementById('isResmiTatil').checked = record.is_resmi_tatil == 1;
+            document.getElementById('treatAsNormal').checked = record.treat_as_normal == 1;
+            document.getElementById('recordIdInput').value = id;
+            document.getElementById('cancelEditBtn').style.display = 'inline-block';
+
+            // Update Sunday override visibility
+            updateSundayOverrideVisibility(record.tarih, 'treatAsNormalContainer');
+
+            // Update day button states
+            document.querySelectorAll('.day-selector-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-date') === record.tarih) {
+                    btn.classList.add('active');
+                }
+            });
+
+            document.getElementById('mesaiAciklamaInput').focus();
+        }
+
+        // Cancel Edit
+        function cancelEdit() {
+            document.getElementById('mesaiForm').reset();
+            document.getElementById('recordIdInput').value = '';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            currentEditingRecordId = null;
+
+            const firstBtn = document.querySelector('.day-selector-btn');
+            if (firstBtn) {
+                selectDay(firstBtn.getAttribute('data-date'));
+            }
+        }
+
+        // Edit Week
+        async function handleEditWeek(e) {
+            e.preventDefault();
+            const week_id = document.getElementById('editWeekId').value;
+            const hafta_baslangic = document.getElementById('editWeekBaslangic').value;
+            const hafta_araligi = document.getElementById('editWeekAraligi').value;
+
+            const result = await apiCall('updateWeek', {
+                id: week_id,
+                hafta_baslangic,
+                hafta_araligi
+            });
+
+            if (result && result.success) {
+                showMessage('Hafta başarıyla güncellendi!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editWeekModal')).hide();
+                await loadWeeks();
+                if (currentWeek && currentWeek.id == week_id) {
+                    currentWeek = { ...currentWeek, hafta_baslangic, hafta_araligi };
+                    renderWeekDropdown();
+                }
+            }
+        }
+
+        // Show Delete Week Confirm
+        function showDeleteWeekConfirm() {
+            weekToDelete = currentWeek;
+            const count = mesaiRecords.length;
+            let message = count > 0
+                ? "Bu hafta içerisinde mesai verisi bulunuyor. Silmek istediğinize emin misiniz?"
+                : "Bu haftayı silmek istediğinize emin misiniz?";
+            document.getElementById('deleteWeekMessage').textContent = message;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteWeekConfirmModal')).show();
+        }
+
+        // Delete Week
+        async function handleDeleteWeek() {
+            if (!weekToDelete) return;
+
+            const result = await apiCall('deleteWeek', { id: weekToDelete.id });
+            if (result && result.success) {
+                showMessage('Hafta başarıyla silindi!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('deleteWeekConfirmModal')).hide();
+                currentWeek = null;
+                await loadWeeks();
+                hideDaySelection();
+            }
+            weekToDelete = null;
+        }
+
+        // Show Delete Record Confirm
+        function showDeleteRecordConfirm(id) {
+            recordToDelete = id;
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('deleteRecordConfirmModal')).show();
+        }
+
+        // Delete Record
+        async function handleDeleteRecord() {
+            if (!recordToDelete) return;
+
+            const result = await apiCall('deleteMesaiRecord', { id: recordToDelete });
+            if (result && result.success) {
+                showMessage('Kayıt başarıyla silindi!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('deleteRecordConfirmModal')).hide();
+                await loadMesaiRecords();
+            }
+            recordToDelete = null;
+        }
+
+        // Load Report Weeks
+        function loadReportWeeks() {
+            const select = document.getElementById('reportWeekSelect');
+            select.innerHTML = '<option value="">Seçiniz</option>';
+            allWeeks.forEach(week => {
+                const option = document.createElement('option');
+                option.value = week.id;
+                option.textContent = week.hafta_araligi + (week.calisan_adi ? ' ' + week.calisan_adi : '');
+                select.appendChild(option);
+            });
+        }
+
+        // Week Report
+        async function handleWeekReport(e) {
+            e.preventDefault();
+            const selected_week = document.getElementById('reportWeekSelect').value;
+            if (!selected_week) {
+                showMessage('Lütfen bir hafta seçin!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('getWeekReport', { week_id: selected_week, user_id: currentUser.id });
+            if (result && result.report) {
+                document.getElementById('haftaRaporText').value = result.report;
+                document.getElementById('haftaRaporContainer').style.display = 'block';
+            } else if (result && result.message) {
+                showMessage(result.message, 'warning');
+            }
+        }
+
+        // Date Range Report
+        async function handleDateRangeReport(e) {
+            e.preventDefault();
+            const baslangic_tarihi = document.getElementById('reportBaslangicTarihi').value;
+            const bitis_tarihi = document.getElementById('reportBitisTarihi').value;
+
+            if (!baslangic_tarihi || !bitis_tarihi) {
+                showMessage('Başlangıç ve bitiş tarihleri gereklidir!', 'danger');
+                return;
+            }
+
+            if (baslangic_tarihi > bitis_tarihi) {
+                showMessage('Başlangıç tarihi, bitiş tarihinden sonra olamaz!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('getDateRangeReport', {
+                baslangic_tarihi,
+                bitis_tarihi,
+                user_id: currentUser.id
+            });
+
+            if (result && result.report) {
+                document.getElementById('raporDateRangeText').value = result.report;
+                document.getElementById('dateRangeRaporContainer').style.display = 'block';
+            } else if (result && result.message) {
+                showMessage(result.message, 'warning');
+            }
+        }
+
+        // Admin User Report
+        async function handleAdminUserReport(e) {
+            e.preventDefault();
+            const selected_user = document.getElementById('userReportSelect').value;
+            const baslangic_tarihi = document.getElementById('adminReportBaslangic').value;
+            const bitis_tarihi = document.getElementById('adminReportBitis').value;
+
+            if (!selected_user || !baslangic_tarihi || !bitis_tarihi) {
+                showMessage('Tüm alanları doldurun!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('getAdminUserReport', {
+                selected_user,
+                baslangic_tarihi,
+                bitis_tarihi
+            });
+
+            if (result && result.report) {
+                document.getElementById('adminUserReport').value = result.report;
+                document.getElementById('adminUserReportContainer').style.display = 'block';
+            } else if (result && result.message) {
+                showMessage(result.message, 'warning');
+            }
+        }
+
+        // Admin All Users Report
+        async function handleAdminAllUsersReport(e) {
+            e.preventDefault();
+            const baslangic_tarihi = document.getElementById('allUsersReportBaslangic').value;
+            const bitis_tarihi = document.getElementById('allUsersReportBitis').value;
+
+            if (!baslangic_tarihi || !bitis_tarihi) {
+                showMessage('Başlangıç ve bitiş tarihleri gereklidir!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('getAdminAllUsersReport', {
+                baslangic_tarihi,
+                bitis_tarihi
+            });
+
+            if (result && result.report) {
+                document.getElementById('adminAllUsersReport').value = result.report;
+                document.getElementById('adminAllUsersReportContainer').style.display = 'block';
+            } else if (result && result.message) {
+                showMessage(result.message, 'warning');
+            }
+        }
+
+        // Edit User (Admin)
+        async function handleEditUser(e) {
+            e.preventDefault();
+            const user_id = document.getElementById('editUserId').value;
+            const new_username = document.getElementById('editUserUsername').value;
+            const new_adsoyad = document.getElementById('editUserAdsoyad').value;
+            const new_password = document.getElementById('editUserPassword').value;
+
+            const result = await apiCall('editUser', {
+                user_id,
+                new_username,
+                new_adsoyad,
+                new_password
+            });
+
+            if (result && result.success) {
+                showMessage('Kullanıcı bilgileri güncellendi!', 'success');
+                bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+                loadAdminUsers();
+            }
+        }
+
+        // Load Admin Users
+        async function loadAdminUsers() {
+            const result = await apiCall('getAllUsers', {});
+            if (result && result.users) {
+                renderUserTable(result.users);
+                renderUserReportSelect(result.users);
+            }
+        }
+
+        // Render User Table
+        function renderUserTable(users) {
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${escapeHtml(user.username)}</td>
+                    <td>${escapeHtml(user.adsoyad)}</td>
+                    <td>${user.is_admin ? '<span class="badge bg-primary">Admin</span>' : '<span class="badge bg-secondary">Kullanıcı</span>'}</td>
+                    <td>${user.is_banned ? '<span class="badge bg-danger">Banlı</span>' : '<span class="badge bg-success">Aktif</span>'}</td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-warning" onclick="openEditUserModal(${user.id}, '${escapeHtml(user.username)}', '${escapeHtml(user.adsoyad)}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <a href="#" class="btn btn-sm btn-danger" onclick="deleteUser(${user.id}); return false;">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm ${user.is_banned ? 'btn-success' : 'btn-secondary'}" onclick="toggleBan(${user.id}); return false;">
+                            <i class="fas fa-${user.is_banned ? 'unlock' : 'ban'}"></i>
+                        </a>
+                        <a href="#" class="btn btn-sm ${user.is_admin ? 'btn-secondary' : 'btn-primary'}" onclick="toggleAdmin(${user.id}); return false;">
+                            <i class="fas fa-${user.is_admin ? 'user' : 'user-shield'}"></i>
+                        </a>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Render User Report Select
+        function renderUserReportSelect(users) {
+            const select = document.getElementById('userReportSelect');
+            select.innerHTML = '<option value="">Seçiniz</option>';
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.id;
+                option.textContent = user.adsoyad;
+                select.appendChild(option);
+            });
+        }
+
+        // Open Edit User Modal
+        function openEditUserModal(id, username, adsoyad) {
+            document.getElementById('editUserId').value = id;
+            document.getElementById('editUserUsername').value = username;
+            document.getElementById('editUserAdsoyad').value = adsoyad;
+            document.getElementById('editUserPassword').value = '';
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('editUserModal')).show();
+        }
+
+        // Delete User
+        async function deleteUser(id) {
+            if (id == currentUser.id) {
+                showMessage('Kendinizi silemezsiniz!', 'danger');
+                return;
+            }
+            if (!confirm('Bu kullanıcıyı ve tüm verilerini silmek istediğinizden emin misiniz?')) return;
+
+            const result = await apiCall('deleteUser', { user_id: id });
+            if (result && result.success) {
+                showMessage('Kullanıcı başarıyla silindi!', 'success');
+                loadAdminUsers();
+            }
+        }
+
+        // Toggle Ban
+        async function toggleBan(id) {
+            if (id == currentUser.id) {
+                showMessage('Kendinizi banlayamazsınız!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('toggleBan', { user_id: id });
+            if (result && result.success) {
+                showMessage('Kullanıcı ban durumu güncellendi!', 'success');
+                loadAdminUsers();
+            }
+        }
+
+        // Toggle Admin
+        async function toggleAdmin(id) {
+            if (id == currentUser.id) {
+                showMessage('Kendi admin yetkinizi değiştiremezsiniz!', 'danger');
+                return;
+            }
+
+            const result = await apiCall('toggleAdmin', { user_id: id });
+            if (result && result.success) {
+                showMessage('Kullanıcı admin durumu güncellendi!', 'success');
+                loadAdminUsers();
+            }
+        }
+
+        // Filter User Table
+        function filterUserTable(filter) {
+            const rows = document.querySelectorAll('#userTableBody tr');
+            filter = filter.toLowerCase();
+            rows.forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(filter) ? '' : 'none';
+            });
+        }
+
+        // Filter User Report Select
+        function filterUserReportSelect(filter) {
+            const select = document.getElementById('userReportSelect');
+            filter = filter.toLowerCase();
+            for (let i = 0; i < select.options.length; i++) {
+                const txt = select.options[i].text.toLowerCase();
+                select.options[i].style.display = txt.includes(filter) ? '' : 'none';
+            }
+        }
+
+        // Toggle Edit Buttons
+        function toggleEditButtons() {
+            const buttons = document.querySelectorAll('.edit-buttons');
+            const header = document.querySelector('.edit-header');
+            const toggleButton = document.getElementById('toggleEditButton');
+            const isHidden = buttons.length > 0 && (buttons[0].style.display === 'none' || buttons[0].style.display === '');
+
+            buttons.forEach(button => {
+                button.style.display = isHidden ? 'table-cell' : 'none';
+            });
+            if (header) header.style.display = isHidden ? 'table-cell' : 'none';
+            if (toggleButton) {
+                toggleButton.innerHTML = isHidden
+                    ? '<i class="fas fa-times"></i> Düzenlemeyi Kapat'
+                    : '<i class="fas fa-edit"></i> Günleri Düzenle';
+            }
+        }
+
+        // Section Navigation
+        function showAuthSection() {
+            document.getElementById('authSection').style.display = 'block';
             document.getElementById('mainSection').style.display = 'none';
-            document.getElementById('reportsSection').style.display = 'none';
+            document.getElementById('raporlarSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'none';
         }
-        
+
         function showMainSection() {
-            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('authSection').style.display = 'none';
             document.getElementById('mainSection').style.display = 'block';
-            document.getElementById('reportsSection').style.display = 'none';
+            document.getElementById('raporlarSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'none';
-            loadUserData();
+
+            document.getElementById('welcomeText').textContent = '| Hoşgeldin ' + currentUser.adsoyad;
+            document.getElementById('adminPanelLink').style.display = currentUser.is_admin ? 'inline-block' : 'none';
         }
-        
-        function showReportsSection() {
-            document.getElementById('loginSection').style.display = 'none';
+
+        function showRaporlarSection() {
+            document.getElementById('authSection').style.display = 'none';
             document.getElementById('mainSection').style.display = 'none';
-            document.getElementById('reportsSection').style.display = 'block';
+            document.getElementById('raporlarSection').style.display = 'block';
             document.getElementById('adminSection').style.display = 'none';
             loadReportWeeks();
         }
-        
+
         function showAdminSection() {
-            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('authSection').style.display = 'none';
             document.getElementById('mainSection').style.display = 'none';
-            document.getElementById('reportsSection').style.display = 'none';
+            document.getElementById('raporlarSection').style.display = 'none';
             document.getElementById('adminSection').style.display = 'block';
-            loadAdminData();
+
+            document.getElementById('adminWelcomeText').textContent = 'Hoşgeldin ' + currentUser.adsoyad;
+            loadAdminUsers();
         }
-        
-        // ================== YARDIMCI FONKSİYONLAR ==================
+
+        function showDaySelection() {
+            document.getElementById('daySelectionArea').style.display = 'block';
+        }
+
+        function hideDaySelection() {
+            document.getElementById('daySelectionArea').style.display = 'none';
+            document.getElementById('recordsSection').style.display = 'none';
+            document.getElementById('noRecordsMessage').style.display = 'none';
+        }
+
+        // Helper Functions
+        function showMessage(text, type = 'info') {
+            const box = document.getElementById('messageBox');
+            box.innerHTML = `<div class="alert alert-${type} alert-dismissible fade show">${escapeHtml(text)}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>`;
+            setTimeout(() => {
+                const alert = box.querySelector('.alert');
+                if (alert) {
+                    bootstrap.Alert.getOrCreateInstance(alert).close();
+                }
+            }, 5000);
+        }
+
+        function showLoading(show) {
+            document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
+        }
+
+        function formatDateForInput(date) {
+            const d = new Date(date);
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
         function formatTarih(dateStr) {
             if (!dateStr) return '';
-            try {
-                var d = new Date(dateStr);
-                var aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-                return d.getDate() + ' ' + aylar[d.getMonth()];
-            } catch (e) {
-                return dateStr;
-            }
+            const aylar = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            const d = new Date(dateStr + 'T00:00:00');
+            const gun = d.getDate();
+            const ay = aylar[d.getMonth()];
+            return `${gun} ${ay}`;
         }
-        
-        function formatSaat(saat, tarih, isResmiTatil, treatAsNormal) {
-            if ((saat == 0 || saat == '0' || saat == '') && ((isPazar(tarih) && !treatAsNormal) || isResmiTatil)) {
-                return '';
-            }
-            return saat + ' saat';
-        }
-        
-        function isPazar(dateStr) {
-            if (!dateStr) return false;
-            try {
-                var d = new Date(dateStr);
-                return d.getDay() === 0;
-            } catch (e) {
-                return false;
-            }
-        }
-        
-        function getKisaGun(dateStr) {
+
+        function getShortDayName(dateStr) {
             if (!dateStr) return '';
-            try {
-                var d = new Date(dateStr);
-                var gunler = ['PZR', 'PTS', 'SAL', 'ÇAR', 'PER', 'CUM', 'CTS'];
-                return gunler[d.getDay()];
-            } catch (e) {
-                return '';
-            }
+            const d = new Date(dateStr + 'T00:00:00');
+            const gunler = ['PZR', 'PTS', 'SAL', 'ÇAR', 'PER', 'CUM', 'CTS'];
+            return gunler[d.getDay()];
         }
-        
+
+        function checkIsPazar(dateStr) {
+            if (!dateStr) return false;
+            const d = new Date(dateStr + 'T00:00:00');
+            return d.getDay() === 0;
+        }
+
+        function isPazar(dateStr, treat_as_normal = false) {
+            if (!dateStr || treat_as_normal) return '';
+            return checkIsPazar(dateStr) ? ' (Pazar)' : '';
+        }
+
         function updateWeekInterval(startDateInput, intervalInput) {
-            var startDateStr = startDateInput.value;
-            if (startDateStr) {
-                var startDate = new Date(startDateStr);
-                var endDate = new Date(startDate);
-                endDate.setDate(endDate.getDate() + 6);
-                var startDay = startDate.getDate();
-                var endDay = endDate.getDate();
-                var months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-                var startMonthName = months[startDate.getMonth()];
-                var endMonthName = months[endDate.getMonth()];
-                var weekInterval = startDate.getMonth() === endDate.getMonth() ?
-                    startDay + "-" + endDay + " " + startMonthName :
-                    startDay + " " + startMonthName + " - " + endDay + " " + endMonthName;
-                intervalInput.value = weekInterval;
-            } else {
-                intervalInput.value = "Otomatik oluşur";
-            }
-        }
-        
-        function copyToClipboard(elementId) {
-            var el = document.getElementById(elementId);
-            el.select();
-            navigator.clipboard.writeText(el.value).then(function() {
-                alert('Rapor kopyalandı!');
-            });
-        }
-        
-        function toggleEditButtons() {
-            isEditMode = !isEditMode;
-            var buttons = document.querySelectorAll('.edit-buttons');
-            var header = document.querySelector('.edit-header');
-            buttons.forEach(function(button) {
-                button.style.display = isEditMode ? 'table-cell' : 'none';
-            });
-            if(header) header.style.display = isEditMode ? 'table-cell' : 'none';
-        }
-        
-        document.getElementById('footerYear').textContent = new Date().getFullYear();
-        
-        // ================== API ÇAĞRIZLARI ==================
-        // Google Apps Script Web App URL - BURAYA WEB APP URL'İNİZİ YAPIŞTIRIN
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8yiethh5DxLxLL4PyNuKagCeg2Thu2GcFgpNRXq_4okUnbIJGIsLpn4Irwjdp-bYt2g/exec';
-        
-        function apiCall(action, params, callback) {
-            document.getElementById('loader').style.display = 'block';
-            
-            // Önce Google Apps Script run dene (aynı projede ise)
-            if (typeof google !== 'undefined' && google.script && google.script.run) {
-                google.script.run.withSuccessHandler(function(result) {
-                    document.getElementById('loader').style.display = 'none';
-                    callback(result);
-                }).withFailureHandler(function(error) {
-                    // Google script run başarısız olursa fetch dene
-                    apiCallFetch(action, params, callback);
-                }).apiHandler(action, params);
-            } else {
-                // Google script run yoksa fetch kullan
-                apiCallFetch(action, params, callback);
-            }
-        }
-        
-        function apiCallFetch(action, params, callback) {
-            var formData = new FormData();
-            formData.append('action', action);
-            formData.append('params', JSON.stringify(params));
-            
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: formData
-            })
-            .then(function(response) { return response.text(); })
-            .then(function(text) {
-                document.getElementById('loader').style.display = 'none';
-                try {
-                    var result = JSON.parse(text);
-                    callback(result);
-                } catch(e) {
-                    showMessage('Sunucu hatası: ' + text.substring(0, 200));
-                }
-            })
-            .catch(function(error) {
-                document.getElementById('loader').style.display = 'none';
-                showMessage('Bağlantı hatası: ' + error.message);
-            });
-        }
-        
-        // ================== KULLANICI İŞLEMLERİ ==================
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var username = document.getElementById('loginUsername').value;
-            var password = document.getElementById('loginPassword').value;
-            
-            if (!username || !password) {
-                showMessage('Tüm alanlar doldurulmalıdır!');
+            const startDateStr = startDateInput.value;
+            if (!startDateStr) {
+                intervalInput.value = 'Otomatik oluşur';
                 return;
             }
-            
-            apiCall('login', { username: username, password: password }, function(result) {
-                if (result.success) {
-                    currentUser = result.data;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    showMainSection();
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var username = document.getElementById('regUsername').value;
-            var password = document.getElementById('regPassword').value;
-            var confirmPassword = document.getElementById('regConfirmPassword').value;
-            var adsoyad = document.getElementById('regAdsoyad').value;
-            
-            if (!username || !password || !confirmPassword || !adsoyad) {
-                showMessage('Tüm alanlar doldurulmalıdır!');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                showMessage('Parolalar eşleşmiyor!');
-                return;
-            }
-            
-            apiCall('register', { username: username, password: password, adsoyad: adsoyad }, function(result) {
-                if (result.success) {
-                    currentUser = result.data;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    showMainSection();
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        function logout() {
-            currentUser = null;
-            currentWeek = null;
-            localStorage.removeItem('currentUser');
-            showLoginSection();
+
+            const startDate = new Date(startDateStr);
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + 6);
+
+            const startDay = startDate.getDate();
+            const endDay = endDate.getDate();
+            const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+            const startMonthName = months[startDate.getMonth()];
+            const endMonthName = months[endDate.getMonth()];
+
+            const weekInterval = startDate.getMonth() === endDate.getMonth()
+                ? `${startDay}-${endDay} ${startMonthName}`
+                : `${startDay} ${startMonthName} - ${endDay} ${endMonthName}`;
+
+            intervalInput.value = weekInterval;
         }
-        
-        document.getElementById('changePasswordForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var currentPassword = document.getElementById('currentPassword').value;
-            var newPassword = document.getElementById('newPassword').value;
-            var confirmNewPassword = document.getElementById('confirmNewPassword').value;
-            
-            if (currentUser.password !== currentPassword) {
-                showMessage('Geçerli şifreniz yanlış!');
-                return;
-            }
-            
-            if (newPassword !== confirmNewPassword) {
-                showMessage('Yeni şifreler eşleşmiyor!');
-                return;
-            }
-            
-            if (!newPassword) {
-                showMessage('Yeni şifre boş olamaz!');
-                return;
-            }
-            
-            apiCall('changePassword', { userId: currentUser.id, newPassword: newPassword }, function(result) {
-                if (result.success) {
-                    currentUser.password = newPassword;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    showMessage('Şifreniz başarıyla güncellendi!', 'success');
-                    document.getElementById('changePasswordForm').reset();
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        // ================== HAFTA İŞLEMLERİ ==================
-        function loadUserData() {
-            document.getElementById('userWelcome').textContent = '| Hoşgeldin ' + currentUser.adsoyad;
-            
-            if (currentUser.is_admin == 1) {
-                document.getElementById('adminLink').style.display = 'inline-block';
-                document.getElementById('adminLink').onclick = showAdminSection;
-            } else {
-                document.getElementById('adminLink').style.display = 'none';
-            }
-            
-            apiCall('getWeeks', { userId: currentUser.id }, function(result) {
-                if (result.success) {
-                    var years = result.data.years || [];
-                    if (years.indexOf(selectedYear) === -1) years.push(selectedYear);
-                    years.sort(function(a, b) { return b - a; });
-                    
-                    var yearSelect = document.getElementById('yearSelect');
-                    yearSelect.innerHTML = '';
-                    years.forEach(function(y) {
-                        var option = document.createElement('option');
-                        option.value = y;
-                        option.textContent = y;
-                        if (y == selectedYear) option.selected = true;
-                        yearSelect.appendChild(option);
-                    });
-                    
-                    loadWeeksForYear(selectedYear);
-                }
-            });
-        }
-        
-        document.getElementById('yearSelect').addEventListener('change', function() {
-            selectedYear = parseInt(this.value);
-            loadWeeksForYear(selectedYear);
-        });
-        
-        function loadWeeksForYear(year) {
-            apiCall('getWeeksByYear', { userId: currentUser.id, year: year }, function(result) {
-                if (result.success) {
-                    allWeeks = result.data || [];
-                    
-                    var count = allWeeks.length;
-                    var dropdown = document.getElementById('weekDropdown');
-                    var menu = document.getElementById('weekDropdownMenu');
-                    
-                    menu.innerHTML = '';
-                    if (count > 0) {
-                        dropdown.disabled = false;
-                        allWeeks.forEach(function(week) {
-                            var li = document.createElement('li');
-                            var a = document.createElement('a');
-                            a.className = 'dropdown-item';
-                            a.href = '#';
-                            a.textContent = week.hafta_araligi + ' ' + week.calisan_adi;
-                            a.onclick = function() { selectWeek(week.id); };
-                            li.appendChild(a);
-                            menu.appendChild(li);
-                        });
-                    } else {
-                        dropdown.disabled = false;
-                        dropdown.textContent = 'Bu yıl için hafta yok';
-                    }
-                }
-            });
-        }
-        
-        function selectWeek(haftaId) {
-            currentWeek = allWeeks.find(function(w) { return w.id == haftaId; });
-            if (currentWeek) {
-                loadMesaiForWeek(haftaId);
-            }
-        }
-        
-        document.getElementById('createWeekForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var haftaBaslangic = document.getElementById('newHaftaBaslangic').value;
-            var haftaAraligi = document.getElementById('newHaftaAraligi').value;
-            
-            if (!haftaBaslangic || !haftaAraligi) {
-                showMessage('Tüm alanlar doldurulmalıdır!');
-                return;
-            }
-            
-            apiCall('createWeek', {
-                haftaBaslangic: haftaBaslangic,
-                haftaAraligi: haftaAraligi,
-                calisanAdi: currentUser.adsoyad,
-                userId: currentUser.id
-            }, function(result) {
-                if (result.success) {
-                    showMessage('Hafta başarıyla oluşturuldu!', 'success');
-                    currentWeek = { id: result.data.id, hafta_baslangic: haftaBaslangic, hafta_araligi: haftaAraligi, calisan_adi: currentUser.adsoyad };
-                    loadWeeksForYear(selectedYear);
-                    loadMesaiForWeek(currentWeek.id);
-                    document.getElementById('createWeekForm').reset();
-                    document.getElementById('newHaftaAraligi').value = '';
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        document.getElementById('newHaftaBaslangic').addEventListener('change', function() {
-            updateWeekInterval(this, document.getElementById('newHaftaAraligi'));
-        });
-        
-        document.getElementById('editWeekForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var haftaId = document.getElementById('editWeekId').value;
-            var haftaBaslangic = document.getElementById('editHaftaBaslangic').value;
-            var haftaAraligi = document.getElementById('editHaftaAraligi').value;
-            
-            apiCall('editWeek', { haftaId: haftaId, haftaBaslangic: haftaBaslangic, haftaAraligi: haftaAraligi }, function(result) {
-                if (result.success) {
-                    showMessage('Hafta başarıyla güncellendi!', 'success');
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('editWeekModal')).hide();
-                    loadWeeksForYear(selectedYear);
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        function confirmDeleteWeek() {
-            if (!currentWeek) return;
-            var count = mesaiRecords.length;
-            var msg = count > 0 ? 'Bu hafta içerisinde mesai verisi bulunuyor. Silmek istediğinize emin misiniz?' : 'Bu haftayı silmek istediğinize emin misiniz?';
-            document.getElementById('confirmMessage').textContent = msg;
-            document.getElementById('confirmYesBtn').onclick = deleteWeek;
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).show();
-        }
-        
-        function deleteWeek() {
-            if (!currentWeek) return;
-            apiCall('deleteWeek', { haftaId: currentWeek.id }, function(result) {
-                if (result.success) {
-                    currentWeek = null;
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).hide();
-                    document.getElementById('mesaiInputArea').style.display = 'none';
-                    document.getElementById('mesaiListArea').style.display = 'none';
-                    document.getElementById('noMesaiArea').style.display = 'none';
-                    loadWeeksForYear(selectedYear);
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        }
-        
-        // ================== MESAI İŞLEMLERİ ==================
-        function loadMesaiForWeek(haftaId) {
-            apiCall('getMesai', { haftaId: haftaId }, function(result) {
-                if (result.success) {
-                    mesaiRecords = result.data || [];
-                    
-                    var dropdown = document.getElementById('weekDropdown');
-                    if (currentWeek) {
-                        dropdown.textContent = currentWeek.hafta_araligi + ' ' + currentWeek.calisan_adi;
-                    }
-                    
-                    var dayContainer = document.getElementById('dayButtonContainer');
-                    dayContainer.innerHTML = '';
-                    
-                    if (currentWeek) {
-                        var startDate = new Date(currentWeek.hafta_baslangic);
-                        var mesaiDates = mesaiRecords.map(function(m) { return m.tarih; });
-                        
-                        for (var i = 0; i < 7; i++) {
-                            var currentDay = new Date(startDate);
-                            currentDay.setDate(currentDay.getDate() + i);
-                            var dateValue = currentDay.toISOString().split('T')[0];
-                            var kisaGun = getKisaGun(dateValue);
-                            var pazar = isPazar(dateValue) ? ' (Pazar)' : '';
-                            var pazarInfo = pazar === ' (Pazar)' ? '' : pazar;
-                            var formatted = kisaGun + ' ' + formatTarih(dateValue) + pazarInfo;
-                            var isEntered = mesaiDates.indexOf(dateValue) !== -1;
-                            
-                            var btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.className = 'btn day-selector-btn';
-                            if (isEntered) btn.className += ' kayitli-gun';
-                            
-                            var dayNum = currentDay.getDay();
-                            if (dayNum === 0 || dayNum === 6) btn.className += ' weekend';
-                            
-                            btn.setAttribute('data-date', dateValue);
-                            btn.textContent = formatted;
-                            btn.onclick = function() {
-                                var date = this.getAttribute('data-date');
-                                document.getElementById('mesaiTarihInput').value = date;
-                                document.querySelectorAll('.day-selector-btn').forEach(function(b) { b.classList.remove('active'); });
-                                this.classList.add('active');
-                                updateSundayOverrideVisibility(date);
-                                document.getElementById('mesaiAciklamaInput').focus();
-                            };
-                            dayContainer.appendChild(btn);
-                        }
-                    }
-                    
-                    document.getElementById('mesaiInputArea').style.display = 'block';
-                    
-                    if (mesaiRecords.length > 0) {
-                        renderMesaiTable();
-                        document.getElementById('mesaiListArea').style.display = 'block';
-                        document.getElementById('noMesaiArea').style.display = 'none';
-                    } else {
-                        document.getElementById('mesaiListArea').style.display = 'none';
-                        document.getElementById('noMesaiArea').style.display = 'block';
-                    }
-                }
-            });
-        }
-        
-        function renderMesaiTable() {
-            document.getElementById('mesaiListTitle').textContent = (currentWeek ? currentWeek.hafta_araligi + ' ' + currentWeek.calisan_adi : '') + ' Mesai Kayıtları';
-            
-            var tbody = document.getElementById('mesaiTableBody');
-            tbody.innerHTML = '';
-            
-            var toplamSaat = 0;
-            var pazarSayisi = 0;
-            var resmiTatilSayisi = 0;
-            
-            mesaiRecords.forEach(function(item) {
-                var treatAsNormal = item.treat_as_normal || 0;
-                var isPazarHoliday = isPazar(item.tarih) && !treatAsNormal;
-                var row = document.createElement('tr');
-                
-                if (item.is_resmi_tatil) row.className = 'resmi-tatil';
-                else if (isPazarHoliday) row.className = 'pazar';
-                
-                if ((parseFloat(item.saat) > 0 || (item.saat == '0' && (isPazarHoliday || item.is_resmi_tatil)))) {
-                    row.className += ' soluk';
-                }
-                
-                var saatDisplay = (parseFloat(item.saat) > 0 || (item.saat == '0' && (isPazarHoliday || item.is_resmi_tatil))) 
-                    ? item.saat + ' saat' : '';
-                
-                var pazarText = isPazar(item.tarih) && !treatAsNormal ? ' (Pazar)' : '';
-                var resmiTatilText = item.is_resmi_tatil ? ' (Resmi Tatil Mesaisi)' : '';
-                
-                row.innerHTML = '<td>' + formatTarih(item.tarih) + pazarText + '</td>' +
-                    '<td>' + item.aciklama + resmiTatilText + '</td>' +
-                    '<td>' + saatDisplay + '</td>' +
-                    '<td class="edit-buttons" style="display:none;">' +
-                        '<button type="button" class="btn btn-sm btn-warning" onclick="openEditMesaiModal(' + item.id + ')">' +
-                            '<i class="fas fa-edit"></i>' +
-                        '</button>' +
-                        '<a href="#" class="btn btn-sm btn-danger" onclick="confirmDeleteMesai(' + item.id + ')">' +
-                            '<i class="fas fa-trash"></i>' +
-                        '</a>' +
-                    '</td>';
-                tbody.appendChild(row);
-                
-                toplamSaat += parseFloat(item.saat || 0);
-                if (isPazar(item.tarih) && !treatAsNormal) pazarSayisi++;
-                if (item.is_resmi_tatil) resmiTatilSayisi++;
-            });
-            
-            var tfoot = document.getElementById('mesaiTableFoot');
-            tfoot.innerHTML = '<tr class="table-primary">' +
-                '<td colspan="2"><strong>Toplam Mesai</strong></td>' +
-                '<td colspan="2"><strong>' + toplamSaat + ' saat</strong></td>' +
-            '</tr>' +
-            '<tr class="table-warning">' +
-                '<td colspan="2"><strong>Pazar Mesai Sayısı</strong></td>' +
-                '<td colspan="2"><strong>' + pazarSayisi + ' adet</strong></td>' +
-            '</tr>';
-            
-            if (resmiTatilSayisi > 0) {
-                tfoot.innerHTML += '<tr class="table-info">' +
-                    '<td colspan="2"><strong>Resmi Tatil Mesaisi Sayısı</strong></td>' +
-                    '<td colspan="2"><strong>' + resmiTatilSayisi + ' adet</strong></td>' +
-                '</tr>';
-            }
-        }
-        
-        document.getElementById('mesaiForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (!currentWeek) {
-                showMessage('Önce bir hafta seçiniz!');
-                return;
-            }
-            
-            var tarih = document.getElementById('mesaiTarihInput').value;
-            var aciklama = document.getElementById('mesaiAciklamaInput').value;
-            var saat = document.getElementById('mesaiSaatInput').value;
-            var isResmiTatil = document.getElementById('isResmiTatil').checked ? 1 : 0;
-            var treatAsNormal = document.getElementById('treatAsNormal').checked ? 1 : 0;
-            var isPazarDay = isPazar(tarih);
-            var isPazarHoliday = isPazarDay && !treatAsNormal;
-            
-            if (!aciklama) {
-                showMessage('Açıklama alanı boş bırakılamaz!');
-                return;
-            }
-            
-            if (saat === '' && !isResmiTatil && !isPazarHoliday) {
-                showMessage('Saat alanı (Pazar günleri ve resmi tatiller hariç) boş bırakılamaz!');
-                return;
-            }
-            
-            var saatToSave = (saat === '' && (isPazarHoliday || isResmiTatil)) ? '0' : saat;
-            
-            apiCall('addMesai', {
-                haftaId: currentWeek.id,
-                tarih: tarih,
-                aciklama: aciklama,
-                saat: saatToSave,
-                isResmiTatil: isResmiTatil,
-                treatAsNormal: treatAsNormal
-            }, function(result) {
-                if (result.success) {
-                    showMessage('Kayıt başarıyla eklendi!', 'success');
-                    loadMesaiForWeek(currentWeek.id);
-                    document.getElementById('mesaiForm').reset();
-                    document.getElementById('treatAsNormalContainer').style.display = 'none';
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        var deleteMesaiId = null;
-        function confirmDeleteMesai(id) {
-            deleteMesaiId = id;
-            document.getElementById('confirmMessage').textContent = 'Bu kaydı silmek istediğinize emin misiniz?';
-            document.getElementById('confirmYesBtn').onclick = deleteMesai;
-            bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).show();
-        }
-        
-        function deleteMesai() {
-            if (deleteMesaiId) {
-                apiCall('deleteMesai', { id: deleteMesaiId }, function(result) {
-                    if (result.success) {
-                        bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).hide();
-                        loadMesaiForWeek(currentWeek.id);
-                    } else {
-                        showMessage(result.message);
-                    }
-                });
-                deleteMesaiId = null;
-            }
-        }
-        
-        function openEditMesaiModal(id) {
-            var item = mesaiRecords.find(function(m) { return m.id == id; });
-            if (!item) return;
-            
-            var modalHtml = '<div class="modal fade" id="editMesaiModal" tabindex="-1">' +
-                '<div class="modal-dialog">' +
-                    '<div class="modal-content">' +
-                        '<div class="modal-header">' +
-                            '<h5 class="modal-title">Kayıt Düzenle</h5>' +
-                            '<button type="button" class="btn-close" data-bs-dismiss="modal"></button>' +
-                        '</div>' +
-                        '<form id="editMesaiForm">' +
-                            '<div class="modal-body">' +
-                                '<input type="hidden" name="id" value="' + id + '">' +
-                                '<div class="mb-2">' +
-                                    '<label class="form-label">Tarih</label>' +
-                                    '<input type="date" name="tarih" id="editMesaiTarih" class="form-control" value="' + item.tarih + '" required>' +
-                                '</div>' +
-                                '<div class="mb-2">' +
-                                    '<label class="form-label">Açıklama</label>' +
-                                    '<input type="text" name="aciklama" id="editMesaiAciklama" class="form-control" value="' + item.aciklama + '" required>' +
-                                '</div>' +
-                                '<div class="mb-2">' +
-                                    '<label class="form-label">Saat</label>' +
-                                    '<input type="number" step="0.1" name="saat" id="editMesaiSaat" class="form-control" value="' + item.saat + '">' +
-                                '</div>' +
-                                '<div class="form-check">' +
-                                    '<input type="checkbox" name="is_resmi_tatil" class="form-check-input" id="editIsResmiTatil"' + (item.is_resmi_tatil ? ' checked' : '') + '>' +
-                                    '<label class="form-check-label" for="editIsResmiTatil">Resmi Tatil Mesaisi</label>' +
-                                '</div>' +
-                                '<div class="form-check"' + (isPazar(item.tarih) ? '' : ' style="display:none;"') + ' id="editTreatAsNormalContainer">' +
-                                    '<input type="checkbox" name="treat_as_normal" class="form-check-input" id="editTreatAsNormal"' + (item.treat_as_normal ? ' checked' : '') + '>' +
-                                    '<label class="form-check-label" for="editTreatAsNormal">Pazar gününü normal hafta içi say</label>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="modal-footer">' +
-                                '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>' +
-                                '<button type="submit" class="btn btn-primary">Kaydet</button>' +
-                            '</div>' +
-                        '</form>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-            
-            var container = document.getElementById('editModalContainer');
-            container.innerHTML = modalHtml;
-            
-            var modal = new bootstrap.Modal(document.getElementById('editMesaiModal'));
-            modal.show();
-            
-            document.getElementById('editMesaiTarih').addEventListener('change', function() {
-                var container = document.getElementById('editTreatAsNormalContainer');
-                if (isPazar(this.value)) {
-                    container.style.display = 'block';
-                } else {
-                    container.style.display = 'none';
-                    document.getElementById('editTreatAsNormal').checked = false;
-                }
-            });
-            
-            document.getElementById('editMesaiForm').addEventListener('submit', function(ev) {
-                ev.preventDefault();
-                var id = document.querySelector('#editMesaiForm input[name="id"]').value;
-                var tarih = document.getElementById('editMesaiTarih').value;
-                var aciklama = document.getElementById('editMesaiAciklama').value;
-                var saat = document.getElementById('editMesaiSaat').value;
-                var isResmiTatil = document.getElementById('editIsResmiTatil').checked ? 1 : 0;
-                var treatAsNormal = document.getElementById('editTreatAsNormal').checked ? 1 : 0;
-                var isPazarDay = isPazar(tarih);
-                var isPazarHoliday = isPazarDay && !treatAsNormal;
-                
-                if (saat === '' && !isResmiTatil && !isPazarHoliday) {
-                    showMessage('Saat alanı (Pazar günleri ve resmi tatiller hariç) boş bırakılamaz!');
-                    return;
-                }
-                
-                var saatToSave = (saat === '' && (isPazarHoliday || isResmiTatil)) ? '0' : saat;
-                
-                apiCall('editMesai', {
-                    id: id,
-                    tarih: tarih,
-                    aciklama: aciklama,
-                    saat: saatToSave,
-                    isResmiTatil: isResmiTatil,
-                    treatAsNormal: treatAsNormal
-                }, function(result) {
-                    if (result.success) {
-                        modal.hide();
-                        loadMesaiForWeek(currentWeek.id);
-                    } else {
-                        showMessage(result.message);
-                    }
-                });
-            });
-        }
-        
+
         function updateSundayOverrideVisibility(dateStr, containerId) {
-            var container = document.getElementById(containerId || 'treatAsNormalContainer');
+            const container = document.getElementById(containerId);
             if (container) {
-                if (isPazar(dateStr)) {
-                    container.style.display = 'block';
-                } else {
-                    container.style.display = 'none';
-                    var checkbox = container.querySelector('input[type="checkbox"]');
+                container.style.display = checkIsPazar(dateStr) ? 'block' : 'none';
+                if (!checkIsPazar(dateStr)) {
+                    const checkbox = container.querySelector('input[type="checkbox"]');
                     if (checkbox) checkbox.checked = false;
                 }
             }
         }
-        
-        document.getElementById('mesaiTarihInput').addEventListener('change', function() {
-            updateSundayOverrideVisibility(this.value);
-        });
-        
-        // ================== RAPOR İŞLEMLERİ ==================
-        function loadReportWeeks() {
-            apiCall('getWeeks', { userId: currentUser.id }, function(result) {
-                if (result.success) {
-                    var select = document.getElementById('reportWeekSelect');
-                    select.innerHTML = '<option value="">Seçiniz</option>';
-                    var weeks = result.data.haftalar || [];
-                    weeks.sort(function(a, b) { return new Date(b.hafta_baslangic) - new Date(a.hafta_baslangic); });
-                    weeks.forEach(function(week) {
-                        var option = document.createElement('option');
-                        option.value = week.id;
-                        option.textContent = week.hafta_araligi + ' ' + week.calisan_adi;
-                        select.appendChild(option);
-                    });
-                }
-            });
-        }
-        
-        document.getElementById('weekReportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var haftaId = document.getElementById('reportWeekSelect').value;
-            if (!haftaId) return;
-            
-            apiCall('generateWeekReport', { haftaId: haftaId }, function(result) {
-                if (result.success && result.data) {
-                    document.getElementById('haftaRaporText').value = result.data;
-                    document.getElementById('haftaRaporArea').style.display = 'block';
-                } else {
-                    showMessage('Seçilen haftada kayıt bulunamadı!');
-                }
-            });
-        });
-        
-        document.getElementById('dateRangeReportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var baslangic = document.getElementById('reportBaslangic').value;
-            var bitis = document.getElementById('reportBitis').value;
-            
-            if (!baslangic || !bitis) {
-                showMessage('Başlangıç ve bitiş tarihleri gereklidir!');
-                return;
-            }
-            
-            if (baslangic > bitis) {
-                showMessage('Başlangıç tarihi, bitiş tarihinden sonra olamaz!');
-                return;
-            }
-            
-            apiCall('generateDateRangeReport', { userId: currentUser.id, baslangic: baslangic, bitis: bitis }, function(result) {
-                if (result.success && result.data) {
-                    document.getElementById('raporDateRangeText').value = result.data;
-                    document.getElementById('dateRangeRaporArea').style.display = 'block';
-                } else {
-                    showMessage('Belirtilen tarih aralığında kayıt bulunamadı!');
-                }
-            });
-        });
-        
-        // ================== ADMİN İŞLEMLERİ ==================
-        function loadAdminData() {
-            document.getElementById('adminWelcome').textContent = 'Hoşgeldin ' + currentUser.adsoyad;
-            
-            apiCall('getAllUsers', {}, function(result) {
-                if (result.success) {
-                    var users = result.data || [];
-                    var tbody = document.getElementById('userTableBody');
-                    tbody.innerHTML = '';
-                    
-                    var userSelect = document.getElementById('adminUserSelect');
-                    userSelect.innerHTML = '<option value="">Seçiniz</option>';
-                    
-                    users.forEach(function(user) {
-                        var tr = document.createElement('tr');
-                        tr.innerHTML = '<td>' + user.id + '</td>' +
-                            '<td>' + user.username + '</td>' +
-                            '<td>' + user.adsoyad + '</td>' +
-                            '<td>' + (user.is_admin ? '<span class="badge bg-primary">Admin</span>' : '<span class="badge bg-secondary">Kullanıcı</span>') + '</td>' +
-                            '<td>' + (user.is_banned ? '<span class="badge bg-danger">Banlı</span>' : '<span class="badge bg-success">Aktif</span>') + '</td>' +
-                            '<td>' +
-                                '<button type="button" class="btn btn-sm btn-warning" onclick="openEditUserModal(' + user.id + ')">' +
-                                    '<i class="fas fa-edit"></i>' +
-                                '</button> ' +
-                                '<a href="#" class="btn btn-sm btn-danger" onclick="deleteUser(' + user.id + ')">' +
-                                    '<i class="fas fa-trash"></i>' +
-                                '</a> ' +
-                                '<a href="#" class="btn btn-sm btn-' + (user.is_banned ? 'success' : 'secondary') + '" onclick="toggleBan(' + user.id + ')">' +
-                                    '<i class="fas fa-' + (user.is_banned ? 'unlock' : 'ban') + '"></i>' +
-                                '</a> ' +
-                                '<a href="#" class="btn btn-sm btn-' + (user.is_admin ? 'secondary' : 'primary') + '" onclick="toggleAdmin(' + user.id + ')">' +
-                                    '<i class="fas fa-' + (user.is_admin ? 'user' : 'user-shield') + '"></i>' +
-                                '</a>' +
-                            '</td>';
-                        tbody.appendChild(tr);
-                        
-                        var option = document.createElement('option');
-                        option.value = user.id;
-                        option.textContent = user.adsoyad;
-                        userSelect.appendChild(option);
-                    });
-                }
-            });
-        }
-        
-        var allAdminUsers = [];
-        function openEditUserModal(userId) {
-            apiCall('getUser', { userId: userId }, function(result) {
-                if (result.success && result.data) {
-                    var user = result.data;
-                    document.getElementById('editUserId').value = user.id;
-                    document.getElementById('editUserUsername').value = user.username;
-                    document.getElementById('editUserAdsoyad').value = user.adsoyad;
-                    document.getElementById('editUserPassword').value = '';
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('editUserModal')).show();
-                }
-            });
-        }
-        
-        document.getElementById('editUserForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var userId = document.getElementById('editUserId').value;
-            var newUsername = document.getElementById('editUserUsername').value;
-            var newAdsoyad = document.getElementById('editUserAdsoyad').value;
-            var newPassword = document.getElementById('editUserPassword').value;
-            
-            apiCall('editUser', { userId: userId, newUsername: newUsername, newAdsoyad: newAdsoyad, newPassword: newPassword }, function(result) {
-                if (result.success) {
-                    bootstrap.Modal.getOrCreateInstance(document.getElementById('editUserModal')).hide();
-                    loadAdminData();
-                } else {
-                    showMessage(result.message);
-                }
-            });
-        });
-        
-        function deleteUser(userId) {
-            if (userId == currentUser.id) {
-                showMessage('Kendinizi silemezsiniz!');
-                return;
-            }
-            if (confirm('Bu kullanıcıyı ve tüm verilerini silmek istediğinizden emin misiniz?')) {
-                apiCall('deleteUser', { userId: userId }, function(result) {
-                    if (result.success) {
-                        loadAdminData();
-                    } else {
-                        showMessage(result.message);
-                    }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showMessage('Rapor kopyalandı!', 'success');
+                }, function(err) {
+                    showMessage('Kopyalama başarısız: ' + err, 'danger');
                 });
-            }
-        }
-        
-        function toggleBan(userId) {
-            if (userId == currentUser.id) {
-                showMessage('Kendinizi banlayamazsınız!');
-                return;
-            }
-            apiCall('toggleBan', { userId: userId }, function(result) {
-                loadAdminData();
-            });
-        }
-        
-        function toggleAdmin(userId) {
-            if (userId == currentUser.id) {
-                showMessage('Kendi admin yetkinizi değiştiremezsiniz!');
-                return;
-            }
-            apiCall('toggleAdmin', { userId: userId }, function(result) {
-                loadAdminData();
-            });
-        }
-        
-        document.getElementById('adminUserReportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var userId = document.getElementById('adminUserSelect').value;
-            var baslangic = document.getElementById('adminBaslangic').value;
-            var bitis = document.getElementById('adminBitis').value;
-            
-            apiCall('generateAdminUserReport', { userId: userId, baslangic: baslangic, bitis: bitis }, function(result) {
-                if (result.success && result.data) {
-                    document.getElementById('adminUserReport').value = result.data;
-                    document.getElementById('adminUserReportArea').style.display = 'block';
-                } else {
-                    showMessage('Belirtilen tarih aralığında kayıt bulunamadı!');
+            } else {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showMessage('Rapor kopyalandı!', 'success');
+                } catch (err) {
+                    showMessage('Kopyalama başarısız: ' + err, 'danger');
                 }
-            });
-        });
-        
-        document.getElementById('adminAllUsersReportForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            var baslangic = document.getElementById('allUsersBaslangic').value;
-            var bitis = document.getElementById('allUsersBitis').value;
-            
-            apiCall('generateAdminAllUsersReport', { baslangic: baslangic, bitis: bitis }, function(result) {
-                if (result.success && result.data) {
-                    document.getElementById('adminAllUsersReport').value = result.data;
-                    document.getElementById('adminAllUsersReportArea').style.display = 'block';
-                } else {
-                    showMessage('Belirtilen tarih aralığında kayıt bulunamadı!');
-                }
-            });
-        });
-        
-        // ================== SAYFA YÜKLEME ==================
-        var savedUser = localStorage.getItem('currentUser');
-        if (savedUser) {
-            try {
-                currentUser = JSON.parse(savedUser);
-                showMainSection();
-            } catch (e) {
-                showLoginSection();
+                document.body.removeChild(textarea);
             }
-        } else {
-            showLoginSection();
         }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Footer auto-hide
+        setTimeout(function() {
+            const footer = document.querySelector('footer');
+            if (footer) footer.style.display = 'none';
+        }, 10000);
     </script>
 </body>
 </html>
